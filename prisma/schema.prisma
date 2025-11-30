@@ -8,7 +8,7 @@ datasource db {
   provider = "postgresql"
 }
 
-
+// User enums
 enum UserRole {
   SUPER_ADMIN
   ADMIN
@@ -27,20 +27,112 @@ enum Gender {
   OTHERS
 }
 
+
+// Travel type enums
+enum TravelType {
+  SOLO
+  FAMILY
+  FRIENDS
+}
+
+// Subscription enums
+enum SubscriptionStatus {
+  NONE
+  MONTHLY
+  YEARLY
+}
+
+// Payment enums
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+
+// user models
 model User {
-  id                 String     @id @default(uuid())
-  name               String
-  email              String     @unique
-  password           String
-  profilePhoto       String?
-  contactNumber      String?    @unique
-  address            String?
-  isDeleted          Boolean    @default(false)
-  role               UserRole   @default(USER)
-  needPasswordChange Boolean    @default(true)
-  status             UserStatus @default(ACTIVE)
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
+  id            String              @id @default(uuid())
+  name          String
+  email         String              @unique
+  password      String
+  role          UserRole            @default(USER)
+
+  bio           String?
+  profileImage  String?
+  currentLocation String?
+
+  interests       String[]
+  visitedCountries String[]
+
+  subscriptionStatus SubscriptionStatus @default(NONE)
+  verifiedBadge     Boolean            @default(false)
+  status UserStatus @default(ACTIVE)
+
+  travelPlans     TravelPlan[]
+  reviewsGiven    Review[]            @relation("reviews_given")
+  reviewsReceived Review[]            @relation("reviews_received")
+  payments        Payment[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@map("users")
+}
+
+
+// travel plan models
+model TravelPlan {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+
+  destination   String
+  startDate     DateTime
+  endDate       DateTime
+
+  budgetRange   String?
+  travelType    TravelType
+  description   String?
+  visibility    Boolean      @default(true) // true = visible to all
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+
+
+// review model
+model Review {
+  id          String   @id @default(uuid())
+
+  reviewerId  String
+  receiverId  String
+
+  reviewer    User     @relation("reviews_given", fields: [reviewerId], references: [id])
+  receiver    User     @relation("reviews_received", fields: [receiverId], references: [id])
+
+  rating      Int 
+  comment     String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+
+// Payment model
+model Payment {
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+
+  amount         Float
+  currency       String         @default("BDT")
+  paymentMethod  String
+  transactionId  String         @unique
+
+  status         PaymentStatus  @default(PENDING)
+  planType       SubscriptionStatus @default(NONE)
+
+  createdAt      DateTime       @default(now())
 }

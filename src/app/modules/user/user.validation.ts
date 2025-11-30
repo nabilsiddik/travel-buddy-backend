@@ -1,21 +1,45 @@
 import z from 'zod'
-import { Gender } from './user.interfaces'
+
+
+export const UserRoleEnum = z.enum(["USER", "ADMIN", 'SUPER_ADMIN']);
+export const SubscriptionStatusEnum = z.enum(["NONE", "MONTHLY", "YEARLY"]);
+export const UserStatusEnum = z.enum(["ACTIVE", "BLOCKED", "DELETED"]);
 
 // patient creation input zod schema
-const createUserValidationSchema = z.object({
-    name: z.string('Name is required'),
-    email: z.string('Email is required'),
-    password: z.string('Password is required').min(6, 'Password must me at least 6 character long'),
-    address: z.string().optional(),
-    contactNumber: z.string().optional(),
-    profilePhoto: z.string().optional(),
-    gender: z.enum([Gender.MALE, Gender.FEMALE, Gender.OTHERS], {
-        error: 'Incorrect Gender'
-    }),
-    role: z.enum(['SUPER_ADMIN', 'ADMIN', 'USER'])
-})
+export const createUserSchema = z.object({
+    name: z
+        .string()
+        .min(2, "Name must be at least 2 characters"),
+
+    email: z
+        .string()
+        .email("Invalid email format"),
+
+    password: z
+        .string()
+        .min(6, "Password must be at least 6 characters"),
+
+    bio: z.string().optional(),
+    profileImage: z.string().optional(),
+    currentLocation: z.string().optional(),
+
+    interests: z
+        .array(z.string())
+        .optional()
+        .default([]),
+
+    visitedCountries: z
+        .array(z.string())
+        .optional()
+        .default([]),
+
+    role: UserRoleEnum.default("USER"),
+    subscriptionStatus: SubscriptionStatusEnum.default("NONE"),
+    verifiedBadge: z.boolean().optional().default(false),
+    status: UserStatusEnum.default("ACTIVE"),
+});
 
 
 export const UserValidation = {
-    createUserValidationSchema
+    createUserSchema
 }

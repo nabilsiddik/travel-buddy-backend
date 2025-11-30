@@ -12,7 +12,7 @@ import { UserRole, UserStatus } from "src/generated/prisma/enums"
 
 // Create user
 const createUser = async (req: Request) => {
-    const { name, email, password, role, contactNumber, profilePhoto, address } = req.body
+    const { name, email, password, bio, profileImage, currentLocation, interests, visitedCountries } = req.body
 
     // if (req?.file) {
     //     const uploadedResult = await fileUploader.uploadToCloudinary(req.file)
@@ -34,10 +34,11 @@ const createUser = async (req: Request) => {
             name,
             email,
             password: hashedPassword,
-            role: role || 'USER',
-            address: address || '',
-            profilePhoto: profilePhoto || '',
-            contactNumber: contactNumber || ''
+            profileImage: profileImage || '',
+            bio: bio || '',
+            currentLocation: currentLocation || '',
+            interests: interests || [],
+            visitedCountries: visitedCountries || []
         }
     })
 
@@ -112,7 +113,6 @@ const getMyProfile = async (user: JWTPayload) => {
         select: {
             id: true,
             email: true,
-            needPasswordChange: true,
             role: true,
             status: true
         }

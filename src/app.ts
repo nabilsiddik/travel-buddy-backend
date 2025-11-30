@@ -10,7 +10,7 @@ export const app = express()
 
 app.use(express.json())
 app.use(cors({
-    origin: [],
+    origin: [envVars.CLIENT_URL],
     credentials: true
 }))
 app.use(cookieParser())

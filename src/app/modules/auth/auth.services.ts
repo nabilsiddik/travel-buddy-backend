@@ -39,7 +39,6 @@ const userLogin = async (payload: userLoginInput) => {
     return {
         accessToken,
         refreshToken,
-        needPasswordChange: existingUser?.needPasswordChange
     }
 }
 
@@ -56,13 +55,12 @@ const getMe = async (session: any) => {
         }
     })
 
-    const { id, email, role, needPasswordChange, status } = userData;
+    const { id, email, role, status } = userData;
 
     return {
         id,
         email,
         role,
-        needPasswordChange,
         status
     }
 

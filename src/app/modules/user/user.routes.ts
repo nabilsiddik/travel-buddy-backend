@@ -20,7 +20,7 @@ userRouter.get(
 
 // Ceate patient route
 userRouter.post('/create-user',
-     validateRequest(UserValidation.createUserValidationSchema),
+     validateRequest(UserValidation.createUserSchema),
      UserControllers.createUser
 )
 
