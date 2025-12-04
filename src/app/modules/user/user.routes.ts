@@ -4,6 +4,7 @@ import { UserValidation } from "./user.validation"
 import { UserControllers } from "./user.controllers"
 import { checkAuth } from "src/app/middlewares/checkAuth"
 import { UserRole } from "src/generated/prisma/enums"
+import { fileUploader } from "src/app/utils/fileUploader"
 
 const userRouter = Router()
 
@@ -20,6 +21,7 @@ userRouter.get(
 
 // Ceate patient route
 userRouter.post('/create-user',
+     fileUploader.upload.single('file'),
      validateRequest(UserValidation.createUserSchema),
      UserControllers.createUser
 )

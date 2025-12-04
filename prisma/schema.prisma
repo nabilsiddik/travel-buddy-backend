@@ -61,6 +61,7 @@ model User {
   bio           String?
   profileImage  String?
   currentLocation String?
+  gender Gender
 
   interests       String[]
   visitedCountries String[]
@@ -94,7 +95,7 @@ model TravelPlan {
   budgetRange   String?
   travelType    TravelType
   description   String?
-  visibility    Boolean      @default(true) // true = visible to all
+  visibility    Boolean      @default(true)
 
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt

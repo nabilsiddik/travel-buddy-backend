@@ -55,11 +55,12 @@ const getMe = async (session: any) => {
         }
     })
 
-    const { id, email, role, status } = userData;
+    const { id, email, role, status, profileImage } = userData;
 
     return {
         id,
         email,
+        profileImage,
         role,
         status
     }

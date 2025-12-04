@@ -9,15 +9,16 @@ import { userSearchableFields } from "./user.constants"
 import type { UserWhereInput } from "src/generated/prisma/models"
 import type { JWTPayload } from "src/app/interfaces"
 import { UserRole, UserStatus } from "src/generated/prisma/enums"
+import { fileUploader } from "src/app/utils/fileUploader"
 
 // Create user
 const createUser = async (req: Request) => {
-    const { name, email, password, bio, profileImage, currentLocation, interests, visitedCountries } = req.body
+    const { name, email, password, bio, currentLocation, interests, visitedCountries, gender } = req.body
 
-    // if (req?.file) {
-    //     const uploadedResult = await fileUploader.uploadToCloudinary(req.file)
-    //     req.body.patient.profilePhoto = uploadedResult?.secure_url
-    // }
+    let uploadedResult
+    if (req?.file) {
+        uploadedResult = await fileUploader.uploadToCloudinary(req.file)
+    }
 
     const existingUser = await prisma.user.findUnique({
         where: { email }
@@ -34,9 +35,10 @@ const createUser = async (req: Request) => {
             name,
             email,
             password: hashedPassword,
-            profileImage: profileImage || '',
+            profileImage: uploadedResult?.secure_url || '',
             bio: bio || '',
             currentLocation: currentLocation || '',
+            gender: gender || '',
             interests: interests || [],
             visitedCountries: visitedCountries || []
         }
@@ -46,7 +48,6 @@ const createUser = async (req: Request) => {
 
     return rest
 }
-
 
 // Get all users from db
 const getAllUsers = async (params: any, options: any) => {

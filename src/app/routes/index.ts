@@ -10,7 +10,7 @@ const moduleRoutes = [
         route: userRouter
     },
     {
-        path: '/auth/login',
+        path: '/auth',
         route: authRouter
     }
 ]

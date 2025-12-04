@@ -1,9 +1,9 @@
 import z from 'zod'
 
-
 export const UserRoleEnum = z.enum(["USER", "ADMIN", 'SUPER_ADMIN']);
 export const SubscriptionStatusEnum = z.enum(["NONE", "MONTHLY", "YEARLY"]);
 export const UserStatusEnum = z.enum(["ACTIVE", "BLOCKED", "DELETED"]);
+export const Gender = z.enum(["MALE", "FEMALE", "OTHERS"]);
 
 // patient creation input zod schema
 export const createUserSchema = z.object({
@@ -33,6 +33,7 @@ export const createUserSchema = z.object({
         .optional()
         .default([]),
 
+    gender: Gender,
     role: UserRoleEnum.default("USER"),
     subscriptionStatus: SubscriptionStatusEnum.default("NONE"),
     verifiedBadge: z.boolean().optional().default(false),
