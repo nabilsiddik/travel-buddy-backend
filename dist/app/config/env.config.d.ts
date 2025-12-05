@@ -13,10 +13,6 @@ interface EnvConfig {
         CLOUDINARY_API_KEY: string;
         CLOUDINARY_API_SECRET: string;
     };
-    OPEN_ROUTER_API_KEY: string;
-    STRIPE: {
-        STRIPE_SECRET_KEY: string;
-    };
 }
 export declare const envVars: EnvConfig;
 export {};

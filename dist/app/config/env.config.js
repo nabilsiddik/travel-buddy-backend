@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 const loadEnvVariables = () => {
-    const requiredEnvVars = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET', 'OPEN_ROUTER_API_KEY', 'STRIPE_SECRET_KEY', 'CLIENT_URL'];
+    const requiredEnvVars = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET', 'CLIENT_URL'];
     requiredEnvVars.forEach((key) => {
         if (!process.env[key]) {
             throw new Error(`Env Variable ${key} is missing on .env file.`);
@@ -21,10 +21,6 @@ const loadEnvVariables = () => {
             CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
             CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
             CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-        },
-        OPEN_ROUTER_API_KEY: process.env.OPEN_ROUTER_API_KEY,
-        STRIPE: {
-            STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY
         }
     };
 };
