@@ -24,14 +24,14 @@ const userLogin = async (payload: userLoginInput) => {
 
     // Generate access Token
     const accessToken = generateJwtToken(
-        {email: existingUser?.email, role: existingUser?.role},
+        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id},
         envVars.JWT.JWT_ACCESS_SECRET,
         '1h'
     )
 
     // Generate refresh Token
     const refreshToken = generateJwtToken(
-        {email: existingUser?.email, role: existingUser?.role},
+        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id},
         envVars.JWT.JWT_REFRESH_SECRET,
         '30d'
     )
@@ -55,10 +55,11 @@ const getMe = async (session: any) => {
         }
     })
 
-    const { id, email, role, status, profileImage } = userData;
+    const { id, name, email, role, status, profileImage } = userData;
 
     return {
         id,
+        name,
         email,
         profileImage,
         role,

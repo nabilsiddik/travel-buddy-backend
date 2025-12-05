@@ -62,7 +62,7 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
     // Handle zod validation error
     else if (err.name === 'ZodError') {
         message = 'Zod Validation Error',
-        error = error
+        error = error,
         statusCode = StatusCodes.BAD_REQUEST
     }
 

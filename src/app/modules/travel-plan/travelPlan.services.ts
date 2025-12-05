@@ -5,9 +5,10 @@ import { StatusCodes } from "http-status-codes";
 import type { Request } from "express";
 import calculatePagination from "src/app/utils/paginations";
 import type { TravelPlanWhereInput } from "src/generated/prisma/models";
+import type { JWTPayload } from "src/app/interfaces";
 
 // create travel plan
-const createTravelPlan = async (req: Request & { user?: JwtPayload }) => {
+const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
     const userId = req.user?.id
 
     if (!userId) {
@@ -15,6 +16,9 @@ const createTravelPlan = async (req: Request & { user?: JwtPayload }) => {
     }
 
     const { destination, startDate, endDate, budgetRange, travelType, description, visibility } = req.body
+
+    
+    console.log({ destination, startDate, endDate, budgetRange, travelType, description, visibility }, 'body')
 
     const createdPlan = await prisma.travelPlan.create({
         data: {

@@ -1,0 +1,46 @@
+import { catchAsync } from "src/app/errorHelpers/catchAsync";
+import { AuthServices } from "./auth.services";
+import { sendResponse } from "src/app/utils/userResponse";
+import { StatusCodes } from "http-status-codes";
+// User login
+const userLogin = catchAsync(async (req, res) => {
+    const result = await AuthServices.userLogin(req.body);
+    const { accessToken, refreshToken } = result;
+    res.cookie("accessToken", accessToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 24
+    });
+    res.cookie('refreshToken', refreshToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 90
+    });
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'User Loged in Successfully',
+        data: {
+            accessToken,
+            refreshToken,
+        }
+    });
+});
+// Get logedin user info
+const getMe = catchAsync(async (req, res) => {
+    const userSession = req.cookies;
+    const result = await AuthServices.getMe(userSession);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: "User retrive successfully!",
+        data: result,
+    });
+});
+export const AuthControllers = {
+    userLogin,
+    getMe
+};
+//# sourceMappingURL=auth.controllers.js.map
