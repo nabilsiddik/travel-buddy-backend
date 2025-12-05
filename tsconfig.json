@@ -19,6 +19,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
     "baseUrl": ".",
   },
   "include": ["src/**/*"],
