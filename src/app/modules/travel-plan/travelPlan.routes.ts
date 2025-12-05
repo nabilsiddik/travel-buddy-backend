@@ -1,9 +1,9 @@
 import { Router } from "express"
-import { checkAuth } from "src/app/middlewares/checkAuth"
-import validateRequest from "src/app/middlewares/validateRequest"
-import { UserRole } from "src/generated/prisma/enums"
 import { TravelPlanValidation } from "./travelPlan.validations"
 import { TravelPlanControllers } from "./travelPlan.controllers"
+import { UserRole } from "@/generated/prisma/enums"
+import { checkAuth } from "@/app/middlewares/checkAuth"
+import validateRequest from "@/app/middlewares/validateRequest"
 
 const travelPlanRouter = Router()
 

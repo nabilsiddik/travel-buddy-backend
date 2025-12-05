@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express"
-import { verifyToken } from "../utils/jwtToken.js"
-import type { JWTPayload } from "../interfaces/index.js"
-import { envVars } from "../config/env.config.js"
+import { JWTPayload } from "../interfaces"
+import { envVars } from "../config/env.config"
+import { verifyToken } from "../utils/jwtToken"
 
 
 export const checkAuth = (...roles: string[]) => {

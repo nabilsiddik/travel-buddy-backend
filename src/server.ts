@@ -1,5 +1,6 @@
 import { app } from "./app.js"
-import { envVars } from "./app/config/env.config.js"
+import { envVars } from "@/app/config/env.config"
+
 
 const startServer = async () => {
     try {

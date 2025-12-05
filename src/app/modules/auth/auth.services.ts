@@ -1,11 +1,11 @@
-import { prisma } from "src/app/config/prisma.config"
 import type { userLoginInput } from "./auth.interfaces"
 import { UserStatus } from "../user/user.interfaces"
 import bcrypt from 'bcryptjs'
-import AppError from "src/app/errorHelpers/appError"
-import { generateJwtToken, verifyToken } from "src/app/utils/jwtToken"
-import { envVars } from "src/app/config/env.config"
 import type { Secret } from "jsonwebtoken"
+import { prisma } from "@/app/config/prisma.config"
+import AppError from "@/app/errorHelpers/appError"
+import { generateJwtToken, verifyToken } from "@/app/utils/jwtToken"
+import { envVars } from "@/app/config/env.config"
 
 // User login
 const userLogin = async (payload: userLoginInput) => {

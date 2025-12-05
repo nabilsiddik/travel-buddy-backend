@@ -1,4 +1,4 @@
-import type { TravelType } from "src/generated/prisma/enums";
+import { TravelType } from "@/generated/prisma/enums";
 
 export interface ITravelPlan {
   destination: string;

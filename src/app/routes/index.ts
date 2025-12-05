@@ -3,6 +3,7 @@ import userRouter from "../modules/user/user.routes";
 import authRouter from "../modules/auth/auth.routes";
 import travelPlanRouter from "../modules/travel-plan/travelPlan.routes";
 
+
 export const router = Router()
 
 const moduleRoutes = [

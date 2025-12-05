@@ -2,9 +2,9 @@ import { Router } from "express"
 import validateRequest from "../../middlewares/validateRequest"
 import { UserValidation } from "./user.validation"
 import { UserControllers } from "./user.controllers"
-import { checkAuth } from "src/app/middlewares/checkAuth"
-import { UserRole } from "src/generated/prisma/enums"
-import { fileUploader } from "src/app/utils/fileUploader"
+import { checkAuth } from "@/app/middlewares/checkAuth"
+import { UserRole } from "@/generated/prisma/enums"
+import { fileUploader } from "@/app/utils/fileUploader"
 
 const userRouter = Router()
 

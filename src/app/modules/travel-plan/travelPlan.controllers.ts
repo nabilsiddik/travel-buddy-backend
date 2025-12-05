@@ -1,11 +1,11 @@
+import { catchAsync } from "@/app/errorHelpers/catchAsync";
 import type { Request, Response } from "express";
-import { catchAsync } from "src/app/errorHelpers/catchAsync";
-import { TravelPlanServices } from "./travelPlan.services";
-import { sendResponse } from "src/app/utils/userResponse";
-import { pickQueries } from "src/app/utils/pickQueries";
-import type { JWTPayload } from "src/app/interfaces";
-import AppError from "src/app/errorHelpers/appError";
 import { StatusCodes } from "http-status-codes";
+import { TravelPlanServices } from "./travelPlan.services";
+import { sendResponse } from "@/app/utils/userResponse";
+import { pickQueries } from "@/app/utils/pickQueries";
+import { JWTPayload } from "@/app/interfaces";
+import AppError from "@/app/errorHelpers/appError";
 
 // Create plan
 const createTravelPlan = catchAsync(async (req: Request, res: Response) => {

@@ -1,11 +1,11 @@
 import type { JwtPayload } from "jsonwebtoken";
-import { prisma } from "src/app/config/prisma.config";
-import AppError from "src/app/errorHelpers/appError";
 import { StatusCodes } from "http-status-codes";
 import type { Request } from "express";
-import calculatePagination from "src/app/utils/paginations";
-import type { TravelPlanWhereInput } from "src/generated/prisma/models";
-import type { JWTPayload } from "src/app/interfaces";
+import AppError from "@/app/errorHelpers/appError";
+import { JWTPayload } from "@/app/interfaces";
+import { prisma } from "@/app/config/prisma.config";
+import calculatePagination from "@/app/utils/paginations";
+import { TravelPlanWhereInput } from "@/generated/prisma/models";
 
 // create travel plan
 const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {

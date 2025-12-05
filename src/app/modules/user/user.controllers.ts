@@ -2,10 +2,10 @@ import type { Request, Response } from "express";
 import { catchAsync } from "../../errorHelpers/catchAsync";
 import { UserServices } from "./user.services";
 import { sendResponse } from "../../utils/userResponse";
-import { pickQueries } from "src/app/utils/pickQueries";
 import { userFilterableFields } from "./user.constants";
-import type { JWTPayload } from "src/app/interfaces";
 import { StatusCodes } from "http-status-codes";
+import { pickQueries } from "@/app/utils/pickQueries";
+import { JWTPayload } from "@/app/interfaces";
 
 // Create user
 const createUser = catchAsync(async (req: Request, res: Response) => {
