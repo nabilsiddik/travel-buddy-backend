@@ -35,6 +35,20 @@ const getAllTravelPlans = catchAsync(async (req, res) => {
     })
 })
 
+// Get travel plan by id
+const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await TravelPlanServices.getTravelPlanById(id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Travel plan fetched successfully.",
+    data: result,
+  });
+});
+
 
 // Get my plans
 const getMyTravelPlans = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
@@ -112,5 +126,6 @@ export const TravelPlanControllers = {
   getAllTravelPlans,
   getMyTravelPlans,
   updateTravelPlan,
-  deleteTravelPlan
+  deleteTravelPlan,
+  getTravelPlanById
 }

@@ -9,7 +9,7 @@ import { fileUploader } from "@/app/utils/fileUploader"
 const userRouter = Router()
 
 // Get all users 
-userRouter.get('/', checkAuth(UserRole.ADMIN), UserControllers.getAllUsers)
+userRouter.get('/', checkAuth(UserRole.ADMIN, UserRole.USER), UserControllers.getAllUsers)
 
 // Get profile info
 userRouter.get(

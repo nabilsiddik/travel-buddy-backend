@@ -120,6 +120,26 @@ const getAllTravelPlans = async (params: any, options: any) => {
 }
 
 
+// Get travel plan by id
+const getTravelPlanById = async (id: string) => {
+    console.log(id, 'my id')
+  const result = await prisma.travelPlan.findUnique({
+    where: { id },
+    include: {
+      user: true,
+    },
+  });
+
+  console.log(result, 'my result')
+
+  if (!result) {
+    throw new Error("Travel plan not found.");
+  }
+
+  return result;
+};
+
+
 // Get my own plans
 const getMyTravelPlans = async (user: JwtPayload) => {
     return await prisma.travelPlan.findMany({
@@ -182,5 +202,6 @@ export const TravelPlanServices = {
     getAllTravelPlans,
     getMyTravelPlans,
     updateTravelPlan,
-    deleteTravelPlan
+    deleteTravelPlan,
+    getTravelPlanById
 }

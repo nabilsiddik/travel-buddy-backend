@@ -4,17 +4,8 @@ node_modules
 uploads/*
 !uploads/.gitkeep
 *.log
-
-/src/generated/prisma
-
+dist/
 /generated/prisma
-
-/generated/prisma
-
-/src/generated/prisma
-
-/src/generated/prisma
-
-
+.vercel
 
 

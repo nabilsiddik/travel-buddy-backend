@@ -21,6 +21,12 @@ travelPlanRouter.get(
 )
 
 travelPlanRouter.get(
+  "/:id",
+  checkAuth(UserRole.USER, UserRole.ADMIN),
+  TravelPlanControllers.getTravelPlanById
+);
+
+travelPlanRouter.get(
   "/my-plans",
   checkAuth(UserRole.USER, UserRole.ADMIN),
   TravelPlanControllers.getMyTravelPlans
