@@ -69,6 +69,7 @@ model User {
   subscriptionStatus SubscriptionStatus @default(NONE)
   verifiedBadge     Boolean            @default(false)
   status UserStatus @default(ACTIVE)
+  createdTravelPlans String[]
 
   travelPlans     TravelPlan[]
   reviewsGiven    Review[]            @relation("reviews_given")

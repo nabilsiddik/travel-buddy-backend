@@ -39,7 +39,7 @@ const createUser = async (req: Request) => {
             bio: bio || '',
             currentLocation: currentLocation || '',
             gender: gender || '',
-            interests: interests || [],
+            createdTravelPlans: [],
             visitedCountries: visitedCountries || []
         }
     })

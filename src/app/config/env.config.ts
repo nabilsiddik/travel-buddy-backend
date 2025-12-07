@@ -9,6 +9,7 @@ interface EnvConfig {
     CLIENT_URL: string,
     JWT: {
         JWT_ACCESS_SECRET: string,
+        JWT_ACCESS_EXPIRES: string,
         JWT_REFRESH_SECRET: string
     }
     CLOUDINARY: {
@@ -19,7 +20,7 @@ interface EnvConfig {
 }
 
 const loadEnvVariables = (): EnvConfig => {
-    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET', 'CLIENT_URL']
+    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_ACCESS_EXPIRES', 'JWT_REFRESH_SECRET', 'CLIENT_URL']
 
     requiredEnvVars.forEach((key: string) => {
         if (!process.env[key]) {
@@ -35,6 +36,7 @@ const loadEnvVariables = (): EnvConfig => {
         CLIENT_URL: process.env.SALT_ROUND as string,
         JWT: {
             JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET as string,
+            JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES as string,
             JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
         },
         CLOUDINARY: {

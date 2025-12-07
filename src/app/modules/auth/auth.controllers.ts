@@ -48,9 +48,32 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Generate access token using refresh token
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+    const { refreshToken } = req.cookies;
+
+    const result = await AuthServices.refreshToken(refreshToken);
+    res.cookie("accessToken", result.accessToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+        maxAge: 1000 * 60 * 60,
+    });
+
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: "Access token genereated successfully!",
+        data: {
+            message: "Access token genereated successfully!",
+        },
+    });
+});
+
 
 
 export const AuthControllers = {
   userLogin,
-  getMe
+  getMe,
+  refreshToken
 }

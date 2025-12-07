@@ -12,4 +12,9 @@ authRouter.get(
 // User login route
 authRouter.post('/login', AuthControllers.userLogin)
 
+authRouter.post(
+    '/refresh-token',
+    AuthControllers.refreshToken
+)
+
 export default authRouter 

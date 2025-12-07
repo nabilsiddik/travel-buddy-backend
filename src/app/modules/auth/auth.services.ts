@@ -1,7 +1,7 @@
 import type { userLoginInput } from "./auth.interfaces"
 import { UserStatus } from "../user/user.interfaces"
 import bcrypt from 'bcryptjs'
-import type { Secret } from "jsonwebtoken"
+import type { Secret, SignOptions } from "jsonwebtoken"
 import { prisma } from "@/app/config/prisma.config"
 import AppError from "@/app/errorHelpers/appError"
 import { generateJwtToken, verifyToken } from "@/app/utils/jwtToken"
@@ -69,7 +69,40 @@ const getMe = async (session: any) => {
 }
 
 
+// Generate accesstoken by refreshtoken
+const refreshToken = async (token: string) => {
+    let decodedData;
+    try {
+        decodedData = verifyToken(token, envVars.JWT.JWT_REFRESH_SECRET as Secret);
+    }
+    catch (err) {
+        throw new Error("You are not authorized!")
+    }
+
+    const userData = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: decodedData.email,
+            status: UserStatus.ACTIVE
+        }
+    });
+
+    const accessToken = generateJwtToken({
+        email: userData.email,
+        role: userData.role,
+        id: userData.id
+    },
+        envVars.JWT.JWT_ACCESS_SECRET as Secret,
+        envVars.JWT.JWT_ACCESS_EXPIRES as SignOptions["expiresIn"]
+    );
+
+    return {
+        accessToken,
+    };
+
+};
+
 export const AuthServices = {
     userLogin,
-    getMe
+    getMe,
+    refreshToken
 }

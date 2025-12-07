@@ -6,6 +6,7 @@ import { JWTPayload } from "@/app/interfaces";
 import { prisma } from "@/app/config/prisma.config";
 import calculatePagination from "@/app/utils/paginations";
 import { TravelPlanWhereInput } from "@/generated/prisma/models";
+import { connect } from "node:http2";
 
 // create travel plan
 const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
@@ -17,23 +18,42 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
 
     const { destination, startDate, endDate, budgetRange, travelType, description, visibility } = req.body
 
-    
-    console.log({ destination, startDate, endDate, budgetRange, travelType, description, visibility }, 'body')
+    try {
+        const result = await prisma.$transaction(async (prisma) => {
+            const createdPlan = await prisma.travelPlan.create({
+                data: {
+                    userId,
+                    destination,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    budgetRange: budgetRange ?? undefined,
+                    travelType: travelType,
+                    description: description ?? undefined,
+                    visibility: visibility ?? true
+                }
+            })
 
-    const createdPlan = await prisma.travelPlan.create({
-        data: {
-            userId,
-            destination,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-            budgetRange: budgetRange ?? undefined,
-            travelType: travelType,
-            description: description ?? undefined,
-            visibility: visibility ?? true
-        }
-    })
+            const user = await prisma.user.update({
+                where: {
+                    id: userId,
+                },
 
-    return createdPlan
+                data: {
+                    createdTravelPlans: {
+                        push: createdPlan.id
+                    }
+                }
+            })
+
+            return { user, travelPlan: createdPlan }
+        });
+
+        return result
+
+    } catch (error) {
+        console.error('Transaction Failed:', error);
+    }
+
 }
 
 // Get all plans with filter, seach and pagination
@@ -77,7 +97,19 @@ const getAllTravelPlans = async (params: any, options: any) => {
             [sortBy]: sortOrder
         },
         include: {
-            user: true
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profileImage: true,
+                    gender: true,
+                    interests: true,
+                    visitedCountries: true,
+                    verifiedBadge: true,
+                    status: true
+                }
+            }
         }
     })
 
