@@ -7,6 +7,7 @@ import { JWTPayload } from '@/app/interfaces';
 import { Request, Response } from 'express';
 import { prisma } from '@/app/config/prisma.config';
 import Stripe from 'stripe';
+import { envVars } from '@/app/config/env.config';
 
 
 // Get user profile info
@@ -63,11 +64,15 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
 
 // Stripe webhook to update subscription status
 const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
+
+    const webhookSecret = envVars.STRIPE.STRIPE_WEBHOOK_SECRET
+    console.log('stripe web hook is running ...')
+
     const sig = req.headers['stripe-signature']!;
     let event: Stripe.Event;
 
     try {
-        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret!);
     } catch (err: any) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
@@ -80,12 +85,17 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
 
             // Update subscription in DB
             const sub = await prisma.subscription.findUnique({ where: { stripeCustomerId: customerId as string } });
+
+            console.log(sub, 'my sub')
+
             if (sub) {
                 await prisma.subscription.update({
                     where: { id: sub.id },
                     data: { stripeSubscriptionId: subscriptionId, status: 'active' },
                 });
                 await prisma.user.update({ where: { id: sub.userId }, data: { verifiedBadge: true } });
+
+                console.log('completed')
             }
             break;
 
@@ -110,6 +120,8 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
                     where: { id: subRecord.userId },
                     data: { verifiedBadge: updatedSub.status === 'active' },
                 })
+
+                console.log('failed')
             }
             break;
     }
@@ -123,8 +135,38 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+const verifySession = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const sessionId = req.query.session_id as string
+
+    if (!sessionId) {
+        throw new AppError(StatusCodes.BAD_REQUEST, 'No session id found')
+    }
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ["subscription"]
+    });
+
+    const subscriptionId =
+        typeof session.subscription === "string"
+            ? session.subscription
+            : session.subscription?.id;
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Verified session',
+        data: {
+            subscriptionId,
+            customerId: session.customer,
+            status: session.payment_status,
+        }
+    })
+})
+
+
 
 export const SubscriptionControllers = {
     createSubscriptionSession,
-    stripeWebhook
+    stripeWebhook,
+    verifySession
 }

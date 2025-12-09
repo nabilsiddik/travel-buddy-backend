@@ -1,3 +1,4 @@
+import { envVars } from '@/app/config/env.config';
 import Stripe from 'stripe';
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-11-17.clover" });
 
@@ -8,7 +9,7 @@ export const createStripeCustomer = async (email: string) => {
 
 export const createCheckoutSession = async (customerId: string, plan: 'monthly' | 'yearly') => {
 
-  const priceId = plan === 'monthly' ? process.env.STRIPE_PRICE_MONTHLY! : process.env.STRIPE_PRICE_YEARLY!
+  const priceId = plan === 'monthly' ? envVars.STRIPE.STRIPE_PRICE_MONTHLY : envVars.STRIPE.STRIPE_PRICE_YEARLY
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',

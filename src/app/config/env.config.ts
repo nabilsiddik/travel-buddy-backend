@@ -21,11 +21,12 @@ interface EnvConfig {
         STRIPE_SECRET_KEY: string,
         STRIPE_PRICE_MONTHLY: string,
         STRIPE_PRICE_YEARLY: string,
+        STRIPE_WEBHOOK_SECRET: string
     }
 }
 
 const loadEnvVariables = (): EnvConfig => {
-    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_ACCESS_EXPIRES', 'JWT_REFRESH_SECRET', 'CLIENT_URL', 'STRIPE_SECRET_KEY']
+    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_ACCESS_EXPIRES', 'JWT_REFRESH_SECRET', 'CLIENT_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET']
 
     requiredEnvVars.forEach((key: string) => {
         if (!process.env[key]) {
@@ -53,6 +54,7 @@ const loadEnvVariables = (): EnvConfig => {
             STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
             STRIPE_PRICE_MONTHLY: process.env.STRIPE_PRICE_MONTHLY as string,
             STRIPE_PRICE_YEARLY: process.env.STRIPE_PRICE_YEARLY as string,
+            STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
         }
     }
 }
