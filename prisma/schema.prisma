@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -27,19 +26,11 @@ enum Gender {
   OTHERS
 }
 
-
 // Travel type enums
 enum TravelType {
   SOLO
   FAMILY
   FRIENDS
-}
-
-// Subscription enums
-enum SubscriptionStatus {
-  NONE
-  MONTHLY
-  YEARLY
 }
 
 // Payment enums
@@ -49,92 +40,116 @@ enum PaymentStatus {
   FAILED
 }
 
-
 // user models
 model User {
-  id            String              @id @default(uuid())
-  name          String
-  email         String              @unique
-  password      String
-  role          UserRole            @default(USER)
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  role     UserRole @default(USER)
 
-  bio           String?
-  profileImage  String?
+  bio             String?
+  profileImage    String?
   currentLocation String?
-  gender Gender
+  gender          Gender
 
-  interests       String[]
+  interests        String[]
   visitedCountries String[]
 
-  subscriptionStatus SubscriptionStatus @default(NONE)
-  verifiedBadge     Boolean            @default(false)
-  status UserStatus @default(ACTIVE)
+  subscription       Subscription?
+  verifiedBadge      Boolean       @default(false)
+  status             UserStatus    @default(ACTIVE)
   createdTravelPlans String[]
 
   travelPlans     TravelPlan[]
-  reviewsGiven    Review[]            @relation("reviews_given")
-  reviewsReceived Review[]            @relation("reviews_received")
+  reviewsGiven    Review[]     @relation("reviews_given")
+  reviewsReceived Review[]     @relation("reviews_received")
   payments        Payment[]
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
-
 // travel plan models
 model TravelPlan {
-  id            String      @id @default(uuid())
-  userId        String
-  user          User        @relation(fields: [userId], references: [id])
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  destination   String
-  startDate     DateTime
-  endDate       DateTime
+  destination String
+  startDate   DateTime
+  endDate     DateTime
 
-  budgetRange   String?
-  travelType    TravelType
-  description   String?
-  visibility    Boolean      @default(true)
+  budgetRange String?
+  travelType  TravelType
+  description String?
+  visibility  Boolean    @default(true)
 
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
-
 
 // review model
 model Review {
-  id          String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  reviewerId  String
-  receiverId  String
+  reviewerId String
+  receiverId String
 
-  reviewer    User     @relation("reviews_given", fields: [reviewerId], references: [id])
-  receiver    User     @relation("reviews_received", fields: [receiverId], references: [id])
+  reviewer User @relation("reviews_given", fields: [reviewerId], references: [id])
+  receiver User @relation("reviews_received", fields: [receiverId], references: [id])
 
-  rating      Int 
-  comment     String?
+  rating  Int
+  comment String?
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-
-// Payment model
 model Payment {
-  id             String        @id @default(uuid())
-  userId         String
-  user           User          @relation(fields: [userId], references: [id])
+  id String @id @default(uuid())
 
-  amount         Float
-  currency       String         @default("BDT")
-  paymentMethod  String
-  transactionId  String         @unique
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  status         PaymentStatus  @default(PENDING)
-  planType       SubscriptionStatus @default(NONE)
+  subscriptionId Int?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 
-  createdAt      DateTime       @default(now())
+  amount   Float
+  currency String @default("usd")
+
+  stripeInvoiceId     String  @unique
+  stripePaymentIntent String?
+
+  status PaymentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id                   Int                @id @default(autoincrement())
+  userId               String             @unique
+  user                 User               @relation(fields: [userId], references: [id])
+  stripeCustomerId     String @unique
+  stripeSubscriptionId String @unique
+  status               SubscriptionStatus
+  plan                 PlanType
+  currentPeriodEnd     DateTime
+  payments             Payment[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+}
+
+enum SubscriptionStatus {
+  active
+  past_due
+  canceled
+  incomplete
+}
+
+enum PlanType {
+  monthly
+  yearly
 }

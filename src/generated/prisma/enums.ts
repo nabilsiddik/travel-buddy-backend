@@ -45,15 +45,6 @@ export const TravelType = {
 export type TravelType = (typeof TravelType)[keyof typeof TravelType]
 
 
-export const SubscriptionStatus = {
-  NONE: 'NONE',
-  MONTHLY: 'MONTHLY',
-  YEARLY: 'YEARLY'
-} as const
-
-export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
-
-
 export const PaymentStatus = {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
@@ -61,3 +52,21 @@ export const PaymentStatus = {
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const SubscriptionStatus = {
+  active: 'active',
+  past_due: 'past_due',
+  canceled: 'canceled',
+  incomplete: 'incomplete'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const PlanType = {
+  monthly: 'monthly',
+  yearly: 'yearly'
+} as const
+
+export type PlanType = (typeof PlanType)[keyof typeof PlanType]

@@ -34,7 +34,6 @@ export type UserMinAggregateOutputType = {
   profileImage: string | null
   currentLocation: string | null
   gender: $Enums.Gender | null
-  subscriptionStatus: $Enums.SubscriptionStatus | null
   verifiedBadge: boolean | null
   status: $Enums.UserStatus | null
   createdAt: Date | null
@@ -51,7 +50,6 @@ export type UserMaxAggregateOutputType = {
   profileImage: string | null
   currentLocation: string | null
   gender: $Enums.Gender | null
-  subscriptionStatus: $Enums.SubscriptionStatus | null
   verifiedBadge: boolean | null
   status: $Enums.UserStatus | null
   createdAt: Date | null
@@ -70,7 +68,6 @@ export type UserCountAggregateOutputType = {
   gender: number
   interests: number
   visitedCountries: number
-  subscriptionStatus: number
   verifiedBadge: number
   status: number
   createdTravelPlans: number
@@ -90,7 +87,6 @@ export type UserMinAggregateInputType = {
   profileImage?: true
   currentLocation?: true
   gender?: true
-  subscriptionStatus?: true
   verifiedBadge?: true
   status?: true
   createdAt?: true
@@ -107,7 +103,6 @@ export type UserMaxAggregateInputType = {
   profileImage?: true
   currentLocation?: true
   gender?: true
-  subscriptionStatus?: true
   verifiedBadge?: true
   status?: true
   createdAt?: true
@@ -126,7 +121,6 @@ export type UserCountAggregateInputType = {
   gender?: true
   interests?: true
   visitedCountries?: true
-  subscriptionStatus?: true
   verifiedBadge?: true
   status?: true
   createdTravelPlans?: true
@@ -219,7 +213,6 @@ export type UserGroupByOutputType = {
   gender: $Enums.Gender
   interests: string[]
   visitedCountries: string[]
-  subscriptionStatus: $Enums.SubscriptionStatus
   verifiedBadge: boolean
   status: $Enums.UserStatus
   createdTravelPlans: string[]
@@ -260,12 +253,12 @@ export type UserWhereInput = {
   gender?: Prisma.EnumGenderFilter<"User"> | $Enums.Gender
   interests?: Prisma.StringNullableListFilter<"User">
   visitedCountries?: Prisma.StringNullableListFilter<"User">
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFilter<"User"> | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   createdTravelPlans?: Prisma.StringNullableListFilter<"User">
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   travelPlans?: Prisma.TravelPlanListRelationFilter
   reviewsGiven?: Prisma.ReviewListRelationFilter
   reviewsReceived?: Prisma.ReviewListRelationFilter
@@ -284,12 +277,12 @@ export type UserOrderByWithRelationInput = {
   gender?: Prisma.SortOrder
   interests?: Prisma.SortOrder
   visitedCountries?: Prisma.SortOrder
-  subscriptionStatus?: Prisma.SortOrder
   verifiedBadge?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdTravelPlans?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  subscription?: Prisma.SubscriptionOrderByWithRelationInput
   travelPlans?: Prisma.TravelPlanOrderByRelationAggregateInput
   reviewsGiven?: Prisma.ReviewOrderByRelationAggregateInput
   reviewsReceived?: Prisma.ReviewOrderByRelationAggregateInput
@@ -311,12 +304,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   gender?: Prisma.EnumGenderFilter<"User"> | $Enums.Gender
   interests?: Prisma.StringNullableListFilter<"User">
   visitedCountries?: Prisma.StringNullableListFilter<"User">
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFilter<"User"> | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   createdTravelPlans?: Prisma.StringNullableListFilter<"User">
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   travelPlans?: Prisma.TravelPlanListRelationFilter
   reviewsGiven?: Prisma.ReviewListRelationFilter
   reviewsReceived?: Prisma.ReviewListRelationFilter
@@ -335,7 +328,6 @@ export type UserOrderByWithAggregationInput = {
   gender?: Prisma.SortOrder
   interests?: Prisma.SortOrder
   visitedCountries?: Prisma.SortOrder
-  subscriptionStatus?: Prisma.SortOrder
   verifiedBadge?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdTravelPlans?: Prisma.SortOrder
@@ -361,7 +353,6 @@ export type UserScalarWhereWithAggregatesInput = {
   gender?: Prisma.EnumGenderWithAggregatesFilter<"User"> | $Enums.Gender
   interests?: Prisma.StringNullableListFilter<"User">
   visitedCountries?: Prisma.StringNullableListFilter<"User">
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusWithAggregatesFilter<"User"> | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   createdTravelPlans?: Prisma.StringNullableListFilter<"User">
@@ -381,12 +372,12 @@ export type UserCreateInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutReceiverInput
@@ -405,12 +396,12 @@ export type UserUncheckedCreateInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanUncheckedCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutReceiverInput
@@ -429,12 +420,12 @@ export type UserUpdateInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutReceiverNestedInput
@@ -453,12 +444,12 @@ export type UserUncheckedUpdateInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUncheckedUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutReceiverNestedInput
@@ -477,7 +468,6 @@ export type UserCreateManyInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
@@ -497,7 +487,6 @@ export type UserUpdateManyMutationInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
@@ -517,7 +506,6 @@ export type UserUncheckedUpdateManyInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
@@ -545,7 +533,6 @@ export type UserCountOrderByAggregateInput = {
   gender?: Prisma.SortOrder
   interests?: Prisma.SortOrder
   visitedCountries?: Prisma.SortOrder
-  subscriptionStatus?: Prisma.SortOrder
   verifiedBadge?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdTravelPlans?: Prisma.SortOrder
@@ -563,7 +550,6 @@ export type UserMaxOrderByAggregateInput = {
   profileImage?: Prisma.SortOrder
   currentLocation?: Prisma.SortOrder
   gender?: Prisma.SortOrder
-  subscriptionStatus?: Prisma.SortOrder
   verifiedBadge?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -580,7 +566,6 @@ export type UserMinOrderByAggregateInput = {
   profileImage?: Prisma.SortOrder
   currentLocation?: Prisma.SortOrder
   gender?: Prisma.SortOrder
-  subscriptionStatus?: Prisma.SortOrder
   verifiedBadge?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -628,10 +613,6 @@ export type UserUpdateinterestsInput = {
 export type UserUpdatevisitedCountriesInput = {
   set?: string[]
   push?: string | string[]
-}
-
-export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
-  set?: $Enums.SubscriptionStatus
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -707,6 +688,20 @@ export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
 }
 
+export type UserCreateNestedOneWithoutSubscriptionInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSubscriptionNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionInput
+  upsert?: Prisma.UserUpsertWithoutSubscriptionInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionInput, Prisma.UserUpdateWithoutSubscriptionInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionInput>
+}
+
 export type UserCreateWithoutTravelPlansInput = {
   id?: string
   name: string
@@ -719,12 +714,12 @@ export type UserCreateWithoutTravelPlansInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutReceiverInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -742,12 +737,12 @@ export type UserUncheckedCreateWithoutTravelPlansInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutReceiverInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -781,12 +776,12 @@ export type UserUpdateWithoutTravelPlansInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutReceiverNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -804,12 +799,12 @@ export type UserUncheckedUpdateWithoutTravelPlansInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutReceiverNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -827,12 +822,12 @@ export type UserCreateWithoutReviewsGivenInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanCreateNestedManyWithoutUserInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutReceiverInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -850,12 +845,12 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanUncheckedCreateNestedManyWithoutUserInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutReceiverInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -878,12 +873,12 @@ export type UserCreateWithoutReviewsReceivedInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -901,12 +896,12 @@ export type UserUncheckedCreateWithoutReviewsReceivedInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanUncheckedCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -940,12 +935,12 @@ export type UserUpdateWithoutReviewsGivenInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUpdateManyWithoutUserNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutReceiverNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -963,12 +958,12 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUncheckedUpdateManyWithoutUserNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutReceiverNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -997,12 +992,12 @@ export type UserUpdateWithoutReviewsReceivedInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -1020,12 +1015,12 @@ export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUncheckedUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -1043,12 +1038,12 @@ export type UserCreateWithoutPaymentsInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutReceiverInput
@@ -1066,12 +1061,12 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   gender: $Enums.Gender
   interests?: Prisma.UserCreateinterestsInput | string[]
   visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
-  subscriptionStatus?: $Enums.SubscriptionStatus
   verifiedBadge?: boolean
   status?: $Enums.UserStatus
   createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
   travelPlans?: Prisma.TravelPlanUncheckedCreateNestedManyWithoutUserInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutReceiverInput
@@ -1105,12 +1100,12 @@ export type UserUpdateWithoutPaymentsInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
   travelPlans?: Prisma.TravelPlanUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutReceiverNestedInput
@@ -1128,7 +1123,114 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   interests?: Prisma.UserUpdateinterestsInput | string[]
   visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
-  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+  travelPlans?: Prisma.TravelPlanUncheckedUpdateManyWithoutUserNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutReceiverNestedInput
+}
+
+export type UserCreateWithoutSubscriptionInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  profileImage?: string | null
+  currentLocation?: string | null
+  gender: $Enums.Gender
+  interests?: Prisma.UserCreateinterestsInput | string[]
+  visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
+  verifiedBadge?: boolean
+  status?: $Enums.UserStatus
+  createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  travelPlans?: Prisma.TravelPlanCreateNestedManyWithoutUserInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
+  reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutReceiverInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSubscriptionInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  profileImage?: string | null
+  currentLocation?: string | null
+  gender: $Enums.Gender
+  interests?: Prisma.UserCreateinterestsInput | string[]
+  visitedCountries?: Prisma.UserCreatevisitedCountriesInput | string[]
+  verifiedBadge?: boolean
+  status?: $Enums.UserStatus
+  createdTravelPlans?: Prisma.UserCreatecreatedTravelPlansInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  travelPlans?: Prisma.TravelPlanUncheckedCreateNestedManyWithoutUserInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
+  reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutReceiverInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSubscriptionInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
+}
+
+export type UserUpsertWithoutSubscriptionInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionInput, Prisma.UserUncheckedUpdateWithoutSubscriptionInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSubscriptionInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionInput, Prisma.UserUncheckedUpdateWithoutSubscriptionInput>
+}
+
+export type UserUpdateWithoutSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  interests?: Prisma.UserUpdateinterestsInput | string[]
+  visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
+  verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  travelPlans?: Prisma.TravelPlanUpdateManyWithoutUserNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
+  reviewsReceived?: Prisma.ReviewUpdateManyWithoutReceiverNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  interests?: Prisma.UserUpdateinterestsInput | string[]
+  visitedCountries?: Prisma.UserUpdatevisitedCountriesInput | string[]
   verifiedBadge?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   createdTravelPlans?: Prisma.UserUpdatecreatedTravelPlansInput | string[]
@@ -1137,6 +1239,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   travelPlans?: Prisma.TravelPlanUncheckedUpdateManyWithoutUserNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutReceiverNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1209,12 +1312,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   gender?: boolean
   interests?: boolean
   visitedCountries?: boolean
-  subscriptionStatus?: boolean
   verifiedBadge?: boolean
   status?: boolean
   createdTravelPlans?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
   travelPlans?: boolean | Prisma.User$travelPlansArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
   reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
@@ -1234,7 +1337,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   gender?: boolean
   interests?: boolean
   visitedCountries?: boolean
-  subscriptionStatus?: boolean
   verifiedBadge?: boolean
   status?: boolean
   createdTravelPlans?: boolean
@@ -1254,7 +1356,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   gender?: boolean
   interests?: boolean
   visitedCountries?: boolean
-  subscriptionStatus?: boolean
   verifiedBadge?: boolean
   status?: boolean
   createdTravelPlans?: boolean
@@ -1274,7 +1375,6 @@ export type UserSelectScalar = {
   gender?: boolean
   interests?: boolean
   visitedCountries?: boolean
-  subscriptionStatus?: boolean
   verifiedBadge?: boolean
   status?: boolean
   createdTravelPlans?: boolean
@@ -1282,8 +1382,9 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "bio" | "profileImage" | "currentLocation" | "gender" | "interests" | "visitedCountries" | "subscriptionStatus" | "verifiedBadge" | "status" | "createdTravelPlans" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "bio" | "profileImage" | "currentLocation" | "gender" | "interests" | "visitedCountries" | "verifiedBadge" | "status" | "createdTravelPlans" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
   travelPlans?: boolean | Prisma.User$travelPlansArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
   reviewsReceived?: boolean | Prisma.User$reviewsReceivedArgs<ExtArgs>
@@ -1296,6 +1397,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
     travelPlans: Prisma.$TravelPlanPayload<ExtArgs>[]
     reviewsGiven: Prisma.$ReviewPayload<ExtArgs>[]
     reviewsReceived: Prisma.$ReviewPayload<ExtArgs>[]
@@ -1313,7 +1415,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     gender: $Enums.Gender
     interests: string[]
     visitedCountries: string[]
-    subscriptionStatus: $Enums.SubscriptionStatus
     verifiedBadge: boolean
     status: $Enums.UserStatus
     createdTravelPlans: string[]
@@ -1713,6 +1814,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  subscription<T extends Prisma.User$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   travelPlans<T extends Prisma.User$travelPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$travelPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TravelPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsReceived<T extends Prisma.User$reviewsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1757,7 +1859,6 @@ export interface UserFieldRefs {
   readonly gender: Prisma.FieldRef<"User", 'Gender'>
   readonly interests: Prisma.FieldRef<"User", 'String[]'>
   readonly visitedCountries: Prisma.FieldRef<"User", 'String[]'>
-  readonly subscriptionStatus: Prisma.FieldRef<"User", 'SubscriptionStatus'>
   readonly verifiedBadge: Prisma.FieldRef<"User", 'Boolean'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly createdTravelPlans: Prisma.FieldRef<"User", 'String[]'>
@@ -2148,6 +2249,25 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.subscription
+ */
+export type User$subscriptionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subscription
+   */
+  select?: Prisma.SubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subscription
+   */
+  omit?: Prisma.SubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubscriptionInclude<ExtArgs> | null
+  where?: Prisma.SubscriptionWhereInput
 }
 
 /**

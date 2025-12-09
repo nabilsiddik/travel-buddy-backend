@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   TravelPlan: 'TravelPlan',
   Review: 'Review',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  Subscription: 'Subscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -85,7 +86,6 @@ export const UserScalarFieldEnum = {
   gender: 'gender',
   interests: 'interests',
   visitedCountries: 'visitedCountries',
-  subscriptionStatus: 'subscriptionStatus',
   verifiedBadge: 'verifiedBadge',
   status: 'status',
   createdTravelPlans: 'createdTravelPlans',
@@ -129,16 +129,31 @@ export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof 
 export const PaymentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  subscriptionId: 'subscriptionId',
   amount: 'amount',
   currency: 'currency',
-  paymentMethod: 'paymentMethod',
-  transactionId: 'transactionId',
+  stripeInvoiceId: 'stripeInvoiceId',
+  stripePaymentIntent: 'stripePaymentIntent',
   status: 'status',
-  planType: 'planType',
   createdAt: 'createdAt'
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  status: 'status',
+  plan: 'plan',
+  currentPeriodEnd: 'currentPeriodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

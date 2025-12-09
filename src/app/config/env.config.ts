@@ -16,11 +16,16 @@ interface EnvConfig {
         CLOUDINARY_CLOUD_NAME: string,
         CLOUDINARY_API_KEY: string,
         CLOUDINARY_API_SECRET: string
+    },
+    STRIPE: {
+        STRIPE_SECRET_KEY: string,
+        STRIPE_PRICE_MONTHLY: string,
+        STRIPE_PRICE_YEARLY: string,
     }
 }
 
 const loadEnvVariables = (): EnvConfig => {
-    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_ACCESS_EXPIRES', 'JWT_REFRESH_SECRET', 'CLIENT_URL']
+    const requiredEnvVars: string[] = ['PORT', 'DATABASE_URL', 'JWT_ACCESS_SECRET', 'NODE_ENV', 'SALT_ROUND', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'JWT_ACCESS_SECRET', 'JWT_ACCESS_EXPIRES', 'JWT_REFRESH_SECRET', 'CLIENT_URL', 'STRIPE_SECRET_KEY']
 
     requiredEnvVars.forEach((key: string) => {
         if (!process.env[key]) {
@@ -43,6 +48,11 @@ const loadEnvVariables = (): EnvConfig => {
             CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
             CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
             CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+        },
+        STRIPE: {
+            STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
+            STRIPE_PRICE_MONTHLY: process.env.STRIPE_PRICE_MONTHLY as string,
+            STRIPE_PRICE_YEARLY: process.env.STRIPE_PRICE_YEARLY as string,
         }
     }
 }

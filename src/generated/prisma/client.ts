@@ -59,3 +59,8 @@ export type Review = Prisma.ReviewModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
