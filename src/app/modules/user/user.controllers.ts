@@ -37,6 +37,20 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 })
 
 
+// user by id
+const getUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await UserServices.getUserById(id);
+
+  return res.status(200).json({
+    success: true,
+    message: "User fetched successfully",
+    data: result,
+  });
+};
+
+
 // Get user profile info
 const getMyProfile = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
 
@@ -73,5 +87,6 @@ export const UserControllers = {
   createUser,
   getAllUsers,
   getMyProfile,
-  updateUser
+  updateUser,
+  getUserById
 }

@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   TravelPlan: 'TravelPlan',
+  TravelPlanParticipant: 'TravelPlanParticipant',
+  TravelPlanJoinRequest: 'TravelPlanJoinRequest',
   Review: 'Review',
   Payment: 'Payment',
   Subscription: 'Subscription'
@@ -404,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "travelPlan" | "review" | "payment" | "subscription"
+    modelProps: "user" | "travelPlan" | "travelPlanParticipant" | "travelPlanJoinRequest" | "review" | "payment" | "subscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +555,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TravelPlanCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TravelPlanCountAggregateOutputType> | number
+        }
+      }
+    }
+    TravelPlanParticipant: {
+      payload: Prisma.$TravelPlanParticipantPayload<ExtArgs>
+      fields: Prisma.TravelPlanParticipantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TravelPlanParticipantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TravelPlanParticipantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        findFirst: {
+          args: Prisma.TravelPlanParticipantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TravelPlanParticipantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        findMany: {
+          args: Prisma.TravelPlanParticipantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>[]
+        }
+        create: {
+          args: Prisma.TravelPlanParticipantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        createMany: {
+          args: Prisma.TravelPlanParticipantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TravelPlanParticipantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>[]
+        }
+        delete: {
+          args: Prisma.TravelPlanParticipantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        update: {
+          args: Prisma.TravelPlanParticipantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        deleteMany: {
+          args: Prisma.TravelPlanParticipantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TravelPlanParticipantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TravelPlanParticipantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>[]
+        }
+        upsert: {
+          args: Prisma.TravelPlanParticipantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanParticipantPayload>
+        }
+        aggregate: {
+          args: Prisma.TravelPlanParticipantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTravelPlanParticipant>
+        }
+        groupBy: {
+          args: Prisma.TravelPlanParticipantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TravelPlanParticipantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TravelPlanParticipantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TravelPlanParticipantCountAggregateOutputType> | number
+        }
+      }
+    }
+    TravelPlanJoinRequest: {
+      payload: Prisma.$TravelPlanJoinRequestPayload<ExtArgs>
+      fields: Prisma.TravelPlanJoinRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TravelPlanJoinRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TravelPlanJoinRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.TravelPlanJoinRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TravelPlanJoinRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        findMany: {
+          args: Prisma.TravelPlanJoinRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>[]
+        }
+        create: {
+          args: Prisma.TravelPlanJoinRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        createMany: {
+          args: Prisma.TravelPlanJoinRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TravelPlanJoinRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.TravelPlanJoinRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        update: {
+          args: Prisma.TravelPlanJoinRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.TravelPlanJoinRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TravelPlanJoinRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TravelPlanJoinRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.TravelPlanJoinRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TravelPlanJoinRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.TravelPlanJoinRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTravelPlanJoinRequest>
+        }
+        groupBy: {
+          args: Prisma.TravelPlanJoinRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TravelPlanJoinRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TravelPlanJoinRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TravelPlanJoinRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -856,14 +1006,34 @@ export const TravelPlanScalarFieldEnum = {
 export type TravelPlanScalarFieldEnum = (typeof TravelPlanScalarFieldEnum)[keyof typeof TravelPlanScalarFieldEnum]
 
 
+export const TravelPlanParticipantScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  userId: 'userId',
+  joinedAt: 'joinedAt'
+} as const
+
+export type TravelPlanParticipantScalarFieldEnum = (typeof TravelPlanParticipantScalarFieldEnum)[keyof typeof TravelPlanParticipantScalarFieldEnum]
+
+
+export const TravelPlanJoinRequestScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  requesterId: 'requesterId',
+  status: 'status'
+} as const
+
+export type TravelPlanJoinRequestScalarFieldEnum = (typeof TravelPlanJoinRequestScalarFieldEnum)[keyof typeof TravelPlanJoinRequestScalarFieldEnum]
+
+
 export const ReviewScalarFieldEnum = {
   id: 'id',
   reviewerId: 'reviewerId',
-  receiverId: 'receiverId',
+  targetUserId: 'targetUserId',
+  planId: 'planId',
   rating: 'rating',
   comment: 'comment',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -1017,6 +1187,20 @@ export type EnumTravelTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'TravelType[]'
  */
 export type ListEnumTravelTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TravelType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'JoinStatus'
+ */
+export type EnumJoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JoinStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'JoinStatus[]'
+ */
+export type ListEnumJoinStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JoinStatus[]'>
     
 
 
@@ -1186,6 +1370,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   travelPlan?: Prisma.TravelPlanOmit
+  travelPlanParticipant?: Prisma.TravelPlanParticipantOmit
+  travelPlanJoinRequest?: Prisma.TravelPlanJoinRequestOmit
   review?: Prisma.ReviewOmit
   payment?: Prisma.PaymentOmit
   subscription?: Prisma.SubscriptionOmit

@@ -50,6 +50,16 @@ export type User = Prisma.UserModel
  */
 export type TravelPlan = Prisma.TravelPlanModel
 /**
+ * Model TravelPlanParticipant
+ * 
+ */
+export type TravelPlanParticipant = Prisma.TravelPlanParticipantModel
+/**
+ * Model TravelPlanJoinRequest
+ * 
+ */
+export type TravelPlanJoinRequest = Prisma.TravelPlanJoinRequestModel
+/**
  * Model Review
  * 
  */

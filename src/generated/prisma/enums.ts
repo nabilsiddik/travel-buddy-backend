@@ -54,6 +54,16 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const JoinStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type JoinStatus = (typeof JoinStatus)[keyof typeof JoinStatus]
+
+
 export const SubscriptionStatus = {
   active: 'active',
   past_due: 'past_due',

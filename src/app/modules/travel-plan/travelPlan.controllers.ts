@@ -22,7 +22,7 @@ const createTravelPlan = catchAsync(async (req: Request, res: Response) => {
 
 // Get all plans
 const getAllTravelPlans = catchAsync(async (req, res) => {
-    const filters = pickQueries(req.query, ["destination", "travelType", "visibility"]);
+    const filters = pickQueries(req.query, ["destination", "travelType", "visibility", 'startDate', 'endDate', 'searchTerm']);
     const options = pickQueries(req.query, ["page", "limit", "sortBy", "sortOrder"])
 
     const result = await TravelPlanServices.getAllTravelPlans(filters, options)

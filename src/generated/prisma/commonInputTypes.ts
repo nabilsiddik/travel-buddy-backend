@@ -191,6 +191,23 @@ export type EnumTravelTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTravelTypeFilter<$PrismaModel>
 }
 
+export type EnumJoinStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.JoinStatus | Prisma.EnumJoinStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel> | $Enums.JoinStatus
+}
+
+export type EnumJoinStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.JoinStatus | Prisma.EnumJoinStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumJoinStatusWithAggregatesFilter<$PrismaModel> | $Enums.JoinStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel>
+}
+
 export type IntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -511,6 +528,23 @@ export type NestedEnumTravelTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTravelTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTravelTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumJoinStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.JoinStatus | Prisma.EnumJoinStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel> | $Enums.JoinStatus
+}
+
+export type NestedEnumJoinStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.JoinStatus | Prisma.EnumJoinStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.JoinStatus[] | Prisma.ListEnumJoinStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumJoinStatusWithAggregatesFilter<$PrismaModel> | $Enums.JoinStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumJoinStatusFilter<$PrismaModel>
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {

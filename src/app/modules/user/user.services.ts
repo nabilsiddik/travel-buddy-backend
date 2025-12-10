@@ -104,6 +104,22 @@ const getAllUsers = async (params: any, options: any) => {
     }
 }
 
+const getUserById = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found");
+  }
+
+  // Remove password before sending
+  const { password, ...rest } = user;
+
+  return rest;
+};
+
+
 // Get profile info
 const getMyProfile = async (user: JWTPayload) => {
     const userInfo = await prisma.user.findUniqueOrThrow({
@@ -177,5 +193,6 @@ export const UserServices = {
     createUser,
     getAllUsers,
     getMyProfile,
-    updateUser
+    updateUser,
+    getUserById
 }

@@ -231,6 +231,9 @@ export type TravelPlanWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"TravelPlan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TravelPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  participants?: Prisma.TravelPlanParticipantListRelationFilter
+  joinRequests?: Prisma.TravelPlanJoinRequestListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type TravelPlanOrderByWithRelationInput = {
@@ -246,6 +249,9 @@ export type TravelPlanOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  participants?: Prisma.TravelPlanParticipantOrderByRelationAggregateInput
+  joinRequests?: Prisma.TravelPlanJoinRequestOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type TravelPlanWhereUniqueInput = Prisma.AtLeast<{
@@ -264,6 +270,9 @@ export type TravelPlanWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"TravelPlan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TravelPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  participants?: Prisma.TravelPlanParticipantListRelationFilter
+  joinRequests?: Prisma.TravelPlanJoinRequestListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id">
 
 export type TravelPlanOrderByWithAggregationInput = {
@@ -312,6 +321,9 @@ export type TravelPlanCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTravelPlansInput
+  participants?: Prisma.TravelPlanParticipantCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutPlanInput
 }
 
 export type TravelPlanUncheckedCreateInput = {
@@ -326,6 +338,9 @@ export type TravelPlanUncheckedCreateInput = {
   visibility?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPlanInput
 }
 
 export type TravelPlanUpdateInput = {
@@ -340,6 +355,9 @@ export type TravelPlanUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTravelPlansNestedInput
+  participants?: Prisma.TravelPlanParticipantUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutPlanNestedInput
 }
 
 export type TravelPlanUncheckedUpdateInput = {
@@ -354,6 +372,9 @@ export type TravelPlanUncheckedUpdateInput = {
   visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 export type TravelPlanCreateManyInput = {
@@ -449,6 +470,11 @@ export type TravelPlanMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type TravelPlanScalarRelationFilter = {
+  is?: Prisma.TravelPlanWhereInput
+  isNot?: Prisma.TravelPlanWhereInput
+}
+
 export type TravelPlanCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutUserInput, Prisma.TravelPlanUncheckedCreateWithoutUserInput> | Prisma.TravelPlanCreateWithoutUserInput[] | Prisma.TravelPlanUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutUserInput | Prisma.TravelPlanCreateOrConnectWithoutUserInput[]
@@ -495,6 +521,48 @@ export type EnumTravelTypeFieldUpdateOperationsInput = {
   set?: $Enums.TravelType
 }
 
+export type TravelPlanCreateNestedOneWithoutParticipantsInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutParticipantsInput, Prisma.TravelPlanUncheckedCreateWithoutParticipantsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutParticipantsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+}
+
+export type TravelPlanUpdateOneRequiredWithoutParticipantsNestedInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutParticipantsInput, Prisma.TravelPlanUncheckedCreateWithoutParticipantsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutParticipantsInput
+  upsert?: Prisma.TravelPlanUpsertWithoutParticipantsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TravelPlanUpdateToOneWithWhereWithoutParticipantsInput, Prisma.TravelPlanUpdateWithoutParticipantsInput>, Prisma.TravelPlanUncheckedUpdateWithoutParticipantsInput>
+}
+
+export type TravelPlanCreateNestedOneWithoutJoinRequestsInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedCreateWithoutJoinRequestsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutJoinRequestsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+}
+
+export type TravelPlanUpdateOneRequiredWithoutJoinRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedCreateWithoutJoinRequestsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutJoinRequestsInput
+  upsert?: Prisma.TravelPlanUpsertWithoutJoinRequestsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TravelPlanUpdateToOneWithWhereWithoutJoinRequestsInput, Prisma.TravelPlanUpdateWithoutJoinRequestsInput>, Prisma.TravelPlanUncheckedUpdateWithoutJoinRequestsInput>
+}
+
+export type TravelPlanCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutReviewsInput, Prisma.TravelPlanUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+}
+
+export type TravelPlanUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.TravelPlanCreateWithoutReviewsInput, Prisma.TravelPlanUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.TravelPlanCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.TravelPlanUpsertWithoutReviewsInput
+  connect?: Prisma.TravelPlanWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TravelPlanUpdateToOneWithWhereWithoutReviewsInput, Prisma.TravelPlanUpdateWithoutReviewsInput>, Prisma.TravelPlanUncheckedUpdateWithoutReviewsInput>
+}
+
 export type TravelPlanCreateWithoutUserInput = {
   id?: string
   destination: string
@@ -506,6 +574,9 @@ export type TravelPlanCreateWithoutUserInput = {
   visibility?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  participants?: Prisma.TravelPlanParticipantCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutPlanInput
 }
 
 export type TravelPlanUncheckedCreateWithoutUserInput = {
@@ -519,6 +590,9 @@ export type TravelPlanUncheckedCreateWithoutUserInput = {
   visibility?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPlanInput
 }
 
 export type TravelPlanCreateOrConnectWithoutUserInput = {
@@ -564,6 +638,246 @@ export type TravelPlanScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TravelPlan"> | Date | string
 }
 
+export type TravelPlanCreateWithoutParticipantsInput = {
+  id?: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTravelPlansInput
+  joinRequests?: Prisma.TravelPlanJoinRequestCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanUncheckedCreateWithoutParticipantsInput = {
+  id?: string
+  userId: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanCreateOrConnectWithoutParticipantsInput = {
+  where: Prisma.TravelPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutParticipantsInput, Prisma.TravelPlanUncheckedCreateWithoutParticipantsInput>
+}
+
+export type TravelPlanUpsertWithoutParticipantsInput = {
+  update: Prisma.XOR<Prisma.TravelPlanUpdateWithoutParticipantsInput, Prisma.TravelPlanUncheckedUpdateWithoutParticipantsInput>
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutParticipantsInput, Prisma.TravelPlanUncheckedCreateWithoutParticipantsInput>
+  where?: Prisma.TravelPlanWhereInput
+}
+
+export type TravelPlanUpdateToOneWithWhereWithoutParticipantsInput = {
+  where?: Prisma.TravelPlanWhereInput
+  data: Prisma.XOR<Prisma.TravelPlanUpdateWithoutParticipantsInput, Prisma.TravelPlanUncheckedUpdateWithoutParticipantsInput>
+}
+
+export type TravelPlanUpdateWithoutParticipantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTravelPlansNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutPlanNestedInput
+}
+
+export type TravelPlanUncheckedUpdateWithoutParticipantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutPlanNestedInput
+}
+
+export type TravelPlanCreateWithoutJoinRequestsInput = {
+  id?: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTravelPlansInput
+  participants?: Prisma.TravelPlanParticipantCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanUncheckedCreateWithoutJoinRequestsInput = {
+  id?: string
+  userId: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedCreateNestedManyWithoutPlanInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanCreateOrConnectWithoutJoinRequestsInput = {
+  where: Prisma.TravelPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedCreateWithoutJoinRequestsInput>
+}
+
+export type TravelPlanUpsertWithoutJoinRequestsInput = {
+  update: Prisma.XOR<Prisma.TravelPlanUpdateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedUpdateWithoutJoinRequestsInput>
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedCreateWithoutJoinRequestsInput>
+  where?: Prisma.TravelPlanWhereInput
+}
+
+export type TravelPlanUpdateToOneWithWhereWithoutJoinRequestsInput = {
+  where?: Prisma.TravelPlanWhereInput
+  data: Prisma.XOR<Prisma.TravelPlanUpdateWithoutJoinRequestsInput, Prisma.TravelPlanUncheckedUpdateWithoutJoinRequestsInput>
+}
+
+export type TravelPlanUpdateWithoutJoinRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTravelPlansNestedInput
+  participants?: Prisma.TravelPlanParticipantUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutPlanNestedInput
+}
+
+export type TravelPlanUncheckedUpdateWithoutJoinRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutPlanNestedInput
+}
+
+export type TravelPlanCreateWithoutReviewsInput = {
+  id?: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTravelPlansInput
+  participants?: Prisma.TravelPlanParticipantCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  userId: string
+  destination: string
+  startDate: Date | string
+  endDate: Date | string
+  budgetRange?: string | null
+  travelType: $Enums.TravelType
+  description?: string | null
+  visibility?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedCreateNestedManyWithoutPlanInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedCreateNestedManyWithoutPlanInput
+}
+
+export type TravelPlanCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.TravelPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutReviewsInput, Prisma.TravelPlanUncheckedCreateWithoutReviewsInput>
+}
+
+export type TravelPlanUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.TravelPlanUpdateWithoutReviewsInput, Prisma.TravelPlanUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.TravelPlanCreateWithoutReviewsInput, Prisma.TravelPlanUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.TravelPlanWhereInput
+}
+
+export type TravelPlanUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.TravelPlanWhereInput
+  data: Prisma.XOR<Prisma.TravelPlanUpdateWithoutReviewsInput, Prisma.TravelPlanUncheckedUpdateWithoutReviewsInput>
+}
+
+export type TravelPlanUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTravelPlansNestedInput
+  participants?: Prisma.TravelPlanParticipantUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUpdateManyWithoutPlanNestedInput
+}
+
+export type TravelPlanUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  destination?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  budgetRange?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelType?: Prisma.EnumTravelTypeFieldUpdateOperationsInput | $Enums.TravelType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedUpdateManyWithoutPlanNestedInput
+}
+
 export type TravelPlanCreateManyUserInput = {
   id?: string
   destination: string
@@ -588,6 +902,9 @@ export type TravelPlanUpdateWithoutUserInput = {
   visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  participants?: Prisma.TravelPlanParticipantUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutPlanNestedInput
 }
 
 export type TravelPlanUncheckedUpdateWithoutUserInput = {
@@ -601,6 +918,9 @@ export type TravelPlanUncheckedUpdateWithoutUserInput = {
   visibility?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  participants?: Prisma.TravelPlanParticipantUncheckedUpdateManyWithoutPlanNestedInput
+  joinRequests?: Prisma.TravelPlanJoinRequestUncheckedUpdateManyWithoutPlanNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 export type TravelPlanUncheckedUpdateManyWithoutUserInput = {
@@ -617,6 +937,53 @@ export type TravelPlanUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type TravelPlanCountOutputType
+ */
+
+export type TravelPlanCountOutputType = {
+  participants: number
+  joinRequests: number
+  reviews: number
+}
+
+export type TravelPlanCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  participants?: boolean | TravelPlanCountOutputTypeCountParticipantsArgs
+  joinRequests?: boolean | TravelPlanCountOutputTypeCountJoinRequestsArgs
+  reviews?: boolean | TravelPlanCountOutputTypeCountReviewsArgs
+}
+
+/**
+ * TravelPlanCountOutputType without action
+ */
+export type TravelPlanCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TravelPlanCountOutputType
+   */
+  select?: Prisma.TravelPlanCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TravelPlanCountOutputType without action
+ */
+export type TravelPlanCountOutputTypeCountParticipantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TravelPlanParticipantWhereInput
+}
+
+/**
+ * TravelPlanCountOutputType without action
+ */
+export type TravelPlanCountOutputTypeCountJoinRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TravelPlanJoinRequestWhereInput
+}
+
+/**
+ * TravelPlanCountOutputType without action
+ */
+export type TravelPlanCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
 
 export type TravelPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -631,6 +998,10 @@ export type TravelPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  participants?: boolean | Prisma.TravelPlan$participantsArgs<ExtArgs>
+  joinRequests?: boolean | Prisma.TravelPlan$joinRequestsArgs<ExtArgs>
+  reviews?: boolean | Prisma.TravelPlan$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.TravelPlanCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["travelPlan"]>
 
 export type TravelPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -680,6 +1051,10 @@ export type TravelPlanSelectScalar = {
 export type TravelPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "destination" | "startDate" | "endDate" | "budgetRange" | "travelType" | "description" | "visibility" | "createdAt" | "updatedAt", ExtArgs["result"]["travelPlan"]>
 export type TravelPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  participants?: boolean | Prisma.TravelPlan$participantsArgs<ExtArgs>
+  joinRequests?: boolean | Prisma.TravelPlan$joinRequestsArgs<ExtArgs>
+  reviews?: boolean | Prisma.TravelPlan$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.TravelPlanCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TravelPlanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -692,6 +1067,9 @@ export type $TravelPlanPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "TravelPlan"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    participants: Prisma.$TravelPlanParticipantPayload<ExtArgs>[]
+    joinRequests: Prisma.$TravelPlanJoinRequestPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1100,6 +1478,9 @@ readonly fields: TravelPlanFieldRefs;
 export interface Prisma__TravelPlanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  participants<T extends Prisma.TravelPlan$participantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TravelPlan$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TravelPlanParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  joinRequests<T extends Prisma.TravelPlan$joinRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TravelPlan$joinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TravelPlanJoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.TravelPlan$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TravelPlan$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1533,6 +1914,78 @@ export type TravelPlanDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many TravelPlans to delete.
    */
   limit?: number
+}
+
+/**
+ * TravelPlan.participants
+ */
+export type TravelPlan$participantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TravelPlanParticipant
+   */
+  select?: Prisma.TravelPlanParticipantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TravelPlanParticipant
+   */
+  omit?: Prisma.TravelPlanParticipantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TravelPlanParticipantInclude<ExtArgs> | null
+  where?: Prisma.TravelPlanParticipantWhereInput
+  orderBy?: Prisma.TravelPlanParticipantOrderByWithRelationInput | Prisma.TravelPlanParticipantOrderByWithRelationInput[]
+  cursor?: Prisma.TravelPlanParticipantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TravelPlanParticipantScalarFieldEnum | Prisma.TravelPlanParticipantScalarFieldEnum[]
+}
+
+/**
+ * TravelPlan.joinRequests
+ */
+export type TravelPlan$joinRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TravelPlanJoinRequest
+   */
+  select?: Prisma.TravelPlanJoinRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TravelPlanJoinRequest
+   */
+  omit?: Prisma.TravelPlanJoinRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TravelPlanJoinRequestInclude<ExtArgs> | null
+  where?: Prisma.TravelPlanJoinRequestWhereInput
+  orderBy?: Prisma.TravelPlanJoinRequestOrderByWithRelationInput | Prisma.TravelPlanJoinRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TravelPlanJoinRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TravelPlanJoinRequestScalarFieldEnum | Prisma.TravelPlanJoinRequestScalarFieldEnum[]
+}
+
+/**
+ * TravelPlan.reviews
+ */
+export type TravelPlan$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

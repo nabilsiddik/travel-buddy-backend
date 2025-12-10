@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   TravelPlan: 'TravelPlan',
+  TravelPlanParticipant: 'TravelPlanParticipant',
+  TravelPlanJoinRequest: 'TravelPlanJoinRequest',
   Review: 'Review',
   Payment: 'Payment',
   Subscription: 'Subscription'
@@ -113,14 +115,34 @@ export const TravelPlanScalarFieldEnum = {
 export type TravelPlanScalarFieldEnum = (typeof TravelPlanScalarFieldEnum)[keyof typeof TravelPlanScalarFieldEnum]
 
 
+export const TravelPlanParticipantScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  userId: 'userId',
+  joinedAt: 'joinedAt'
+} as const
+
+export type TravelPlanParticipantScalarFieldEnum = (typeof TravelPlanParticipantScalarFieldEnum)[keyof typeof TravelPlanParticipantScalarFieldEnum]
+
+
+export const TravelPlanJoinRequestScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  requesterId: 'requesterId',
+  status: 'status'
+} as const
+
+export type TravelPlanJoinRequestScalarFieldEnum = (typeof TravelPlanJoinRequestScalarFieldEnum)[keyof typeof TravelPlanJoinRequestScalarFieldEnum]
+
+
 export const ReviewScalarFieldEnum = {
   id: 'id',
   reviewerId: 'reviewerId',
-  receiverId: 'receiverId',
+  targetUserId: 'targetUserId',
+  planId: 'planId',
   rating: 'rating',
   comment: 'comment',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
