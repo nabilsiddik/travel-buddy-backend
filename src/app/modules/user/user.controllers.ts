@@ -6,6 +6,7 @@ import { userFilterableFields } from "./user.constants";
 import { StatusCodes } from "http-status-codes";
 import { pickQueries } from "@/app/utils/pickQueries";
 import { JWTPayload } from "@/app/interfaces";
+import AppError from "@/app/errorHelpers/appError";
 
 // Create user
 const createUser = catchAsync(async (req: Request, res: Response) => {
@@ -22,8 +23,8 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 
 // Get all users from database
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const filters =  pickQueries(req.query, userFilterableFields)
-  const options =  pickQueries(req.query, ['page', 'limit', 'sortBy', 'sortOrder'])
+  const filters = pickQueries(req.query, userFilterableFields)
+  const options = pickQueries(req.query, ['page', 'limit', 'sortBy', 'sortOrder'])
 
   const result = await UserServices.getAllUsers(filters, options);
 
@@ -39,20 +40,38 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 // Get user profile info
 const getMyProfile = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
 
-    const user = req.user;
+  const user = req.user;
 
-    const result = await UserServices.getMyProfile(user as JWTPayload);
+  const result = await UserServices.getMyProfile(user as JWTPayload);
 
-    sendResponse(res, {
-        statusCode: StatusCodes.OK,
-        success: true,
-        message: "My profile data fetched!",
-        data: result
-    })
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "My profile data fetched!",
+    data: result
+  })
+});
+
+
+// Update user profile
+export const updateUser = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
+  const userId = req.user?.id;
+
+  if (!userId) throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
+
+  const result = await UserServices.updateUser(userId, req);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "User profile updated successfully",
+    data: result,
+  });
 });
 
 export const UserControllers = {
-    createUser,
-    getAllUsers,
-    getMyProfile
+  createUser,
+  getAllUsers,
+  getMyProfile,
+  updateUser
 }

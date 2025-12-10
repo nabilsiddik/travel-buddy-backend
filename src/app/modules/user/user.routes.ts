@@ -18,12 +18,21 @@ userRouter.get(
     UserControllers.getMyProfile
 )
 
-
 // Ceate patient route
 userRouter.post('/create-user',
      fileUploader.upload.single('file'),
      validateRequest(UserValidation.createUserSchema),
      UserControllers.createUser
 )
+
+// Update user
+userRouter.patch(
+  "/update-user",
+  checkAuth(),
+  fileUploader.upload.single("file"),
+  validateRequest(UserValidation.updateUserZodSchema),
+  UserControllers.updateUser
+);
+
 
 export default userRouter

@@ -13,7 +13,7 @@ import { UserRole, UserStatus } from "@/generated/prisma/enums"
 
 // Create user
 const createUser = async (req: Request) => {
-    const { name, email, password, bio, currentLocation, interests, visitedCountries, gender } = req.body
+    const { name, email, password, bio, currentLocation, visitedCountries, gender } = req.body
 
     let uploadedResult
     if (req?.file) {
@@ -44,7 +44,7 @@ const createUser = async (req: Request) => {
         }
     })
 
-    const {password: userPassword, ...rest} = createdUser
+    const { password: userPassword, ...rest } = createdUser
 
     return rest
 }
@@ -67,7 +67,7 @@ const getAllUsers = async (params: any, options: any) => {
         })
     }
 
-    if(Object.keys(filterData).length > 0){
+    if (Object.keys(filterData).length > 0) {
         andConditions.push({
             AND: Object.keys(filterData).map((key) => ({
                 [key]: {
@@ -136,9 +136,46 @@ const getMyProfile = async (user: JWTPayload) => {
 
 };
 
+// Update user
+const updateUser = async (userId: string, req: Request) => {
+    const { name, bio, currentLocation, visitedCountries, interests } = req.body
+
+    const user = await prisma.user.findUniqueOrThrow({
+        where: {id: userId}
+    })
+
+    let uploadedResult
+    if (req?.file) {
+        uploadedResult = await fileUploader.uploadToCloudinary(req.file)
+    }
+
+    const interestsArray = interests?.toString()
+    .split(",")
+    .map((i: any) => i.trim()).filter(Boolean) || []
+
+    const visitedCountriesArray = visitedCountries?.toString()
+    .split(",")
+    .map((i: any) => i.trim()).filter(Boolean) || []
+
+    const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: {
+            name,
+            bio,
+            currentLocation,
+            interests: interestsArray,
+            visitedCountries: visitedCountriesArray,
+            profileImage: uploadedResult?.secure_url || user?.profileImage,
+        }
+    });
+
+    return updatedUser;
+};
+
 
 export const UserServices = {
     createUser,
     getAllUsers,
-    getMyProfile
+    getMyProfile,
+    updateUser
 }

@@ -55,17 +55,9 @@ const getMe = async (session: any) => {
         }
     })
 
-    const { id, name, email, role, status, profileImage, verifiedBadge } = userData;
+    const { password, ...rest } = userData;
 
-    return {
-        id,
-        name,
-        email,
-        profileImage,
-        role,
-        status,
-        verifiedBadge
-    }
+    return rest
 
 }
 
