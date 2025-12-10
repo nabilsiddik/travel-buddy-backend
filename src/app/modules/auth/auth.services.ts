@@ -55,7 +55,7 @@ const getMe = async (session: any) => {
         }
     })
 
-    const { id, name, email, role, status, profileImage } = userData;
+    const { id, name, email, role, status, profileImage, verifiedBadge } = userData;
 
     return {
         id,
@@ -63,7 +63,8 @@ const getMe = async (session: any) => {
         email,
         profileImage,
         role,
-        status
+        status,
+        verifiedBadge
     }
 
 }

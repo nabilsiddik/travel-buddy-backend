@@ -139,11 +139,13 @@ const getTravelPlanById = async (id: string) => {
 
 // Get my own plans
 const getMyTravelPlans = async (user: JwtPayload) => {
-    return await prisma.travelPlan.findMany({
+    const result = await prisma.travelPlan.findMany({
         where: {
             userId: user.id
         }
     })
+
+    return result
 }
 
 
