@@ -59,7 +59,7 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
 // Get all plans with filter, seach and pagination
 const getAllTravelPlans = async (params: any, options: any) => {
     const { page, limit, skip, sortOrder, sortBy } = calculatePagination(options)
-    const { searchTerm, ...filterData } = params
+    const { searchTerm, travelType, ...filterData } = params
 
     const andConditions: TravelPlanWhereInput[] = []
 
@@ -99,7 +99,10 @@ const getAllTravelPlans = async (params: any, options: any) => {
         andConditions.push({ endDate: { lte: new Date(rawEnd) } });
     }
 
-
+    // Handle travelType filter
+    if (travelType && travelType !== "ALL") {
+        andConditions.push({ travelType: { equals: travelType } });
+    }
 
     // Filters
     if (Object.keys(filterData).length > 0) {
@@ -151,7 +154,7 @@ const getAllTravelPlans = async (params: any, options: any) => {
 // Get travel plan by id
 const getTravelPlanById = async (id: string) => {
     const result = await prisma.travelPlan.findUnique({
-        where: { id },
+        where: { id, isDeleted: false },
         include: {
             user: true,
         },
@@ -169,7 +172,8 @@ const getTravelPlanById = async (id: string) => {
 const getMyTravelPlans = async (user: JwtPayload) => {
     const result = await prisma.travelPlan.findMany({
         where: {
-            userId: user.id
+            userId: user.id,
+            isDeleted: false
         }
     })
 
@@ -215,8 +219,9 @@ const deleteTravelPlan = async (id: string, user: JwtPayload) => {
         throw new AppError(StatusCodes.FORBIDDEN, "You are not allowed to delete this plan.");
     }
 
-    await prisma.travelPlan.delete({
-        where: { id }
+    await prisma.travelPlan.update({
+        where: { id },
+        data: { isDeleted: true }
     });
 
     return { message: "Travel plan deleted successfully" };

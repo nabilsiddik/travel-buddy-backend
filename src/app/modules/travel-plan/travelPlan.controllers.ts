@@ -109,6 +109,8 @@ const deleteTravelPlan = catchAsync(async (req: Request & { user?: JWTPayload },
     const user = req.user
     const id = req.params.id
 
+    console.log(id, 'params id')
+
     if (!user) {
         throw new AppError(StatusCodes.UNAUTHORIZED, 'User not found')
     }

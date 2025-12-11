@@ -8,6 +8,9 @@ import { JWTPayload } from "@/app/interfaces";
 
 export const completeParticipant = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
   const { participantId } = req.body;
+
+  console.log(participantId, 'hellluuuuu')
+
   const userId = req?.user?.id;
 
   if (!userId) {

@@ -1,7 +1,7 @@
 import { checkAuth } from "@/app/middlewares/checkAuth";
 import { UserRole } from "@/generated/prisma/enums";
 import { Router } from "express";
-import { acceptRequest, cancelRequest, createPlanReview, listPlanParticipants, listPlanRequests, rejectRequest, sendRequest, TravelPlanRequestControllers } from "./travelPlanJoin.controllers";
+import { acceptRequest, cancelRequest, listPlanParticipants, listPlanRequests, rejectRequest, sendRequest, TravelPlanRequestControllers } from "./travelPlanJoin.controllers";
 
 
 const joinRequestRouter = Router();

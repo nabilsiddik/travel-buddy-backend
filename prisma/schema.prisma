@@ -99,6 +99,7 @@ model TravelPlan {
   travelType  TravelType
   description String?
   visibility  Boolean @default(true)
+  isDeleted Boolean @default(false)
 
   // Relations
   user         User                   @relation("UserTravelPlans", fields: [userId], references: [id])

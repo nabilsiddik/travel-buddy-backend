@@ -999,6 +999,7 @@ export const TravelPlanScalarFieldEnum = {
   travelType: 'travelType',
   description: 'description',
   visibility: 'visibility',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

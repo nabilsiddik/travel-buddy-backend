@@ -113,7 +113,15 @@ export const getJoinRequestsForMyPlans = async (userId: string) => {
           startDate: true,
           endDate: true,
         },
+        include: {
+          participants: {
+            include: {
+              user: true,
+            },
+          },
+        },
       },
+      
     },
   });
 
