@@ -80,6 +80,40 @@ export const getPlanParticipants = async (planId: string) => {
     });
 };
 
+// get my plan requests
+export const getJoinRequestsForMyPlans = async (userId: string) => {
+  const requests = await prisma.travelPlanJoinRequest.findMany({
+    where: {
+      plan: {
+        userId: userId,
+      }
+    },
+    include: {
+      requester: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileImage: true,
+        },
+      },
+      plan: {
+        select: {
+          id: true,
+          destination: true,
+          startDate: true,
+          endDate: true,
+        },
+      },
+    },
+    // orderBy: {
+    //   createdAt: "desc",
+    // },
+  });
+
+  return requests || [];
+}
+
 // Create a review (after travel ends)
 export const createReview = async (reviewerId: string, targetUserId: string, planId: string, rating: number, comment?: string) => {
 
@@ -100,3 +134,8 @@ export const createReview = async (reviewerId: string, targetUserId: string, pla
         data: { reviewerId, targetUserId, planId, rating, comment }
     });
 };
+
+
+export const TravelPlanRequestServices = {
+    getJoinRequestsForMyPlans
+}

@@ -5,6 +5,7 @@ import { sendResponse } from "@/app/utils/userResponse";
 import { JWTPayload } from "@/app/interfaces";
 import AppError from "@/app/errorHelpers/appError";
 import { StatusCodes } from "http-status-codes";
+import { TravelPlanServices } from "../travel-plan/travelPlan.services";
 
 export const sendRequest = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
     const { planId } = req.body;
@@ -75,6 +76,25 @@ export const createPlanReview = catchAsync(async (req: Request & { user?: JWTPay
     }
 
     const data = await service.createReview(reviewerId, targetUserId, planId, rating, comment);
-    
+
     sendResponse(res, { statusCode: 201, success: true, message: "Review created", data });
 });
+
+
+// Get plan requests for my plans
+export const getJoinRequestsForMyPlans = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const userId = req?.user?.id;
+
+    if (!userId) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
+    }
+
+    const requests = await service.TravelPlanRequestServices.getJoinRequestsForMyPlans(userId);
+
+    sendResponse(res, { statusCode: 201, success: true, message: "Review created", data: requests });
+});
+
+
+export const TravelPlanRequestControllers = {
+    getJoinRequestsForMyPlans
+}
