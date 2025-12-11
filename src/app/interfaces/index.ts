@@ -1,5 +1,6 @@
 export interface JWTPayload {
     id: string
     email: string,
-    role: string
+    role: string,
+    verifiedBadge: boolean
 }

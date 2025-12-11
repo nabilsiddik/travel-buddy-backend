@@ -24,14 +24,14 @@ const userLogin = async (payload: userLoginInput) => {
 
     // Generate access Token
     const accessToken = generateJwtToken(
-        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id},
+        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id, verifiedBadge: existingUser?.verifiedBadge || false},
         envVars.JWT.JWT_ACCESS_SECRET,
         envVars.JWT.JWT_ACCESS_EXPIRES as SignOptions["expiresIn"]
     )
 
     // Generate refresh Token
     const refreshToken = generateJwtToken(
-        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id},
+        {email: existingUser?.email, role: existingUser?.role, id: existingUser.id, verifiedBadge: existingUser?.verifiedBadge || false},
         envVars.JWT.JWT_REFRESH_SECRET,
         '30d'
     )
@@ -82,7 +82,8 @@ const refreshToken = async (token: string) => {
     const accessToken = generateJwtToken({
         email: userData.email,
         role: userData.role,
-        id: userData.id
+        id: userData.id,
+        verifiedBadge: userData?.verifiedBadge || false
     },
         envVars.JWT.JWT_ACCESS_SECRET as Secret,
         envVars.JWT.JWT_ACCESS_EXPIRES as SignOptions["expiresIn"]
