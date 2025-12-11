@@ -110,12 +110,20 @@ model TravelPlan {
   updatedAt DateTime @updatedAt
 }
 
+enum ParticipantStatus {
+  PENDING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
 model TravelPlanParticipant {
   id     String @id @default(uuid())
   planId String
   userId String
   joinedAt DateTime @default(now())
 
+  status ParticipantStatus @default(PENDING)
   plan TravelPlan @relation("PlanParticipants", fields: [planId], references: [id])
   user User         @relation("UserParticipants", fields: [userId], references: [id])
 

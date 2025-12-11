@@ -18,7 +18,6 @@ joinRequestRouter.get("/my-request", TravelPlanRequestControllers.getJoinRequest
 joinRequestRouter.get("/requests", listPlanRequests);
 joinRequestRouter.get("/participants", listPlanParticipants);
 
-
-joinRequestRouter.post("/review", createPlanReview);
+joinRequestRouter.get("/my-sent", TravelPlanRequestControllers.getMySentRequests);
 
 export default joinRequestRouter;

@@ -4,6 +4,8 @@ import travelPlanRouter from "../modules/travel-plan/travelPlan.routes";
 import userRouter from "../modules/user/user.routes";
 import subscriptionRouter from "../modules/subscription/subscription.routes";
 import joinRequestRouter from "../modules/travelPlan-join/travelPlanJoin.routes";
+import reviewRouter from "../modules/review/review.routes";
+import participantRouter from "../modules/travelParticipant/participant.router";
 
 
 export const router = Router()
@@ -28,6 +30,14 @@ const moduleRoutes = [
     {
         path: '/join-request',
         route: joinRequestRouter
+    },
+    {
+        path: '/review',
+        route: reviewRouter
+    },
+    {
+        path: '/participant',
+        route: participantRouter
     }
 ]
 

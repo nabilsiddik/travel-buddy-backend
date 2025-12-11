@@ -80,3 +80,13 @@ export const PlanType = {
 } as const
 
 export type PlanType = (typeof PlanType)[keyof typeof PlanType]
+
+
+export const ParticipantStatus = {
+  PENDING: 'PENDING',
+  ONGOING: 'ONGOING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type ParticipantStatus = (typeof ParticipantStatus)[keyof typeof ParticipantStatus]

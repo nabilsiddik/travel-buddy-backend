@@ -29,6 +29,7 @@ export type TravelPlanParticipantMinAggregateOutputType = {
   planId: string | null
   userId: string | null
   joinedAt: Date | null
+  status: $Enums.ParticipantStatus | null
 }
 
 export type TravelPlanParticipantMaxAggregateOutputType = {
@@ -36,6 +37,7 @@ export type TravelPlanParticipantMaxAggregateOutputType = {
   planId: string | null
   userId: string | null
   joinedAt: Date | null
+  status: $Enums.ParticipantStatus | null
 }
 
 export type TravelPlanParticipantCountAggregateOutputType = {
@@ -43,6 +45,7 @@ export type TravelPlanParticipantCountAggregateOutputType = {
   planId: number
   userId: number
   joinedAt: number
+  status: number
   _all: number
 }
 
@@ -52,6 +55,7 @@ export type TravelPlanParticipantMinAggregateInputType = {
   planId?: true
   userId?: true
   joinedAt?: true
+  status?: true
 }
 
 export type TravelPlanParticipantMaxAggregateInputType = {
@@ -59,6 +63,7 @@ export type TravelPlanParticipantMaxAggregateInputType = {
   planId?: true
   userId?: true
   joinedAt?: true
+  status?: true
 }
 
 export type TravelPlanParticipantCountAggregateInputType = {
@@ -66,6 +71,7 @@ export type TravelPlanParticipantCountAggregateInputType = {
   planId?: true
   userId?: true
   joinedAt?: true
+  status?: true
   _all?: true
 }
 
@@ -146,6 +152,7 @@ export type TravelPlanParticipantGroupByOutputType = {
   planId: string
   userId: string
   joinedAt: Date
+  status: $Enums.ParticipantStatus
   _count: TravelPlanParticipantCountAggregateOutputType | null
   _min: TravelPlanParticipantMinAggregateOutputType | null
   _max: TravelPlanParticipantMaxAggregateOutputType | null
@@ -174,6 +181,7 @@ export type TravelPlanParticipantWhereInput = {
   planId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   userId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   joinedAt?: Prisma.DateTimeFilter<"TravelPlanParticipant"> | Date | string
+  status?: Prisma.EnumParticipantStatusFilter<"TravelPlanParticipant"> | $Enums.ParticipantStatus
   plan?: Prisma.XOR<Prisma.TravelPlanScalarRelationFilter, Prisma.TravelPlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -183,6 +191,7 @@ export type TravelPlanParticipantOrderByWithRelationInput = {
   planId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   plan?: Prisma.TravelPlanOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -196,6 +205,7 @@ export type TravelPlanParticipantWhereUniqueInput = Prisma.AtLeast<{
   planId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   userId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   joinedAt?: Prisma.DateTimeFilter<"TravelPlanParticipant"> | Date | string
+  status?: Prisma.EnumParticipantStatusFilter<"TravelPlanParticipant"> | $Enums.ParticipantStatus
   plan?: Prisma.XOR<Prisma.TravelPlanScalarRelationFilter, Prisma.TravelPlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "planId_userId">
@@ -205,6 +215,7 @@ export type TravelPlanParticipantOrderByWithAggregationInput = {
   planId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   _count?: Prisma.TravelPlanParticipantCountOrderByAggregateInput
   _max?: Prisma.TravelPlanParticipantMaxOrderByAggregateInput
   _min?: Prisma.TravelPlanParticipantMinOrderByAggregateInput
@@ -218,11 +229,13 @@ export type TravelPlanParticipantScalarWhereWithAggregatesInput = {
   planId?: Prisma.StringWithAggregatesFilter<"TravelPlanParticipant"> | string
   userId?: Prisma.StringWithAggregatesFilter<"TravelPlanParticipant"> | string
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"TravelPlanParticipant"> | Date | string
+  status?: Prisma.EnumParticipantStatusWithAggregatesFilter<"TravelPlanParticipant"> | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateInput = {
   id?: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
   plan: Prisma.TravelPlanCreateNestedOneWithoutParticipantsInput
   user: Prisma.UserCreateNestedOneWithoutParticipantsInput
 }
@@ -232,11 +245,13 @@ export type TravelPlanParticipantUncheckedCreateInput = {
   planId: string
   userId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
   plan?: Prisma.TravelPlanUpdateOneRequiredWithoutParticipantsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutParticipantsNestedInput
 }
@@ -246,6 +261,7 @@ export type TravelPlanParticipantUncheckedUpdateInput = {
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateManyInput = {
@@ -253,11 +269,13 @@ export type TravelPlanParticipantCreateManyInput = {
   planId: string
   userId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUncheckedUpdateManyInput = {
@@ -265,6 +283,7 @@ export type TravelPlanParticipantUncheckedUpdateManyInput = {
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantListRelationFilter = {
@@ -287,6 +306,7 @@ export type TravelPlanParticipantCountOrderByAggregateInput = {
   planId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type TravelPlanParticipantMaxOrderByAggregateInput = {
@@ -294,6 +314,7 @@ export type TravelPlanParticipantMaxOrderByAggregateInput = {
   planId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type TravelPlanParticipantMinOrderByAggregateInput = {
@@ -301,6 +322,7 @@ export type TravelPlanParticipantMinOrderByAggregateInput = {
   planId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type TravelPlanParticipantCreateNestedManyWithoutUserInput = {
@@ -387,9 +409,14 @@ export type TravelPlanParticipantUncheckedUpdateManyWithoutPlanNestedInput = {
   deleteMany?: Prisma.TravelPlanParticipantScalarWhereInput | Prisma.TravelPlanParticipantScalarWhereInput[]
 }
 
+export type EnumParticipantStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ParticipantStatus
+}
+
 export type TravelPlanParticipantCreateWithoutUserInput = {
   id?: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
   plan: Prisma.TravelPlanCreateNestedOneWithoutParticipantsInput
 }
 
@@ -397,6 +424,7 @@ export type TravelPlanParticipantUncheckedCreateWithoutUserInput = {
   id?: string
   planId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateOrConnectWithoutUserInput = {
@@ -433,11 +461,13 @@ export type TravelPlanParticipantScalarWhereInput = {
   planId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   userId?: Prisma.StringFilter<"TravelPlanParticipant"> | string
   joinedAt?: Prisma.DateTimeFilter<"TravelPlanParticipant"> | Date | string
+  status?: Prisma.EnumParticipantStatusFilter<"TravelPlanParticipant"> | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateWithoutPlanInput = {
   id?: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
   user: Prisma.UserCreateNestedOneWithoutParticipantsInput
 }
 
@@ -445,6 +475,7 @@ export type TravelPlanParticipantUncheckedCreateWithoutPlanInput = {
   id?: string
   userId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateOrConnectWithoutPlanInput = {
@@ -477,11 +508,13 @@ export type TravelPlanParticipantCreateManyUserInput = {
   id?: string
   planId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
   plan?: Prisma.TravelPlanUpdateOneRequiredWithoutParticipantsNestedInput
 }
 
@@ -489,23 +522,27 @@ export type TravelPlanParticipantUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantCreateManyPlanInput = {
   id?: string
   userId: string
   joinedAt?: Date | string
+  status?: $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUpdateWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
   user?: Prisma.UserUpdateOneRequiredWithoutParticipantsNestedInput
 }
 
@@ -513,12 +550,14 @@ export type TravelPlanParticipantUncheckedUpdateWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 export type TravelPlanParticipantUncheckedUpdateManyWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumParticipantStatusFieldUpdateOperationsInput | $Enums.ParticipantStatus
 }
 
 
@@ -528,6 +567,7 @@ export type TravelPlanParticipantSelect<ExtArgs extends runtime.Types.Extensions
   planId?: boolean
   userId?: boolean
   joinedAt?: boolean
+  status?: boolean
   plan?: boolean | Prisma.TravelPlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["travelPlanParticipant"]>
@@ -537,6 +577,7 @@ export type TravelPlanParticipantSelectCreateManyAndReturn<ExtArgs extends runti
   planId?: boolean
   userId?: boolean
   joinedAt?: boolean
+  status?: boolean
   plan?: boolean | Prisma.TravelPlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["travelPlanParticipant"]>
@@ -546,6 +587,7 @@ export type TravelPlanParticipantSelectUpdateManyAndReturn<ExtArgs extends runti
   planId?: boolean
   userId?: boolean
   joinedAt?: boolean
+  status?: boolean
   plan?: boolean | Prisma.TravelPlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["travelPlanParticipant"]>
@@ -555,9 +597,10 @@ export type TravelPlanParticipantSelectScalar = {
   planId?: boolean
   userId?: boolean
   joinedAt?: boolean
+  status?: boolean
 }
 
-export type TravelPlanParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "userId" | "joinedAt", ExtArgs["result"]["travelPlanParticipant"]>
+export type TravelPlanParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "userId" | "joinedAt" | "status", ExtArgs["result"]["travelPlanParticipant"]>
 export type TravelPlanParticipantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   plan?: boolean | Prisma.TravelPlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -582,6 +625,7 @@ export type $TravelPlanParticipantPayload<ExtArgs extends runtime.Types.Extensio
     planId: string
     userId: string
     joinedAt: Date
+    status: $Enums.ParticipantStatus
   }, ExtArgs["result"]["travelPlanParticipant"]>
   composites: {}
 }
@@ -1011,6 +1055,7 @@ export interface TravelPlanParticipantFieldRefs {
   readonly planId: Prisma.FieldRef<"TravelPlanParticipant", 'String'>
   readonly userId: Prisma.FieldRef<"TravelPlanParticipant", 'String'>
   readonly joinedAt: Prisma.FieldRef<"TravelPlanParticipant", 'DateTime'>
+  readonly status: Prisma.FieldRef<"TravelPlanParticipant", 'ParticipantStatus'>
 }
     
 

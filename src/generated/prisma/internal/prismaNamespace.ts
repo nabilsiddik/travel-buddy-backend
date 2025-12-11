@@ -1010,7 +1010,8 @@ export const TravelPlanParticipantScalarFieldEnum = {
   id: 'id',
   planId: 'planId',
   userId: 'userId',
-  joinedAt: 'joinedAt'
+  joinedAt: 'joinedAt',
+  status: 'status'
 } as const
 
 export type TravelPlanParticipantScalarFieldEnum = (typeof TravelPlanParticipantScalarFieldEnum)[keyof typeof TravelPlanParticipantScalarFieldEnum]
@@ -1187,6 +1188,20 @@ export type EnumTravelTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'TravelType[]'
  */
 export type ListEnumTravelTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TravelType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ParticipantStatus'
+ */
+export type EnumParticipantStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ParticipantStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ParticipantStatus[]'
+ */
+export type ListEnumParticipantStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ParticipantStatus[]'>
     
 
 

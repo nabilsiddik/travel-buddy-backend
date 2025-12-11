@@ -26,7 +26,7 @@ const userLogin = async (payload: userLoginInput) => {
     const accessToken = generateJwtToken(
         {email: existingUser?.email, role: existingUser?.role, id: existingUser.id},
         envVars.JWT.JWT_ACCESS_SECRET,
-        '1h'
+        envVars.JWT.JWT_ACCESS_EXPIRES as SignOptions["expiresIn"]
     )
 
     // Generate refresh Token

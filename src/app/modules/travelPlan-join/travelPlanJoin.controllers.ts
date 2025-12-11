@@ -66,20 +66,6 @@ export const listPlanParticipants = catchAsync(async (req: Request, res: Respons
     sendResponse(res, { statusCode: 200, success: true, message: "Participants fetched", data });
 });
 
-export const createPlanReview = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
-    const { targetUserId, planId, rating, comment } = req.body;
-
-    const reviewerId = req?.user?.id;
-
-    if (!reviewerId) {
-        throw new AppError(StatusCodes.NOT_FOUND, 'requester id not found')
-    }
-
-    const data = await service.createReview(reviewerId, targetUserId, planId, rating, comment);
-
-    sendResponse(res, { statusCode: 201, success: true, message: "Review created", data });
-});
-
 
 // Get plan requests for my plans
 export const getJoinRequestsForMyPlans = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
@@ -91,10 +77,29 @@ export const getJoinRequestsForMyPlans = catchAsync(async (req: Request & { user
 
     const requests = await service.TravelPlanRequestServices.getJoinRequestsForMyPlans(userId);
 
-    sendResponse(res, { statusCode: 201, success: true, message: "Review created", data: requests });
+    sendResponse(res, { statusCode: 201, success: true, message: "Join request retrive", data: requests });
+});
+
+// my sent request
+export const getMySentRequests = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
+    const userId = req?.user?.id;
+
+    if(!userId){
+        throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
+    }
+
+    const data = await service.TravelPlanRequestServices.getMySentRequests(userId);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "My sent join requests retrieved",
+        data
+    });
 });
 
 
 export const TravelPlanRequestControllers = {
-    getJoinRequestsForMyPlans
+    getJoinRequestsForMyPlans,
+    getMySentRequests
 }
