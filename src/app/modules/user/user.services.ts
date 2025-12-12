@@ -120,6 +120,45 @@ const getUserById = async (id: string) => {
 };
 
 
+// get top rated user
+const getTopRatedUsers = async () => {
+  const topUsers = await prisma.review.groupBy({
+    by: ['targetUserId'],
+    _avg: {
+      rating: true,
+    },
+    orderBy: {
+      _avg: {
+        rating: 'desc',
+      },
+    },
+    take: 4,
+  });
+
+  const users = await prisma.user.findMany({
+    where: {
+      id: { in: topUsers.map((user) => user.targetUserId) },
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      profileImage: true,
+    },
+  });
+
+  const topRatedUsers = topUsers.map((userGroup) => {
+    const user = users.find((user) => user.id === userGroup.targetUserId);
+    return {
+      ...user,
+      averageRating: userGroup._avg.rating, 
+    };
+  });
+
+  return topRatedUsers;
+};
+
+
 // Get profile info
 const getMyProfile = async (user: JWTPayload) => {
     const userInfo = await prisma.user.findUniqueOrThrow({
@@ -194,5 +233,6 @@ export const UserServices = {
     getAllUsers,
     getMyProfile,
     updateUser,
-    getUserById
+    getUserById,
+    getTopRatedUsers
 }

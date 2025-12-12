@@ -19,6 +19,11 @@ userRouter.get(
     UserControllers.getMyProfile
 )
 
+userRouter.get(
+    '/top-rated',
+    UserControllers.topRatedUsers
+)
+
 // Ceate patient route
 userRouter.post('/create-user',
      fileUploader.upload.single('file'),

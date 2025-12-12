@@ -51,6 +51,20 @@ const getUserById = async (req: Request, res: Response) => {
 };
 
 
+// get top rated users
+export const topRatedUsers = catchAsync(async (req: Request, res: Response) => {
+
+  const topRatedUsers = await UserServices.getTopRatedUsers()
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Top rated users retrived",
+    data: topRatedUsers,
+  });
+});
+
+
 // Get user profile info
 const getMyProfile = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
 
@@ -88,5 +102,6 @@ export const UserControllers = {
   getAllUsers,
   getMyProfile,
   updateUser,
-  getUserById
+  getUserById,
+  topRatedUsers
 }
