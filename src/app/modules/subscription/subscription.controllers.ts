@@ -4,10 +4,10 @@ import type { JWTPayload } from "../../interfaces/index.js";
 import AppError from "../../errorHelpers/appError.js";
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.config.js";
-import { stripe, SubscriptionServices } from "./subscription.services.js";
+import { SubscriptionServices } from "./subscription.services.js";
 import { sendResponse } from "../../utils/userResponse.js";
 import { envVars } from "../../config/env.config.js";
-import type Stripe from "stripe";
+import Stripe from "stripe";
 
 
 
@@ -89,10 +89,15 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
     const webhookSecret = envVars.STRIPE.STRIPE_WEBHOOK_SECRET
     console.log('stripe web hook is running ...')
 
+    console.log({
+        webhookSecret
+    })
+
     const sig = req.headers['stripe-signature']!;
     let event: Stripe.Event;
 
     try {
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-11-17.clover" });
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret!);
     } catch (err: any) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -163,6 +168,7 @@ const verifySession = catchAsync(async (req: Request & { user?: JWTPayload }, re
         throw new AppError(StatusCodes.BAD_REQUEST, 'No session id found')
     }
 
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-11-17.clover" });
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
         expand: ["subscription"]
     });

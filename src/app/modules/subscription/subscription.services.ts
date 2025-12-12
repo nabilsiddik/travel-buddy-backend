@@ -1,29 +1,79 @@
 import Stripe from 'stripe';
 import { envVars } from '../../config/env.config.js';
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-11-17.clover" });
+
+
+const getStripeInstance = () => {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is not defined in environment variables');
+  }
+  return new Stripe(secretKey, { apiVersion: "2025-11-17.clover" });
+};
 
 export const createStripeCustomer = async (email: string) => {
-  const customer = await stripe.customers.create({ email });
-  return customer.id;
+
+  if (!email) {
+    throw new Error('Email is required to create a Stripe customer');
+  }
+
+  const stripe = getStripeInstance();
+
+  try {
+    const customer = await stripe.customers.create({ email });
+    console.log('Stripe customer created:', customer.id);
+    return customer.id;
+  } catch (err: any) {
+    console.error('Error creating Stripe customer:', err.message);
+    throw new Error('Failed to create Stripe customer');
+  }
 }
 
 export const createCheckoutSession = async (customerId: string, plan: 'monthly' | 'yearly') => {
 
-  const priceId = plan === 'monthly' ? envVars.STRIPE.STRIPE_PRICE_MONTHLY : envVars.STRIPE.STRIPE_PRICE_YEARLY
+  if (!customerId) {
+    throw new Error('Customer ID is required to create a checkout session');
+  }
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    customer: customerId,
-    payment_method_types: ['card'],
-    line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.CLIENT_URL}/subscription-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.CLIENT_URL}/subscription-cancelled`,
+  const stripe = getStripeInstance();
+
+  const priceId =
+    plan === 'monthly'
+      ? envVars.STRIPE.STRIPE_PRICE_MONTHLY
+      : envVars.STRIPE.STRIPE_PRICE_YEARLY;
+
+
+  console.log({
+    priceId,
+    secretKey: process.env.STRIPE_SECRET_KEY
   })
 
-  return session;
+   if (!priceId) {
+    throw new Error(`Stripe price ID for plan "${plan}" is not defined in envVars`);
+  }
+
+  console.log('Creating checkout session with:', { customerId, plan, priceId });
+
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      customer: customerId,
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${process.env.CLIENT_URL}/subscription-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_URL}/subscription-cancelled`,
+    });
+
+    console.log('Checkout session created:', session.id);
+
+    return session;
+  } catch (err: any) {
+    console.error('Error creating checkout session:', err.message);
+    throw new Error('Failed to create Stripe checkout session');
+  }
 }
 
 export const SubscriptionServices = {
-    createStripeCustomer,
-    createCheckoutSession
+  createStripeCustomer,
+  createCheckoutSession
 }
