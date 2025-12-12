@@ -1,7 +1,7 @@
 # Travel Buddy - Backend
 
 ## Live URL
-Currently running locally at: `http://localhost:5000`  
+Currently running locally at: `https://travel-buddy-backend-p2ok.onrender.com/`  
 (Replace with your deployed backend URL once available)
 
 **Travel Buddy** is a modern, responsive, and interactive web application built with Node js, express js, typescript, postgreSQL, prisma. It allows users to explore travel plans, join trips, leave reviews, and manage their profile seamlessly.

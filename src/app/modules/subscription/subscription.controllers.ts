@@ -22,7 +22,7 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
 
     try {
         const user = await prisma.user.findUnique({
-            where: { id: userId, status: 'ACTIVE' },
+            where: { id: userId },
             include: { subscription: true }
         });
 
@@ -69,7 +69,7 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
 
     } catch (err) {
         console.error('Error occurred in creating subscription session:', err);
-        
+
         if (err instanceof AppError) {
             res.status(err.statusCode).json({ message: err.message });
         } else {
