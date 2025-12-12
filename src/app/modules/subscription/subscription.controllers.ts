@@ -16,6 +16,11 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
     const userId = req?.user?.id;
     const { plan } = req.body;
 
+    console.log({
+        userId,
+        plan
+    })
+
     if (!userId) {
         throw new AppError(StatusCodes.UNAUTHORIZED, 'User id not found');
     }
