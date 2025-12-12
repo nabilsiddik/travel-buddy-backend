@@ -21,6 +21,8 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
         plan
     })
 
+
+
     if (!userId) {
         throw new AppError(StatusCodes.UNAUTHORIZED, 'User id not found');
     }
@@ -65,6 +67,10 @@ const createSubscriptionSession = catchAsync(async (req: Request & { user?: JWTP
         // Create a checkout session for the user
         const session = await SubscriptionServices.createCheckoutSession(customerId, plan);
 
+        console.log({
+            url: session.url
+        })
+
         sendResponse(res, {
             statusCode: 201,
             success: true,
@@ -89,9 +95,6 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
     const webhookSecret = envVars.STRIPE.STRIPE_WEBHOOK_SECRET
     console.log('stripe web hook is running ...')
 
-    console.log({
-        webhookSecret
-    })
 
     const sig = req.headers['stripe-signature']!;
     let event: Stripe.Event;
@@ -112,7 +115,6 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
             // Update subscription in DB
             const sub = await prisma.subscription.findUnique({ where: { stripeCustomerId: customerId as string } });
 
-            console.log(sub, 'my sub')
 
             if (sub) {
                 await prisma.subscription.update({
@@ -121,7 +123,6 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
                 });
                 await prisma.user.update({ where: { id: sub.userId }, data: { verifiedBadge: true } });
 
-                console.log('completed')
             }
             break;
 
@@ -147,7 +148,6 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
                     data: { verifiedBadge: updatedSub.status === 'active' },
                 })
 
-                console.log('failed')
             }
             break;
     }

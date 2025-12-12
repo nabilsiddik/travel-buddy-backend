@@ -10,7 +10,6 @@ import { sendResponse } from "../../utils/userResponse.js";
 export const completeParticipant = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
   const { participantId } = req.body;
 
-  console.log(participantId, 'hellluuuuu')
 
   const userId = req?.user?.id;
 

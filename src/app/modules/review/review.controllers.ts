@@ -12,7 +12,6 @@ import { sendResponse } from "../../utils/userResponse.js";
 export const createPlanReview = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
     const { targetUserId, planId, rating, comment } = req.body;
 
-    console.log({ targetUserId, planId, rating, comment })
 
     const reviewerId = req?.user?.id;
 

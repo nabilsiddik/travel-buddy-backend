@@ -9,6 +9,8 @@ export const checkAuth = (...roles: string[]) => {
         try {
             const token = req.cookies.accessToken
 
+            console.log(token, 'my tokeeen')
+
             if (!token) {
                 throw new Error('Token not found')
             }

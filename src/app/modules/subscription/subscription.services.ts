@@ -20,7 +20,6 @@ export const createStripeCustomer = async (email: string) => {
 
   try {
     const customer = await stripe.customers.create({ email });
-    console.log('Stripe customer created:', customer.id);
     return customer.id;
   } catch (err: any) {
     console.error('Error creating Stripe customer:', err.message);
@@ -42,16 +41,11 @@ export const createCheckoutSession = async (customerId: string, plan: 'monthly' 
       : envVars.STRIPE.STRIPE_PRICE_YEARLY;
 
 
-  console.log({
-    priceId,
-    secretKey: process.env.STRIPE_SECRET_KEY
-  })
 
    if (!priceId) {
     throw new Error(`Stripe price ID for plan "${plan}" is not defined in envVars`);
   }
 
-  console.log('Creating checkout session with:', { customerId, plan, priceId });
 
 
   try {
@@ -64,7 +58,6 @@ export const createCheckoutSession = async (customerId: string, plan: 'monthly' 
       cancel_url: `${process.env.CLIENT_URL}/subscription-cancelled`,
     });
 
-    console.log('Checkout session created:', session.id);
 
     return session;
   } catch (err: any) {
