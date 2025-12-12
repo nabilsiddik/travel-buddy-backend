@@ -15,7 +15,7 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), SubscriptionC
 app.set('trust proxy', 1)
 app.use(express.json())
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://travel-buddy-frontend-six.vercel.app'],
     credentials: true
 }))
 app.use(cookieParser())
