@@ -5,9 +5,15 @@ import { envVars } from "../config/env.config.js"
 
 
 export const checkAuth = (...roles: string[]) => {
-    return async (req: Request & {user?: JWTPayload}, res: Response, next: NextFunction) => {
+    return async (req: Request & { user?: JWTPayload }, res: Response, next: NextFunction) => {
         try {
-            const token = req.cookies.accessToken
+            const authHeader = req.headers.authorization;
+
+            if (!authHeader || !authHeader.startsWith("Bearer ")) {
+                throw new Error("Token not found");
+            }
+
+            const token = authHeader.split(" ")[1];
 
             console.log(token, 'my tokeeen')
 
@@ -23,13 +29,13 @@ export const checkAuth = (...roles: string[]) => {
 
             req.user = verifiedToken
 
-            if(roles.length && !roles.includes(verifiedToken.role)){
+            if (roles.length && !roles.includes(verifiedToken.role)) {
                 throw new Error('You are not authorized')
             }
 
             next()
 
-        }catch(err: unknown){
+        } catch (err: unknown) {
             next(err)
         }
     }
