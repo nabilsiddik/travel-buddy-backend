@@ -1,10 +1,10 @@
 import { Router } from "express"
-import { TravelPlanValidation } from "./travelPlan.validations"
-import { TravelPlanControllers } from "./travelPlan.controllers"
-import { UserRole } from "@/generated/prisma/enums"
-import { checkAuth } from "@/app/middlewares/checkAuth"
-import validateRequest from "@/app/middlewares/validateRequest"
-import { checkPremium } from "@/app/middlewares/checkPremium"
+import { TravelPlanValidation } from "./travelPlan.validations.js"
+import { checkPremium } from "../../middlewares/checkPremium.js"
+import { UserRole } from "../../../../generated/prisma/enums.js"
+import validateRequest from "../../middlewares/validateRequest.js"
+import { checkAuth } from "../../middlewares/checkAuth.js"
+import { TravelPlanControllers } from "./travelPlan.controllers.js"
 
 const travelPlanRouter = Router()
 

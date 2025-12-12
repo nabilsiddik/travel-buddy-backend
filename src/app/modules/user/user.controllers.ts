@@ -1,12 +1,13 @@
 import type { Request, Response } from "express";
-import { catchAsync } from "../../errorHelpers/catchAsync";
-import { UserServices } from "./user.services";
-import { sendResponse } from "../../utils/userResponse";
-import { userFilterableFields } from "./user.constants";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import { UserServices } from "./user.services.js";
+import { sendResponse } from "../../utils/userResponse.js";
 import { StatusCodes } from "http-status-codes";
-import { pickQueries } from "@/app/utils/pickQueries";
-import { JWTPayload } from "@/app/interfaces";
-import AppError from "@/app/errorHelpers/appError";
+import type { JWTPayload } from "../../interfaces/index.js";
+import AppError from "../../errorHelpers/appError.js";
+import { userFilterableFields } from "./user.constants.js";
+import { pickQueries } from "../../utils/pickQueries.js";
+
 
 // Create user
 const createUser = catchAsync(async (req: Request, res: Response) => {
@@ -40,6 +41,10 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 // user by id
 const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
+
+  if(!id){
+    throw new AppError(StatusCodes.NOT_FOUND, 'id not found')
+  }
 
   const result = await UserServices.getUserById(id);
 
@@ -97,11 +102,30 @@ export const updateUser = catchAsync(async (req: Request & { user?: JWTPayload }
   });
 });
 
+
+// Update user profile
+export const getUserReviewsWithAvgRating = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params?.userId;
+
+  if (!userId) throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
+
+  const result = await UserServices.getUserReviewsWithAvgRating(userId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Users rating revie retrived successfully",
+    data: result,
+  });
+});
+
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   getMyProfile,
   updateUser,
   getUserById,
-  topRatedUsers
+  topRatedUsers,
+  getUserReviewsWithAvgRating
 }

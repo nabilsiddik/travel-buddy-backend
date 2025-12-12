@@ -1,13 +1,14 @@
-import AppError from '@/app/errorHelpers/appError';
-import { StatusCodes } from 'http-status-codes';
-import { stripe, SubscriptionServices } from './subscription.services';
-import { sendResponse } from '@/app/utils/userResponse';
-import { catchAsync } from '@/app/errorHelpers/catchAsync';
-import { JWTPayload } from '@/app/interfaces';
-import { Request, Response } from 'express';
-import { prisma } from '@/app/config/prisma.config';
-import Stripe from 'stripe';
-import { envVars } from '@/app/config/env.config';
+import type { Request, Response } from "express";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import type { JWTPayload } from "../../interfaces/index.js";
+import AppError from "../../errorHelpers/appError.js";
+import { StatusCodes } from "http-status-codes";
+import { prisma } from "../../config/prisma.config.js";
+import { stripe, SubscriptionServices } from "./subscription.services.js";
+import { sendResponse } from "../../utils/userResponse.js";
+import { envVars } from "../../config/env.config.js";
+import type Stripe from "stripe";
+
 
 
 // Get user profile info and create a subscription session

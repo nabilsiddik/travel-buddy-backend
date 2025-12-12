@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
-import { AuthServices } from "./auth.services";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import { AuthServices } from "./auth.services.js";
+import { sendResponse } from "../../utils/userResponse.js";
 import { StatusCodes } from "http-status-codes";
-import { catchAsync } from "@/app/errorHelpers/catchAsync";
-import { sendResponse } from "@/app/utils/userResponse";
+
 
 // User login
 const userLogin = catchAsync(async (req: Request, res: Response) => {

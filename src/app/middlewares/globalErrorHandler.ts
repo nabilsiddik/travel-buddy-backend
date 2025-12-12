@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientUnknownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/client";
-import { envVars } from "../config/env.config";
+import { envVars } from "../config/env.config.js";
 
 const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if(envVars.NODE_ENV === 'development'){

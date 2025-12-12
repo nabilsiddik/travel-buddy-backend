@@ -1,5 +1,5 @@
-import { TravelPlan } from "@/generated/prisma/client";
-import { TravelType } from "@/generated/prisma/enums";
+import type { TravelPlan, TravelType } from "../../../../generated/prisma/client.js";
+
 
 export interface ITravelPlan {
   destination: string;

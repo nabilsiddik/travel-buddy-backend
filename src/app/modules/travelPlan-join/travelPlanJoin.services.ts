@@ -1,6 +1,7 @@
-import { prisma } from "@/app/config/prisma.config";
-import AppError from "@/app/errorHelpers/appError";
-import { JoinStatus } from "@/generated/prisma/enums";
+import { JoinStatus } from "../../../../generated/prisma/enums.js";
+import { prisma } from "../../config/prisma.config.js";
+import AppError from "../../errorHelpers/appError.js";
+
 
 // Send a join request
 export const sendJoinRequest = async (planId: string, requesterId: string) => {
@@ -137,8 +138,6 @@ const getMySentRequests = async (userId: string) => {
 }
 
 
-
-
 // Complete joint request
 export const completeJoinRequest = async (joinRequestId: string, status: string, userId: string) => {
 
@@ -177,5 +176,11 @@ export const completeJoinRequest = async (joinRequestId: string, status: string,
 export const TravelPlanRequestServices = {
   getJoinRequestsForMyPlans,
   getMySentRequests,
-  completeJoinRequest
+  completeJoinRequest,
+  getPlanParticipants,
+  getPlanJoinRequests,
+  cancelJoinRequest,
+  rejectJoinRequest,
+  acceptJoinRequest,
+  sendJoinRequest
 }

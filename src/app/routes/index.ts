@@ -1,11 +1,11 @@
 import { Router } from "express";
-import authRouter from "../modules/auth/auth.routes";
-import travelPlanRouter from "../modules/travel-plan/travelPlan.routes";
-import userRouter from "../modules/user/user.routes";
-import subscriptionRouter from "../modules/subscription/subscription.routes";
-import joinRequestRouter from "../modules/travelPlan-join/travelPlanJoin.routes";
-import reviewRouter from "../modules/review/review.routes";
-import participantRouter from "../modules/travelParticipant/participant.router";
+import userRouter from "../modules/user/user.routes.js";
+import authRouter from "../modules/auth/auth.routes.js";
+import travelPlanRouter from "../modules/travel-plan/travelPlan.routes.js";
+import subscriptionRouter from "../modules/subscription/subscription.routes.js";
+import joinRequestRouter from "../modules/travelPlan-join/travelPlanJoin.routes.js";
+import reviewRouter from "../modules/review/review.routes.js";
+import participantRouter from "../modules/travelParticipant/participant.router.js";
 
 
 export const router = Router()

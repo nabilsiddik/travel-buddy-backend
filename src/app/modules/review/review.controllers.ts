@@ -1,10 +1,12 @@
-import AppError from "@/app/errorHelpers/appError";
-import { catchAsync } from "@/app/errorHelpers/catchAsync";
-import { JWTPayload } from "@/app/interfaces";
-import { Request, Response } from "express";
+
 import { StatusCodes } from "http-status-codes";
-import { ReviewServices } from "./review.services";
-import { sendResponse } from "@/app/utils/userResponse";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import type { JWTPayload } from "../../interfaces/index.js";
+import type { Request, Response } from "express";
+import AppError from "../../errorHelpers/appError.js";
+import { ReviewServices } from "./review.services.js";
+import { sendResponse } from "../../utils/userResponse.js";
+
 
 // Create review
 export const createPlanReview = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {

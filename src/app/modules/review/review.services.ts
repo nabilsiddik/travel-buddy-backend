@@ -1,7 +1,8 @@
-import { prisma } from "@/app/config/prisma.config";
-import AppError from "@/app/errorHelpers/appError";
-import { ParticipantStatus } from "@/generated/prisma/enums";
+
 import { StatusCodes } from "http-status-codes";
+import { prisma } from "../../config/prisma.config.js";
+import AppError from "../../errorHelpers/appError.js";
+import { ParticipantStatus } from "../../../../generated/prisma/enums.js";
 
 // Create a review (after travel ends)
 export const createReview = async (reviewerId: string, targetUserId: string, planId: string, rating: number, comment?: string) => {
@@ -24,7 +25,7 @@ export const createReview = async (reviewerId: string, targetUserId: string, pla
   if (new Date() < plan.endDate) throw new AppError(400, "Travel not completed yet");
 
   return prisma.review.create({
-    data: { reviewerId, targetUserId, planId, rating, comment }
+    data: { reviewerId, targetUserId, planId, rating, comment: comment ?? null }
   });
 };
 

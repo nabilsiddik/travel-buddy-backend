@@ -1,10 +1,11 @@
-import AppError from "@/app/errorHelpers/appError";
-import { catchAsync } from "@/app/errorHelpers/catchAsync";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import type { JWTPayload } from "../../interfaces/index.js";
+import AppError from "../../errorHelpers/appError.js";
 import { StatusCodes } from "http-status-codes";
-import { ParticipantServices } from "./participant.services";
-import { sendResponse } from "@/app/utils/userResponse";
-import { JWTPayload } from "@/app/interfaces";
+import { ParticipantServices } from "./participant.services.js";
+import { sendResponse } from "../../utils/userResponse.js";
+
 
 export const completeParticipant = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
   const { participantId } = req.body;

@@ -1,5 +1,5 @@
-import { TravelType } from "@/generated/prisma/enums";
 import { z } from "zod";
+import { TravelType } from "../../../../generated/prisma/enums.js";
 
 const createTravelPlanSchema = z.object({
   destination: z.string('Destination is required'),

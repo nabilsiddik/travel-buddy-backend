@@ -1,6 +1,6 @@
 import type { Secret, SignOptions } from "jsonwebtoken"
 import jwt from 'jsonwebtoken'
-import type { JWTPayload } from "../interfaces"
+import type { JWTPayload } from "../interfaces/index.js"
 
 export const generateJwtToken = (payload: JWTPayload, secret: Secret, expiresIn?: SignOptions["expiresIn"]): string => {
     const options: SignOptions = {

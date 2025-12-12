@@ -1,15 +1,16 @@
 import type { Request } from "express"
-import AppError from "../../errorHelpers/appError"
 import { StatusCodes } from "http-status-codes"
 import bcrypt from "bcryptjs"
-import { envVars } from "../../config/env.config"
-import { fileUploader } from "@/app/utils/fileUploader"
-import { prisma } from "@/app/config/prisma.config"
-import { JWTPayload } from "@/app/interfaces"
-import calculatePagination from "@/app/utils/paginations"
-import { UserWhereInput } from "@/generated/prisma/models"
-import { userSearchableFields } from "./user.constants"
-import { UserRole, UserStatus } from "@/generated/prisma/enums"
+import { fileUploader } from "../../utils/fileUploader.js"
+import { prisma } from "../../config/prisma.config.js"
+import AppError from "../../errorHelpers/appError.js"
+import { envVars } from "../../config/env.config.js"
+import calculatePagination from "../../utils/paginations.js"
+import type { UserWhereInput } from "../../../../generated/prisma/models.js"
+import { userSearchableFields } from "./user.constants.js"
+import type { JWTPayload } from "../../interfaces/index.js"
+import { UserRole, UserStatus } from "../../../../generated/prisma/enums.js"
+
 
 // Create user
 const createUser = async (req: Request) => {
@@ -158,6 +159,37 @@ const getTopRatedUsers = async () => {
   return topRatedUsers;
 };
 
+export const getUserReviewsWithAvgRating = async (userId: string) => {
+  // Get average rating
+  const ratingAggregate = await prisma.review.aggregate({
+    where: { targetUserId: userId },
+    _avg: { rating: true },
+    _count: { id: true },
+  });
+
+  // Get recent reviews (latest 5)
+  const recentReviews = await prisma.review.findMany({
+    where: { targetUserId: userId },
+    orderBy: { createdAt: 'desc' },
+    take: 5,
+    select: {
+      id: true,
+      reviewer: {
+        select: { id: true, name: true, profileImage: true },
+      },
+      rating: true,
+      comment: true,
+      createdAt: true,
+    },
+  });
+
+  return {
+    averageRating: ratingAggregate._avg.rating || 0,
+    reviewCount: ratingAggregate._count.id,
+    recentReviews,
+  };
+};
+
 
 // Get profile info
 const getMyProfile = async (user: JWTPayload) => {
@@ -234,5 +266,6 @@ export const UserServices = {
     getMyProfile,
     updateUser,
     getUserById,
-    getTopRatedUsers
+    getTopRatedUsers,
+    getUserReviewsWithAvgRating
 }

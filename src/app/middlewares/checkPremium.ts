@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
-import { prisma } from "../config/prisma.config";
+import type { NextFunction, Request, Response } from "express";
+import type { JwtPayload } from "jsonwebtoken";
+import { prisma } from "../config/prisma.config.js";
+
 
 
 export const checkPremium = async (req: Request & {user?: JwtPayload}, res: Response, next: NextFunction) => {

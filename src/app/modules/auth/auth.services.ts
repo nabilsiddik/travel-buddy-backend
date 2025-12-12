@@ -1,12 +1,12 @@
-import type { userLoginInput } from "./auth.interfaces"
-import { UserStatus } from "../user/user.interfaces"
+
 import bcrypt from 'bcryptjs'
 import type { Secret, SignOptions } from "jsonwebtoken"
-import { prisma } from "@/app/config/prisma.config"
-import AppError from "@/app/errorHelpers/appError"
-import { generateJwtToken, verifyToken } from "@/app/utils/jwtToken"
-import { envVars } from "@/app/config/env.config"
-
+import { prisma } from '../../config/prisma.config.js'
+import type { userLoginInput } from './auth.interfaces.js'
+import { UserStatus } from '../../../../generated/prisma/enums.js'
+import AppError from '../../errorHelpers/appError.js'
+import { generateJwtToken, verifyToken } from '../../utils/jwtToken.js'
+import { envVars } from '../../config/env.config.js'
 // User login
 const userLogin = async (payload: userLoginInput) => {
     const existingUser = await prisma.user.findUniqueOrThrow({

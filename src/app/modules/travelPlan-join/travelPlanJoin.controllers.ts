@@ -1,11 +1,10 @@
-import { catchAsync } from "@/app/errorHelpers/catchAsync";
-import * as service from "./travelPlanJoin.services";
-import { Request, Response } from "express";
-import { sendResponse } from "@/app/utils/userResponse";
-import { JWTPayload } from "@/app/interfaces";
-import AppError from "@/app/errorHelpers/appError";
+import type { Request, Response } from "express";
+import { catchAsync } from "../../errorHelpers/catchAsync.js";
+import type { JWTPayload } from "../../interfaces/index.js";
+import AppError from "../../errorHelpers/appError.js";
 import { StatusCodes } from "http-status-codes";
-import { TravelPlanServices } from "../travel-plan/travelPlan.services";
+import { sendResponse } from "../../utils/userResponse.js";
+import { TravelPlanRequestServices } from "./travelPlanJoin.services.js";
 
 export const sendRequest = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
     const { planId } = req.body;
@@ -15,7 +14,7 @@ export const sendRequest = catchAsync(async (req: Request & { user?: JWTPayload 
         throw new AppError(StatusCodes.NOT_FOUND, 'requester id not found')
     }
 
-    const data = await service.sendJoinRequest(planId, requesterId);
+    const data = await TravelPlanRequestServices.sendJoinRequest(planId, requesterId);
     sendResponse(res, { statusCode: 201, success: true, message: "Join request sent", data });
 });
 
@@ -24,7 +23,7 @@ export const sendRequest = catchAsync(async (req: Request & { user?: JWTPayload 
 export const acceptRequest = catchAsync(async (req: Request, res: Response) => {
     const { requestId } = req.body;
 
-    const data = await service.acceptJoinRequest(requestId);
+    const data = await TravelPlanRequestServices.acceptJoinRequest(requestId);
 
     sendResponse(res, { statusCode: 200, success: true, message: "Request accepted", data });
 });
@@ -32,7 +31,7 @@ export const acceptRequest = catchAsync(async (req: Request, res: Response) => {
 export const rejectRequest = catchAsync(async (req: Request, res: Response) => {
     const { requestId } = req.body;
 
-    const data = await service.rejectJoinRequest(requestId);
+    const data = await TravelPlanRequestServices.rejectJoinRequest(requestId);
 
     sendResponse(res, { statusCode: 200, success: true, message: "Request rejected", data });
 });
@@ -45,7 +44,7 @@ export const cancelRequest = catchAsync(async (req: Request & { user?: JWTPayloa
         throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
     }
 
-    const data = await service.cancelJoinRequest(requestId, userId);
+    const data = await TravelPlanRequestServices.cancelJoinRequest(requestId, userId);
 
     sendResponse(res, { statusCode: 200, success: true, message: "Request cancelled", data });
 });
@@ -53,7 +52,7 @@ export const cancelRequest = catchAsync(async (req: Request & { user?: JWTPayloa
 export const listPlanRequests = catchAsync(async (req: Request, res: Response) => {
     const { planId } = req.query;
 
-    const data = await service.getPlanJoinRequests(planId as string);
+    const data = await TravelPlanRequestServices.getPlanJoinRequests(planId as string);
 
     sendResponse(res, { statusCode: 200, success: true, message: "Join requests fetched", data });
 });
@@ -61,7 +60,7 @@ export const listPlanRequests = catchAsync(async (req: Request, res: Response) =
 export const listPlanParticipants = catchAsync(async (req: Request, res: Response) => {
     const { planId } = req.query;
 
-    const data = await service.getPlanParticipants(planId as string);
+    const data = await TravelPlanRequestServices.getPlanParticipants(planId as string);
 
     sendResponse(res, { statusCode: 200, success: true, message: "Participants fetched", data });
 });
@@ -75,7 +74,7 @@ export const getJoinRequestsForMyPlans = catchAsync(async (req: Request & { user
         throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
     }
 
-    const requests = await service.TravelPlanRequestServices.getJoinRequestsForMyPlans(userId);
+    const requests = await TravelPlanRequestServices.getJoinRequestsForMyPlans(userId);
 
     sendResponse(res, { statusCode: 201, success: true, message: "Join request retrive", data: requests });
 });
@@ -88,7 +87,7 @@ export const getMySentRequests = catchAsync(async (req: Request & {user?: JWTPay
         throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
     }
 
-    const data = await service.TravelPlanRequestServices.getMySentRequests(userId);
+    const data = await TravelPlanRequestServices.getMySentRequests(userId);
 
     sendResponse(res, {
         statusCode: 200,
@@ -106,17 +105,15 @@ export const completeJoinRequest = catchAsync(async (req: Request & {user?: JWTP
     const id = req.params?.id
     const status = req.body?.status
 
-    console.log({
-        userId,
-        id,
-        status
-    }, 'my params')
+    if(!id){
+        throw new AppError(StatusCodes.NOT_FOUND, 'id not found')
+    }
 
     if(!userId){
         throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
     }
 
-    const data = await service.TravelPlanRequestServices.completeJoinRequest(id, status, userId);
+    const data = await TravelPlanRequestServices.completeJoinRequest(id, status, userId);
 
     sendResponse(res, {
         statusCode: 200,

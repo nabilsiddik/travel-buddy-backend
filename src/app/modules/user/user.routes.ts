@@ -1,11 +1,12 @@
 import { Router } from "express"
-import validateRequest from "../../middlewares/validateRequest"
-import { UserValidation } from "./user.validation"
-import { UserControllers } from "./user.controllers"
-import { checkAuth } from "@/app/middlewares/checkAuth"
-import { UserRole } from "@/generated/prisma/enums"
-import { fileUploader } from "@/app/utils/fileUploader"
-import { catchAsync } from "@/app/errorHelpers/catchAsync"
+import { checkAuth } from "../../middlewares/checkAuth.js"
+import { UserRole } from "../../../../generated/prisma/enums.js"
+import { UserControllers } from "./user.controllers.js"
+import { fileUploader } from "../../utils/fileUploader.js"
+import validateRequest from "../../middlewares/validateRequest.js"
+import { UserValidation } from "./user.validation.js"
+import { catchAsync } from "../../errorHelpers/catchAsync.js"
+
 
 const userRouter = Router()
 
@@ -39,6 +40,8 @@ userRouter.patch(
   validateRequest(UserValidation.updateUserZodSchema),
   UserControllers.updateUser
 );
+
+userRouter.get('/:userId/reviews', UserControllers.getUserReviewsWithAvgRating);
 
 userRouter.get(
   "/:id",

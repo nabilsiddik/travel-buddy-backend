@@ -1,5 +1,5 @@
-import { envVars } from '@/app/config/env.config';
 import Stripe from 'stripe';
+import { envVars } from '../../config/env.config.js';
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-11-17.clover" });
 
 export const createStripeCustomer = async (email: string) => {

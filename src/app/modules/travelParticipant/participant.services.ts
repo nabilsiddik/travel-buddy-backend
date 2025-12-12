@@ -1,6 +1,5 @@
-import { prisma } from "@/app/config/prisma.config";
-import AppError from "@/app/errorHelpers/appError";
-import { ParticipantStatus } from "@/generated/prisma/enums";
+import { prisma } from "../../config/prisma.config.js";
+import AppError from "../../errorHelpers/appError.js";
 
 export const markParticipantComplete = async (participantId: string, userId: string) => {
   const participant = await prisma.travelPlanParticipant.findUnique({

@@ -1,7 +1,8 @@
-import { checkAuth } from "@/app/middlewares/checkAuth";
-import { UserRole } from "@/generated/prisma/enums";
 import { Router } from "express";
-import { ParticipantControllers } from "./participant.controllers";
+import { checkAuth } from "../../middlewares/checkAuth.js";
+import { UserRole } from "../../../../generated/prisma/enums.js";
+import { ParticipantControllers } from "./participant.controllers.js";
+
 
 const participantRouter = Router();
 
