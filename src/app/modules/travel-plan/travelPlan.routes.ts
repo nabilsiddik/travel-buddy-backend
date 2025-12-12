@@ -12,7 +12,6 @@ travelPlanRouter.post(
   "/",
   checkAuth(UserRole.USER, UserRole.ADMIN),
   validateRequest(TravelPlanValidation.createTravelPlanSchema),
-  checkPremium,
   TravelPlanControllers.createTravelPlan
 )
 
@@ -26,7 +25,6 @@ travelPlanRouter.get(
 travelPlanRouter.get(
   "/my-plans",
   checkAuth(UserRole.USER, UserRole.ADMIN),
-  checkPremium,
   TravelPlanControllers.getMyTravelPlans
 )
 
