@@ -7,31 +7,35 @@ import { envVars } from "../config/env.config.js"
 export const checkAuth = (...roles: string[]) => {
     return async (req: Request & { user?: JWTPayload }, res: Response, next: NextFunction) => {
         try {
+            let token: string | undefined;
             const authHeader = req.headers.authorization;
-
-            if (!authHeader || !authHeader.startsWith("Bearer ")) {
-                throw new Error("Token not found");
+            if (authHeader?.startsWith("Bearer ")) {
+                token = authHeader.split(" ")[1];
             }
 
-            const token = authHeader.split(" ")[1];
-
-            console.log(token, 'my tokeeen')
+            if (!token && req.cookies?.accessToken) {
+                token = req.cookies.accessToken;
+            }
 
             if (!token) {
-                throw new Error('Token not found')
+                return res.status(401).json({
+                    success: false,
+                    message: "Access token not found",
+                });
             }
 
-            const verifiedToken = verifyToken(token, envVars.JWT.JWT_ACCESS_SECRET)
+            const verifiedToken = verifyToken(token, envVars.JWT.JWT_ACCESS_SECRET) as JWTPayload
 
             if (!verifiedToken) {
                 throw new Error('You is not authorized')
             }
 
-            req.user = verifiedToken
-
             if (roles.length && !roles.includes(verifiedToken.role)) {
                 throw new Error('You are not authorized')
             }
+
+            req.user = verifiedToken
+
 
             next()
 
