@@ -99,7 +99,36 @@ export const getMySentRequests = catchAsync(async (req: Request & {user?: JWTPay
 });
 
 
+
+// my sent request
+export const completeJoinRequest = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
+    const userId = req?.user?.id;
+    const id = req.params?.id
+    const status = req.body?.status
+
+    console.log({
+        userId,
+        id,
+        status
+    }, 'my params')
+
+    if(!userId){
+        throw new AppError(StatusCodes.NOT_FOUND, 'user id not found')
+    }
+
+    const data = await service.TravelPlanRequestServices.completeJoinRequest(id, status, userId);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Join Status updated",
+        data
+    });
+});
+
+
 export const TravelPlanRequestControllers = {
     getJoinRequestsForMyPlans,
-    getMySentRequests
+    getMySentRequests,
+    completeJoinRequest
 }

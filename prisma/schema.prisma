@@ -43,6 +43,7 @@ enum JoinStatus {
   ACCEPTED
   REJECTED
   CANCELLED
+  COMPLETED
 }
 
 enum SubscriptionStatus {

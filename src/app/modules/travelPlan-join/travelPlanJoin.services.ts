@@ -109,19 +109,12 @@ export const getJoinRequestsForMyPlans = async (userId: string) => {
       plan: {
         select: {
           id: true,
+          userId: true,
           destination: true,
           startDate: true,
           endDate: true,
-        },
-        include: {
-          participants: {
-            include: {
-              user: true,
-            },
-          },
-        },
+        }
       },
-      
     },
   });
 
@@ -144,7 +137,45 @@ const getMySentRequests = async (userId: string) => {
 }
 
 
+
+
+// Complete joint request
+export const completeJoinRequest = async (joinRequestId: string, status: string, userId: string) => {
+
+  const joinRequest = await prisma.travelPlanJoinRequest.findUnique({
+    where: { id: joinRequestId },
+    include: { plan: true, requester: true }
+  });
+
+  if (!joinRequest) throw new AppError(404, "Join Request not found");
+
+  // Check if trip ended
+  const now = new Date();
+  const tripEnded = new Date(joinRequest.plan.endDate) < now;
+
+  if (!tripEnded) {
+    throw new AppError(400, "Trip has not ended yet. Cannot mark completed.");
+  }
+
+  // Allow host OR participant to complete
+  const isHost = joinRequest.plan.userId === userId;
+  const isParticipantItself = joinRequest.requester.id === userId;
+
+  if (!isHost && !isParticipantItself) {
+    throw new AppError(403, "You are not allowed to complete this trip.");
+  }
+
+  const updated = await prisma.travelPlanJoinRequest.update({
+    where: { id: joinRequestId },
+    data: { status: "COMPLETED" }
+  });
+
+  return updated;
+};
+
+
 export const TravelPlanRequestServices = {
   getJoinRequestsForMyPlans,
   getMySentRequests,
+  completeJoinRequest
 }

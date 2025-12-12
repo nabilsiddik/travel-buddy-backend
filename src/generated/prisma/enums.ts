@@ -58,7 +58,8 @@ export const JoinStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED'
 } as const
 
 export type JoinStatus = (typeof JoinStatus)[keyof typeof JoinStatus]

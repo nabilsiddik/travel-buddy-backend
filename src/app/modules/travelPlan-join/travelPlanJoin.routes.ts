@@ -14,6 +14,7 @@ joinRequestRouter.post("/reject", rejectRequest);
 joinRequestRouter.post("/cancel", cancelRequest);
 
 joinRequestRouter.get("/my-request", TravelPlanRequestControllers.getJoinRequestsForMyPlans);
+joinRequestRouter.patch("/complete/:id", TravelPlanRequestControllers.completeJoinRequest);
 
 joinRequestRouter.get("/requests", listPlanRequests);
 joinRequestRouter.get("/participants", listPlanParticipants);
