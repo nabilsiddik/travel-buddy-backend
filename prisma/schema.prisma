@@ -60,29 +60,29 @@ enum PlanType {
 
 // Models
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  email    String   @unique
-  password String
-  role     UserRole @default(USER)
-  bio             String?
-  profileImage    String?
-  currentLocation String?
-  gender          Gender
-  interests        String[]
-  visitedCountries String[]
-  verifiedBadge    Boolean       @default(false)
-  status           UserStatus    @default(ACTIVE)
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  password           String
+  role               UserRole   @default(USER)
+  bio                String?
+  profileImage       String?
+  currentLocation    String?
+  gender             Gender
+  interests          String[]
+  visitedCountries   String[]
+  verifiedBadge      Boolean    @default(false)
+  status             UserStatus @default(ACTIVE)
   createdTravelPlans String[]
 
   // Relations
-  travelPlans        TravelPlan[]                @relation("UserTravelPlans")
-  joinRequests       TravelPlanJoinRequest[]     @relation("UserJoinRequests")
-  participants       TravelPlanParticipant[]     @relation("UserParticipants")
-  givenReviews       Review[]                    @relation("UserGivenReviews", fields: [], references: [])
-  receivedReviews    Review[]                    @relation("UserReceivedReviews", fields: [], references: [])
-  payments           Payment[]
-  subscription       Subscription?
+  travelPlans     TravelPlan[]            @relation("UserTravelPlans")
+  joinRequests    TravelPlanJoinRequest[] @relation("UserJoinRequests")
+  participants    TravelPlanParticipant[] @relation("UserParticipants")
+  givenReviews    Review[]                @relation("UserGivenReviews", fields: [], references: [])
+  receivedReviews Review[]                @relation("UserReceivedReviews", fields: [], references: [])
+  payments        Payment[]
+  subscription    Subscription?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,19 +91,20 @@ model User {
 }
 
 model TravelPlan {
-  id          String     @id @default(uuid())
-  userId      String
-  destination String
-  startDate   DateTime
-  endDate     DateTime
-  budgetRange String?
-  travelType  TravelType
-  description String?
-  visibility  Boolean @default(true)
-  isDeleted Boolean @default(false)
+  id              String     @id @default(uuid())
+  userId          String
+  destination     String
+  travelPlanImage String?
+  startDate       DateTime
+  endDate         DateTime
+  budgetRange     String?
+  travelType      TravelType
+  description     String?
+  visibility      Boolean    @default(true)
+  isDeleted       Boolean    @default(false)
 
   // Relations
-  user         User                   @relation("UserTravelPlans", fields: [userId], references: [id])
+  user         User                    @relation("UserTravelPlans", fields: [userId], references: [id])
   participants TravelPlanParticipant[] @relation("PlanParticipants")
   joinRequests TravelPlanJoinRequest[] @relation("PlanJoinRequests")
   reviews      Review[]
@@ -120,14 +121,14 @@ enum ParticipantStatus {
 }
 
 model TravelPlanParticipant {
-  id     String @id @default(uuid())
-  planId String
-  userId String
+  id       String   @id @default(uuid())
+  planId   String
+  userId   String
   joinedAt DateTime @default(now())
 
   status ParticipantStatus @default(PENDING)
-  plan TravelPlan @relation("PlanParticipants", fields: [planId], references: [id])
-  user User         @relation("UserParticipants", fields: [userId], references: [id])
+  plan   TravelPlan        @relation("PlanParticipants", fields: [planId], references: [id])
+  user   User              @relation("UserParticipants", fields: [userId], references: [id])
 
   @@unique([planId, userId])
 }
@@ -143,16 +144,16 @@ model TravelPlanJoinRequest {
 }
 
 model Review {
-  id           String     @id @default(uuid())
+  id           String  @id @default(uuid())
   reviewerId   String
   targetUserId String
   planId       String
   rating       Int
   comment      String?
 
-  reviewer   User        @relation("UserGivenReviews", fields: [reviewerId], references: [id])
-  targetUser User        @relation("UserReceivedReviews", fields: [targetUserId], references: [id])
-  plan       TravelPlan  @relation(fields: [planId], references: [id])
+  reviewer   User       @relation("UserGivenReviews", fields: [reviewerId], references: [id])
+  targetUser User       @relation("UserReceivedReviews", fields: [targetUserId], references: [id])
+  plan       TravelPlan @relation(fields: [planId], references: [id])
 
   createdAt DateTime @default(now())
 
@@ -160,17 +161,17 @@ model Review {
 }
 
 model Payment {
-  id String @id @default(uuid())
-  userId String
+  id             String @id @default(uuid())
+  userId         String
   subscriptionId Int?
 
-  amount   Float
-  currency String @default("usd")
-  stripeInvoiceId     String  @unique
+  amount              Float
+  currency            String        @default("usd")
+  stripeInvoiceId     String        @unique
   stripePaymentIntent String?
-  status PaymentStatus @default(PENDING)
+  status              PaymentStatus @default(PENDING)
 
-  user User @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
   subscription Subscription? @relation(fields: [subscriptionId], references: [id])
 
   createdAt DateTime @default(now())
@@ -179,8 +180,8 @@ model Payment {
 model Subscription {
   id                   Int                @id @default(autoincrement())
   userId               String             @unique
-  stripeCustomerId     String @unique
-  stripeSubscriptionId String @unique
+  stripeCustomerId     String             @unique
+  stripeSubscriptionId String             @unique
   status               SubscriptionStatus
   plan                 PlanType
   currentPeriodEnd     DateTime
