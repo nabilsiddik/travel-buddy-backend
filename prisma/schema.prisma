@@ -74,6 +74,7 @@ model User {
   verifiedBadge      Boolean    @default(false)
   status             UserStatus @default(ACTIVE)
   createdTravelPlans String[]
+  isDeleted          Boolean    @default(false)
 
   // Relations
   travelPlans     TravelPlan[]            @relation("UserTravelPlans")
