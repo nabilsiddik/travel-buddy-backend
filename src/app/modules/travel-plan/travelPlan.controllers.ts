@@ -1,4 +1,3 @@
-
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { catchAsync } from "../../errorHelpers/catchAsync.js";
@@ -8,41 +7,50 @@ import { pickQueries } from "../../utils/pickQueries.js";
 import AppError from "../../errorHelpers/appError.js";
 import type { JWTPayload } from "../../interfaces/index.js";
 
-
 // Create plan
 const createTravelPlan = catchAsync(async (req: Request, res: Response) => {
-    const result = await TravelPlanServices.createTravelPlan(req)
+  const result = await TravelPlanServices.createTravelPlan(req);
 
-    sendResponse(res, {
-        statusCode: 201,
-        success: true,
-        message: "Travel plan created successfully.",
-        data: result
-    })
-})
-
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Travel plan created successfully.",
+    data: result,
+  });
+});
 
 // Get all plans
 const getAllTravelPlans = catchAsync(async (req, res) => {
-    const filters = pickQueries(req.query, ["destination", "travelType", "visibility", 'startDate', 'endDate', 'searchTerm']);
-    const options = pickQueries(req.query, ["page", "limit", "sortBy", "sortOrder"])
+  const filters = pickQueries(req.query, [
+    "destination",
+    "travelType",
+    "startDate",
+    "endDate",
+    "searchTerm",
+  ]);
+  const options = pickQueries(req.query, [
+    "page",
+    "limit",
+    "sortBy",
+    "sortOrder",
+  ]);
 
-    const result = await TravelPlanServices.getAllTravelPlans(filters, options)
+  const result = await TravelPlanServices.getAllTravelPlans(filters, options);
 
-    sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: "Travel plans fetched successfully.",
-        data: result
-    })
-})
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Travel plans fetched successfully.",
+    data: result,
+  });
+});
 
 // Get travel plan by id
 const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
-  if(!id){
-    throw new AppError(StatusCodes.NOT_FOUND, 'Id not found')
+  if (!id) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Id not found");
   }
 
   const result = await TravelPlanServices.getTravelPlanById(id);
@@ -55,79 +63,79 @@ const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 // Get my plans
-const getMyTravelPlans = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
+const getMyTravelPlans = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
     const user = req?.user;
 
     if (!user) {
-        throw new AppError(StatusCodes.UNAUTHORIZED, 'User not found')
+      throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
     }
 
-    const result = await TravelPlanServices.getMyTravelPlans(user as JWTPayload);
-
+    const result = await TravelPlanServices.getMyTravelPlans(
+      user as JWTPayload
+    );
 
     sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: "My travel plans fetched successfully.",
-        data: result
-    })
-})
-
-
+      statusCode: 200,
+      success: true,
+      message: "My travel plans fetched successfully.",
+      data: result,
+    });
+  }
+);
 
 // Update plan
-const updateTravelPlan = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
-    const user = req?.user
-    const id = req.params?.id
+const updateTravelPlan = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const user = req?.user;
+    const id = req.params?.id;
 
     if (!user) {
-        throw new AppError(StatusCodes.UNAUTHORIZED, 'User not found')
+      throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
     }
 
     if (!id) {
-        throw new AppError(StatusCodes.NOT_FOUND, 'Travel id not found')
+      throw new AppError(StatusCodes.NOT_FOUND, "Travel id not found");
     }
 
     const payload = req.body;
 
-    const result = await TravelPlanServices.updateTravelPlan(id, user, payload)
+    const result = await TravelPlanServices.updateTravelPlan(id, user, payload);
 
     sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: "Travel plan updated successfully.",
-        data: result
-    })
-})
-
-
-
+      statusCode: 200,
+      success: true,
+      message: "Travel plan updated successfully.",
+      data: result,
+    });
+  }
+);
 
 // Delete plan
-const deleteTravelPlan = catchAsync(async (req: Request & { user?: JWTPayload }, res: Response) => {
-    const user = req.user
-    const id = req.params.id
-
+const deleteTravelPlan = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const user = req.user;
+    const id = req.params.id;
 
     if (!user) {
-        throw new AppError(StatusCodes.UNAUTHORIZED, 'User not found')
+      throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
     }
 
     if (!id) {
-        throw new AppError(StatusCodes.NOT_FOUND, 'Travel id not found')
+      throw new AppError(StatusCodes.NOT_FOUND, "Travel id not found");
     }
 
-    const result = await TravelPlanServices.deleteTravelPlan(id, user)
+    const result = await TravelPlanServices.deleteTravelPlan(id, user);
 
     sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: "Travel plan deleted successfully.",
-        data: result
-    })
-})
+      statusCode: 200,
+      success: true,
+      message: "Travel plan deleted successfully.",
+      data: result,
+    });
+  }
+);
 
 export const TravelPlanControllers = {
   createTravelPlan,
@@ -135,5 +143,5 @@ export const TravelPlanControllers = {
   getMyTravelPlans,
   updateTravelPlan,
   deleteTravelPlan,
-  getTravelPlanById
-}
+  getTravelPlanById,
+};

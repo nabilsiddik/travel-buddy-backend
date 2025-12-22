@@ -99,8 +99,9 @@ const getAllTravelPlans = async (params: any, options: any) => {
       throw new AppError(400, "Start date cannot be later than end date");
     }
 
-    andConditions.push({ startDate: { gte: start } });
-    andConditions.push({ endDate: { lte: end } });
+    andConditions.push({
+      AND: [{ startDate: { gte: start } }, { endDate: { lte: end } }],
+    });
   }
 
   if (rawStart && !rawEnd) {
