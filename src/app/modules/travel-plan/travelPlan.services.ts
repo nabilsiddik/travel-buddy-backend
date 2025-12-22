@@ -69,7 +69,11 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
 };
 
 // Get all plans with filter, seach and pagination
-const getAllTravelPlans = async (params: any, options: any) => {
+const getAllTravelPlans = async (
+  params: any,
+  options: any,
+  user: JwtPayload
+) => {
   const { page, limit, skip, sortOrder, sortBy } = calculatePagination(options);
   const { searchTerm, travelType, ...filterData } = params;
 
@@ -79,6 +83,17 @@ const getAllTravelPlans = async (params: any, options: any) => {
   const rawEnd = filterData.endDate;
   delete filterData.startDate;
   delete filterData.endDate;
+
+  if (user?.role === "USER") {
+    andConditions.push({
+      userId: user.id,
+      isDeleted: false,
+    });
+  }
+
+  if (user?.role === "ADMIN") {
+    andConditions.push({ isDeleted: false });
+  }
 
   // Search fields
   if (searchTerm) {
@@ -224,13 +239,6 @@ const deleteTravelPlan = async (id: string, user: JwtPayload) => {
 
   if (!plan) {
     throw new AppError(StatusCodes.NOT_FOUND, "Travel plan not found.");
-  }
-
-  if (plan.userId !== user.id) {
-    throw new AppError(
-      StatusCodes.FORBIDDEN,
-      "You are not allowed to delete this plan."
-    );
   }
 
   await prisma.travelPlan.update({

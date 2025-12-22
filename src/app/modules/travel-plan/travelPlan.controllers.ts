@@ -20,30 +20,37 @@ const createTravelPlan = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Get all plans
-const getAllTravelPlans = catchAsync(async (req, res) => {
-  const filters = pickQueries(req.query, [
-    "destination",
-    "travelType",
-    "startDate",
-    "endDate",
-    "searchTerm",
-  ]);
-  const options = pickQueries(req.query, [
-    "page",
-    "limit",
-    "sortBy",
-    "sortOrder",
-  ]);
+const getAllTravelPlans = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const user = req.user;
+    const filters = pickQueries(req.query, [
+      "destination",
+      "travelType",
+      "startDate",
+      "endDate",
+      "searchTerm",
+    ]);
+    const options = pickQueries(req.query, [
+      "page",
+      "limit",
+      "sortBy",
+      "sortOrder",
+    ]);
 
-  const result = await TravelPlanServices.getAllTravelPlans(filters, options);
+    const result = await TravelPlanServices.getAllTravelPlans(
+      filters,
+      options,
+      user as JWTPayload
+    );
 
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Travel plans fetched successfully.",
-    data: result,
-  });
-});
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Travel plans fetched successfully.",
+      data: result,
+    });
+  }
+);
 
 // Get travel plan by id
 const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {
