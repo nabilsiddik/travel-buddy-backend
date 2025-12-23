@@ -17,8 +17,6 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
     uploadedResult = await fileUploader.uploadToCloudinary(req.file);
   }
 
-  console.log(req?.file);
-
   if (!userId) {
     throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
   }
@@ -47,19 +45,7 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
         },
       });
 
-      const user = await prisma.user.update({
-        where: {
-          id: userId,
-        },
-
-        data: {
-          createdTravelPlans: {
-            push: createdPlan.id,
-          },
-        },
-      });
-
-      return { user, travelPlan: createdPlan };
+      return { travelPlan: createdPlan };
     });
 
     return result;

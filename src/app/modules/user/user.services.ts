@@ -54,7 +54,6 @@ const createUser = async (req: Request) => {
       bio: bio || "",
       currentLocation: currentLocation || "",
       gender: gender || "",
-      createdTravelPlans: [],
       visitedCountries: visitedCountries || [],
     },
   });
@@ -72,8 +71,6 @@ const getAllUsers = async (params: any, options: any) => {
   Object.keys(filterData).forEach((key) => {
     filterData[key] = parseBoolean(filterData[key]);
   });
-
-  console.log(filterData);
 
   const andConditions: UserWhereInput[] = [];
 
@@ -113,6 +110,9 @@ const getAllUsers = async (params: any, options: any) => {
     skip,
     take: limit,
     where: whereConditions,
+    include: {
+      travelPlans: true,
+    },
     orderBy: {
       [sortBy]: sortOrder,
     },
@@ -130,7 +130,39 @@ const getAllUsers = async (params: any, options: any) => {
 
 const getUserById = async (id: string) => {
   const user = await prisma.user.findUnique({
-    where: { id },
+    where: { id, isDeleted: false },
+    include: {
+      travelPlans: {
+        where: {
+          isDeleted: false,
+        },
+      },
+      receivedReviews: {
+        include: {
+          reviewer: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+              verifiedBadge: true,
+            },
+          },
+        },
+      },
+
+      givenReviews: {
+        include: {
+          targetUser: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+              verifiedBadge: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!user) {
@@ -218,12 +250,58 @@ const getMyProfile = async (user: JWTPayload) => {
     where: {
       email: user.email,
       status: UserStatus.ACTIVE,
+      isDeleted: false,
     },
-    select: {
-      id: true,
-      email: true,
-      role: true,
-      status: true,
+    include: {
+      travelPlans: {
+        where: { isDeleted: false },
+        select: {
+          id: true,
+          destination: true,
+          startDate: true,
+          endDate: true,
+          travelType: true,
+          createdAt: true,
+        },
+      },
+
+      receivedReviews: {
+        include: {
+          reviewer: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+              verifiedBadge: true,
+            },
+          },
+          plan: {
+            select: {
+              id: true,
+              destination: true,
+            },
+          },
+        },
+      },
+
+      givenReviews: {
+        include: {
+          targetUser: {
+            select: {
+              id: true,
+              name: true,
+              profileImage: true,
+              verifiedBadge: true,
+            },
+          },
+          plan: {
+            select: {
+              id: true,
+              destination: true,
+            },
+          },
+        },
+      },
     },
   });
 

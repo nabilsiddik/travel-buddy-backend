@@ -60,21 +60,20 @@ enum PlanType {
 
 // Models
 model User {
-  id                 String     @id @default(uuid())
-  name               String
-  email              String     @unique
-  password           String
-  role               UserRole   @default(USER)
-  bio                String?
-  profileImage       String?
-  currentLocation    String?
-  gender             Gender
-  interests          String[]
-  visitedCountries   String[]
-  verifiedBadge      Boolean    @default(false)
-  status             UserStatus @default(ACTIVE)
-  createdTravelPlans String[]
-  isDeleted          Boolean    @default(false)
+  id               String     @id @default(uuid())
+  name             String
+  email            String     @unique
+  password         String
+  role             UserRole   @default(USER)
+  bio              String?
+  profileImage     String?
+  currentLocation  String?
+  gender           Gender
+  interests        String[]
+  visitedCountries String[]
+  verifiedBadge    Boolean    @default(false)
+  status           UserStatus @default(ACTIVE)
+  isDeleted        Boolean    @default(false)
 
   // Relations
   travelPlans     TravelPlan[]            @relation("UserTravelPlans")
