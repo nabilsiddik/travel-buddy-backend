@@ -1,31 +1,43 @@
-
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.config.js";
 import AppError from "../../errorHelpers/appError.js";
 import { ParticipantStatus } from "../../../../generated/prisma/enums.js";
+import type { JWTPayload } from "../../interfaces/index.js";
 
 // Create a review (after travel ends)
-export const createReview = async (reviewerId: string, targetUserId: string, planId: string, rating: number, comment?: string) => {
-
+export const createReview = async (
+  reviewerId: string,
+  targetUserId: string,
+  planId: string,
+  rating: number,
+  comment?: string
+) => {
   const existingReview = await prisma.review.findFirst({
     where: {
       reviewerId,
-      targetUserId
-    }
-  })
+      targetUserId,
+    },
+  });
 
-  if(existingReview){
-    throw new AppError(StatusCodes.CONFLICT, 'Review already given.')
+  if (existingReview) {
+    throw new AppError(StatusCodes.CONFLICT, "Review already given.");
   }
 
   const plan = await prisma.travelPlan.findUnique({ where: { id: planId } });
 
   if (!plan) throw new AppError(404, "Plan not found");
 
-  if (new Date() < plan.endDate) throw new AppError(400, "Travel not completed yet");
+  if (new Date() < plan.endDate)
+    throw new AppError(400, "Travel not completed yet");
 
   return prisma.review.create({
-    data: { reviewerId, targetUserId, planId, rating, comment: comment ?? null }
+    data: {
+      reviewerId,
+      targetUserId,
+      planId,
+      rating,
+      comment: comment ?? null,
+    },
   });
 };
 
@@ -35,9 +47,9 @@ export const getReviewablePlans = async (userId: string) => {
     where: { userId, status: ParticipantStatus.COMPLETED },
     include: {
       plan: {
-        include: { user: true }
-      }
-    }
+        include: { user: true },
+      },
+    },
   });
 
   const hostTrips = await prisma.travelPlan.findMany({
@@ -45,16 +57,41 @@ export const getReviewablePlans = async (userId: string) => {
     include: {
       participants: {
         where: { status: ParticipantStatus.COMPLETED },
-        include: { user: true }
-      }
-    }
+        include: { user: true },
+      },
+    },
   });
 
   return { participantTrips, hostTrips };
 };
 
+// Update review
+const updateReview = async (
+  user: JWTPayload,
+  reviewId: string,
+  payload: { comment: string; rating: number }
+) => {
+  const review = await prisma.review.findUniqueOrThrow({
+    where: { id: reviewId },
+  });
+
+  if (review?.reviewerId !== user?.id) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "You can not update others review."
+    );
+  }
+
+  const result = await prisma.review.update({
+    where: { id: reviewId },
+    data: payload,
+  });
+
+  return result;
+};
 
 export const ReviewServices = {
   createReview,
-  getReviewablePlans
-}
+  getReviewablePlans,
+  updateReview,
+};

@@ -72,7 +72,6 @@ const getAllTravelPlans = async (
 
   if (user?.role === "USER") {
     andConditions.push({
-      userId: user.id,
       isDeleted: false,
     });
   }
@@ -180,16 +179,110 @@ const getTravelPlanById = async (id: string) => {
   return result;
 };
 
-// Get my own plans
-const getMyTravelPlans = async (user: JwtPayload) => {
-  const result = await prisma.travelPlan.findMany({
-    where: {
-      userId: user.id,
+// Get loged in users travel plan
+const getMyTravelPlans = async (
+  params: any,
+  options: any,
+  user: JwtPayload
+) => {
+  const { page, limit, skip, sortOrder, sortBy } = calculatePagination(options);
+  const { searchTerm, travelType, ...filterData } = params;
+
+  const andConditions: TravelPlanWhereInput[] = [];
+
+  const rawStart = filterData.startDate;
+  const rawEnd = filterData.endDate;
+  delete filterData.startDate;
+  delete filterData.endDate;
+
+  if (user?.role === "USER") {
+    andConditions.push({
+      userId: user?.id,
       isDeleted: false,
+    });
+  }
+
+  // Search fields
+  if (searchTerm) {
+    andConditions.push({
+      OR: [
+        { destination: { contains: searchTerm, mode: "insensitive" } },
+        { description: { contains: searchTerm, mode: "insensitive" } },
+      ],
+    });
+  }
+
+  // date filter
+  if (rawStart && rawEnd) {
+    const start = new Date(rawStart);
+    const end = new Date(rawEnd);
+
+    if (start > end) {
+      throw new AppError(400, "Start date cannot be later than end date");
+    }
+
+    andConditions.push({
+      AND: [{ startDate: { gte: start } }, { endDate: { lte: end } }],
+    });
+  }
+
+  if (rawStart && !rawEnd) {
+    andConditions.push({ startDate: { gte: new Date(rawStart) } });
+  }
+
+  if (!rawStart && rawEnd) {
+    andConditions.push({ endDate: { lte: new Date(rawEnd) } });
+  }
+
+  // Handle travelType filter
+  if (travelType && travelType !== "ALL") {
+    andConditions.push({ travelType: { equals: travelType } });
+  }
+
+  // Filters
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          equals: filterData[key],
+        },
+      })),
+    });
+  }
+
+  const whereCondition: TravelPlanWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const total = await prisma.travelPlan.count({ where: whereCondition });
+
+  const result = await prisma.travelPlan.findMany({
+    skip,
+    take: limit,
+    where: whereCondition,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileImage: true,
+          gender: true,
+          interests: true,
+          visitedCountries: true,
+          verifiedBadge: true,
+          status: true,
+        },
+      },
     },
   });
 
-  return result;
+  return {
+    meta: { page, limit, total },
+    data: result,
+  };
 };
 
 // Update plan

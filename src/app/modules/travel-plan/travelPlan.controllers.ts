@@ -70,23 +70,34 @@ const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// Get my plans
+// Get my travel plans
 const getMyTravelPlans = catchAsync(
   async (req: Request & { user?: JWTPayload }, res: Response) => {
-    const user = req?.user;
-
-    if (!user) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
-    }
+    const user = req.user;
+    const filters = pickQueries(req.query, [
+      "destination",
+      "travelType",
+      "startDate",
+      "endDate",
+      "searchTerm",
+    ]);
+    const options = pickQueries(req.query, [
+      "page",
+      "limit",
+      "sortBy",
+      "sortOrder",
+    ]);
 
     const result = await TravelPlanServices.getMyTravelPlans(
+      filters,
+      options,
       user as JWTPayload
     );
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "My travel plans fetched successfully.",
+      message: "My Travel plans fetched successfully.",
       data: result,
     });
   }
