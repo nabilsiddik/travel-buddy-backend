@@ -38,6 +38,7 @@ travelPlanRouter.get(
 travelPlanRouter.patch(
   "/:id",
   checkAuth(UserRole.USER, UserRole.ADMIN),
+  fileUploader.upload.single("file"),
   validateRequest(TravelPlanValidation.updateTravelPlanSchema),
   TravelPlanControllers.updateTravelPlan
 );

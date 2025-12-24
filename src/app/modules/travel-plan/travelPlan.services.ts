@@ -286,7 +286,24 @@ const getMyTravelPlans = async (
 };
 
 // Update plan
-const updateTravelPlan = async (id: string, user: JwtPayload, payload: any) => {
+const updateTravelPlan = async (req: Request & { user?: JWTPayload }) => {
+  const user = req?.user;
+  const id = req.params?.id;
+
+  if (!user) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
+  }
+
+  if (!id) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Travel id not found");
+  }
+
+  let uploadedResult;
+  if (req?.file) {
+    uploadedResult = await fileUploader.uploadToCloudinary(req.file);
+  }
+
+  const payload = req.body;
   const plan = await prisma.travelPlan.findUnique({
     where: { id },
   });
@@ -304,7 +321,10 @@ const updateTravelPlan = async (id: string, user: JwtPayload, payload: any) => {
 
   const updated = await prisma.travelPlan.update({
     where: { id },
-    data: payload,
+    data: {
+      ...payload,
+      travelPlanImage: uploadedResult?.secure_url || plan?.travelPlanImage,
+    },
   });
 
   return updated;

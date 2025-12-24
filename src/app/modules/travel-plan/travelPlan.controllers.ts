@@ -106,20 +106,7 @@ const getMyTravelPlans = catchAsync(
 // Update plan
 const updateTravelPlan = catchAsync(
   async (req: Request & { user?: JWTPayload }, res: Response) => {
-    const user = req?.user;
-    const id = req.params?.id;
-
-    if (!user) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, "User not found");
-    }
-
-    if (!id) {
-      throw new AppError(StatusCodes.NOT_FOUND, "Travel id not found");
-    }
-
-    const payload = req.body;
-
-    const result = await TravelPlanServices.updateTravelPlan(id, user, payload);
+    const result = await TravelPlanServices.updateTravelPlan(req);
 
     sendResponse(res, {
       statusCode: 200,

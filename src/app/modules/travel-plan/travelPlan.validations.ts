@@ -12,15 +12,12 @@ const createTravelPlanSchema = z.object({
 });
 
 const updateTravelPlanSchema = z.object({
-  body: z.object({
-    destination: z.string().optional(),
-    startDate: z.string().optional(),
-    endDate: z.string().optional(),
-    budgetRange: z.string().optional(),
-    travelType: z.nativeEnum(TravelType).optional(),
-    description: z.string().optional(),
-    visibility: z.boolean().optional(),
-  }),
+  destination: z.string().min(1, "Destination is required").optional(),
+  startDate: z.string().min(1, "Start date is required").optional(),
+  endDate: z.string().min(1, "End date is required").optional(),
+  budgetRange: z.string().optional(),
+  travelType: z.enum(["SOLO", "FAMILY", "FRIENDS"]).optional(),
+  description: z.string().optional(),
 });
 
 export const TravelPlanValidation = {
