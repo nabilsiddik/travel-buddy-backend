@@ -15,6 +15,11 @@ const createSubscriptionSession = catchAsync(
     const userId = req.user?.id;
     const { plan } = req.body;
 
+    console.log({
+      userId,
+      plan,
+    });
+
     if (!userId) {
       throw new AppError(StatusCodes.UNAUTHORIZED, "User not authenticated");
     }
@@ -41,14 +46,13 @@ const createSubscriptionSession = catchAsync(
         update: {
           stripeCustomerId: customerId,
           plan,
+          status: "incomplete",
         },
         create: {
           userId,
           stripeCustomerId: customerId,
           status: "incomplete",
           plan,
-          stripeSubscriptionId: "",
-          currentPeriodEnd: new Date(),
         },
       });
     }
