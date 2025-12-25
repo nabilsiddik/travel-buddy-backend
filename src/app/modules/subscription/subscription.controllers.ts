@@ -81,9 +81,7 @@ const stripeWebhook = catchAsync(async (req: Request, res: Response) => {
   let event: Stripe.Event;
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2025-11-17.clover",
-    });
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret!);
   } catch (err: any) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -155,9 +153,7 @@ const verifySession = catchAsync(
       throw new AppError(StatusCodes.BAD_REQUEST, "No session id found");
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2025-11-17.clover",
-    });
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["subscription"],
     });

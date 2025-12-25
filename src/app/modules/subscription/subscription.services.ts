@@ -8,7 +8,7 @@ const getStripeInstance = () => {
       "STRIPE_SECRET_KEY is not defined in environment variables"
     );
   }
-  return new Stripe(secretKey, { apiVersion: "2025-11-17.clover" });
+  return new Stripe(secretKey);
 };
 
 // Create stripe customer
