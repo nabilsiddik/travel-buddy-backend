@@ -41,7 +41,7 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 // user by id
-const getUserById = async (req: Request, res: Response) => {
+const getUserById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -55,7 +55,7 @@ const getUserById = async (req: Request, res: Response) => {
     message: "User fetched successfully",
     data: result,
   });
-};
+});
 
 // get top rated users
 export const topRatedUsers = catchAsync(async (req: Request, res: Response) => {
@@ -135,6 +135,18 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Get all travelers
+const getAllTravelers = catchAsync(async (_req: Request, res: Response) => {
+  const travelers = await UserServices.getAllTravelers();
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "All travelers retrieved successfully",
+    data: travelers,
+  });
+});
+
 export const UserControllers = {
   createUser,
   getAllUsers,
@@ -144,4 +156,5 @@ export const UserControllers = {
   topRatedUsers,
   getUserReviewsWithAvgRating,
   deleteUser,
+  getAllTravelers,
 };

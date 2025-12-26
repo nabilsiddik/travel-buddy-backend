@@ -128,7 +128,9 @@ const getAllUsers = async (params: any, options: any) => {
   };
 };
 
+// Get user by id
 const getUserById = async (id: string) => {
+  console.log(id, "my id");
   const user = await prisma.user.findUnique({
     where: { id, isDeleted: false },
     include: {
@@ -169,10 +171,23 @@ const getUserById = async (id: string) => {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }
 
+  const ratingStats = await prisma.review.aggregate({
+    where: { targetUserId: id },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+
+  const averageRating = ratingStats?._avg?.rating ?? 0;
+  const reviewsCount = ratingStats?._count?.rating ?? 0;
+
   // Remove password before sending
   const { password, ...rest } = user;
 
-  return rest;
+  return {
+    ...rest,
+    averageRating: Number(averageRating.toFixed(1)),
+    reviewsCount,
+  };
 };
 
 // get top rated user
@@ -391,6 +406,19 @@ const deleteUser = async (userId: string) => {
   return deletedUser;
 };
 
+// Get all travelers
+const getAllTravelers = async () => {
+  const users = await prisma.user.findMany({
+    include: {
+      travelPlans: true,
+    },
+  });
+
+  const travelers = users.filter((user) => user?.travelPlans?.length > 0);
+
+  return travelers;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
@@ -400,4 +428,5 @@ export const UserServices = {
   getTopRatedUsers,
   getUserReviewsWithAvgRating,
   deleteUser,
+  getAllTravelers,
 };

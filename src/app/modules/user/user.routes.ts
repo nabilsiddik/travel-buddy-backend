@@ -23,7 +23,11 @@ userRouter.get(
   UserControllers.getMyProfile
 );
 
+// Get top rated travelers
 userRouter.get("/top-rated", UserControllers.topRatedUsers);
+
+// Get all travelers
+userRouter.get("/travelers", UserControllers.getAllTravelers);
 
 // Ceate patient route
 userRouter.post(
@@ -44,11 +48,7 @@ userRouter.patch(
 
 userRouter.get("/:userId/reviews", UserControllers.getUserReviewsWithAvgRating);
 
-userRouter.get(
-  "/:id",
-  checkAuth(UserRole.ADMIN, UserRole.USER),
-  catchAsync(UserControllers.getUserById)
-);
+userRouter.get("/:id", UserControllers.getUserById);
 
 userRouter.delete(
   "/",
