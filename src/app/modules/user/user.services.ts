@@ -409,6 +409,7 @@ const deleteUser = async (userId: string) => {
 // Get all travelers
 const getAllTravelers = async () => {
   const users = await prisma.user.findMany({
+    where: { isDeleted: false },
     include: {
       travelPlans: true,
     },

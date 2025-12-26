@@ -70,14 +70,14 @@ const getAllTravelPlans = async (
   delete filterData.startDate;
   delete filterData.endDate;
 
+  andConditions.push({ isDeleted: false });
+
   if (user?.role === "USER") {
     andConditions.push({
-      isDeleted: false,
+      user: {
+        isDeleted: false,
+      },
     });
-  }
-
-  if (user?.role === "ADMIN") {
-    andConditions.push({ isDeleted: false });
   }
 
   // Search fields
@@ -169,6 +169,7 @@ const getTravelPlanById = async (id: string) => {
     where: { id, isDeleted: false },
     include: {
       user: true,
+      joinRequests: true,
     },
   });
 
@@ -312,7 +313,7 @@ const updateTravelPlan = async (req: Request & { user?: JWTPayload }) => {
     throw new AppError(StatusCodes.NOT_FOUND, "Travel plan not found.");
   }
 
-  if (plan.userId !== user.id) {
+  if (user?.role !== "ADMIN" && plan.userId !== user.id) {
     throw new AppError(
       StatusCodes.FORBIDDEN,
       "You are not allowed to update this plan."
