@@ -1,7 +1,8 @@
 # Travel Buddy - Backend
 
 ## Live URL
-Currently running locally at: `https://travel-buddy-backend-p2ok.onrender.com/`  
+
+Currently running locally at: `https://travel-buddy-backend-73ls.onrender.com`  
 (Replace with your deployed backend URL once available)
 
 **Travel Buddy** is a modern, responsive, and interactive web application built with Node js, express js, typescript, postgreSQL, prisma. It allows users to explore travel plans, join trips, leave reviews, and manage their profile seamlessly.
@@ -9,12 +10,12 @@ Currently running locally at: `https://travel-buddy-backend-p2ok.onrender.com/`
 ---
 
 ## Features
+
 - **User Authentication & Authorization**
   - JWT-based authentication
   - Role-based access control (Admin, User, Super Admin)
 - **Travel Plan Management**
   - CRUD operations for travel plans
-  - Visibility control (public/private)
   - Search & filtering by destination, date, travel type
 - **Join Requests**
   - Send, accept, reject, and cancel travel plan join requests
@@ -26,8 +27,8 @@ Currently running locally at: `https://travel-buddy-backend-p2ok.onrender.com/`
 - **Payments & Subscriptions**
   - Stripe integration for subscription management
 
-
 ## Technology Stack
+
 - **Language & Runtime:** TypeScript, Node.js
 - **Framework:** Express.js
 - **Database:** PostgreSQL
@@ -41,17 +42,20 @@ Currently running locally at: `https://travel-buddy-backend-p2ok.onrender.com/`
 ## Setup & Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/your-username/travel-buddy-backend.git
 cd travel-buddy-backend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Install dependencies:
+
 ```bash
 DATABASE_URL=postgresql://username:password@localhost:5432/travelbuddy
 JWT_SECRET=your_jwt_secret
@@ -60,25 +64,27 @@ STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 ```
 
 4. Generate Prisma client & migrate database:
+
 ```bash
 npx prisma generate
 npx prisma migrate dev --name init
 ```
 
 5. Start the development server:
+
 ```bash
 npm run dev
 ```
 
 src/
 ├─ app/
-│  ├─ modules/
-│  │  ├─ auth/
-│  │  ├─ travel-plan/
-│  │  ├─ join-request/
-│  │  └─ review/
-│  ├─ middlewares/
-│  └─ utils/
+│ ├─ modules/
+│ │ ├─ auth/
+│ │ ├─ travel-plan/
+│ │ ├─ join-request/
+│ │ └─ review/
+│ ├─ middlewares/
+│ └─ utils/
 ├─ config/
-├─ generated/ 
+├─ generated/
 └─ server.ts
