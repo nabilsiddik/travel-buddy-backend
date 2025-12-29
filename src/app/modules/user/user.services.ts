@@ -130,7 +130,6 @@ const getAllUsers = async (params: any, options: any) => {
 
 // Get user by id
 const getUserById = async (id: string) => {
-  console.log(id, "my id");
   const user = await prisma.user.findUnique({
     where: { id, isDeleted: false },
     include: {
@@ -330,9 +329,20 @@ const getMyProfile = async (user: JWTPayload) => {
     });
   }
 
+  const ratingStats = await prisma.review.aggregate({
+    where: { targetUserId: userInfo?.id },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+
+  const averageRating = ratingStats?._avg?.rating ?? 0;
+  const reviewsCount = ratingStats?._count?.rating ?? 0;
+
   return {
     ...userInfo,
     ...profileData,
+    averageRating: Number(averageRating.toFixed(1)),
+    reviewsCount,
   };
 };
 
