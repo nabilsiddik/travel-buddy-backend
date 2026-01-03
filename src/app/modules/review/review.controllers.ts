@@ -74,8 +74,30 @@ export const updateReview = catchAsync(
   }
 );
 
+// delete review
+export const deleteReview = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const { id } = req.params;
+    const user = req.user;
+
+    if (!id) {
+      throw new AppError(StatusCodes.BAD_REQUEST, "Review id not provided.");
+    }
+
+    const data = await ReviewServices.deleteReview(user as JWTPayload, id);
+
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "Review deleted",
+      data,
+    });
+  }
+);
+
 export const ReviewControllers = {
   createPlanReview,
   getReviewablePlans,
   updateReview,
+  deleteReview,
 };

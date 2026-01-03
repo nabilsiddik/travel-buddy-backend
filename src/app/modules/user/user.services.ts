@@ -192,6 +192,7 @@ const getUserById = async (id: string) => {
 // get top rated user
 const getTopRatedUsers = async () => {
   const topUsers = await prisma.review.groupBy({
+    where: { isDeleted: false },
     by: ["targetUserId"],
     _avg: {
       rating: true,
@@ -280,6 +281,7 @@ const getMyProfile = async (user: JWTPayload) => {
       },
 
       receivedReviews: {
+        where: { isDeleted: false },
         include: {
           reviewer: {
             select: {
@@ -299,6 +301,7 @@ const getMyProfile = async (user: JWTPayload) => {
       },
 
       givenReviews: {
+        where: { isDeleted: false },
         include: {
           targetUser: {
             select: {
@@ -330,7 +333,7 @@ const getMyProfile = async (user: JWTPayload) => {
   }
 
   const ratingStats = await prisma.review.aggregate({
-    where: { targetUserId: userInfo?.id },
+    where: { targetUserId: userInfo?.id, isDeleted: false },
     _avg: { rating: true },
     _count: { rating: true },
   });

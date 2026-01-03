@@ -90,8 +90,32 @@ const updateReview = async (
   return result;
 };
 
+// delete review
+const deleteReview = async (user: JWTPayload, reviewId: string) => {
+  const review = await prisma.review.findUniqueOrThrow({
+    where: { id: reviewId },
+  });
+
+  if (review?.reviewerId !== user?.id) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "You can not delete others review."
+    );
+  }
+
+  const result = await prisma.review.update({
+    where: { id: reviewId },
+    data: {
+      isDeleted: true,
+    },
+  });
+
+  return result;
+};
+
 export const ReviewServices = {
   createReview,
   getReviewablePlans,
   updateReview,
+  deleteReview,
 };

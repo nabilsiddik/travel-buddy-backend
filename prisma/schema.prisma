@@ -150,6 +150,7 @@ model Review {
   planId       String
   rating       Int
   comment      String?
+  isDeleted    Boolean @default(false)
 
   reviewer   User       @relation("UserGivenReviews", fields: [reviewerId], references: [id])
   targetUser User       @relation("UserReceivedReviews", fields: [targetUserId], references: [id])

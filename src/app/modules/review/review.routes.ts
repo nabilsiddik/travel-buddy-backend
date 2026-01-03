@@ -23,4 +23,10 @@ reviewRouter.patch(
   ReviewControllers.updateReview
 );
 
+reviewRouter.delete(
+  "/:id",
+  checkAuth(UserRole.USER),
+  ReviewControllers.deleteReview
+);
+
 export default reviewRouter;
