@@ -147,6 +147,28 @@ const getAllTravelers = catchAsync(async (_req: Request, res: Response) => {
   });
 });
 
+// get matched travelers
+export const getMatchedTravelers = catchAsync(
+  async (req: Request & { user?: JWTPayload }, res: Response) => {
+    const userId = req?.user?.id;
+
+    if (!userId) {
+      throw new AppError(StatusCodes.BAD_GATEWAY, "user id not found.");
+    }
+
+    const matchedTravelers = await UserServices.getMatchedTravelers(
+      userId as string
+    );
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Matched travelers retrived successfully.",
+      data: matchedTravelers,
+    });
+  }
+);
+
 export const UserControllers = {
   createUser,
   getAllUsers,
@@ -157,4 +179,5 @@ export const UserControllers = {
   getUserReviewsWithAvgRating,
   deleteUser,
   getAllTravelers,
+  getMatchedTravelers,
 };

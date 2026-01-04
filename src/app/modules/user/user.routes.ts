@@ -29,6 +29,13 @@ userRouter.get("/top-rated", UserControllers.topRatedUsers);
 // Get all travelers
 userRouter.get("/travelers", UserControllers.getAllTravelers);
 
+// Get matched travelers
+userRouter.get(
+  "/travelers/matched-travelers",
+  checkAuth(UserRole.ADMIN, UserRole.USER),
+  UserControllers.getMatchedTravelers
+);
+
 // Ceate patient route
 userRouter.post(
   "/create-user",

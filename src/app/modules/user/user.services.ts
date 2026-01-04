@@ -366,14 +366,14 @@ const updateUser = async (userId: string, req: Request) => {
     interests
       ?.toString()
       .split(",")
-      .map((i: any) => i.trim())
+      .map((i: any) => i.trim().toLowerCase())
       .filter(Boolean) || [];
 
   const visitedCountriesArray =
     visitedCountries
       ?.toString()
       .split(",")
-      .map((i: any) => i.trim())
+      .map((i: any) => i.trim().toLowerCase())
       .filter(Boolean) || [];
 
   const updatedUser = await prisma.user.update({
@@ -433,6 +433,65 @@ const getAllTravelers = async () => {
   return travelers;
 };
 
+// get matced travelers with loged in traveler
+export const getMatchedTravelers = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      interests: true,
+      visitedCountries: true,
+      currentLocation: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const orConditions: any[] = [
+    {
+      interests: {
+        hasSome: user.interests,
+      },
+    },
+    {
+      visitedCountries: {
+        hasSome: user.visitedCountries,
+      },
+    },
+  ];
+
+  if (user.currentLocation) {
+    orConditions.push({
+      currentLocation: {
+        equals: user.currentLocation,
+        mode: "insensitive",
+      },
+    });
+  }
+
+  const travelers = await prisma.user.findMany({
+    where: {
+      id: { not: userId },
+      isDeleted: false,
+      status: "ACTIVE",
+      OR: orConditions,
+    },
+    select: {
+      id: true,
+      name: true,
+      bio: true,
+      profileImage: true,
+      currentLocation: true,
+      interests: true,
+      visitedCountries: true,
+      verifiedBadge: true,
+    },
+  });
+
+  return travelers;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
@@ -443,4 +502,5 @@ export const UserServices = {
   getUserReviewsWithAvgRating,
   deleteUser,
   getAllTravelers,
+  getMatchedTravelers,
 };
