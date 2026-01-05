@@ -2,6 +2,12 @@ import { JoinStatus } from "../../../../generated/prisma/enums.js";
 import { prisma } from "../../config/prisma.config.js";
 import AppError from "../../errorHelpers/appError.js";
 
+// Get all join request
+export const getAllJoinRequest = async () => {
+  const requests = await prisma.travelPlanJoinRequest.findMany();
+
+  return requests || [];
+};
 
 // Send a join request
 export const sendJoinRequest = async (planId: string, requesterId: string) => {
@@ -9,34 +15,35 @@ export const sendJoinRequest = async (planId: string, requesterId: string) => {
 
   if (!plan) throw new AppError(404, "Travel plan not found");
 
-  if (plan.userId === requesterId) throw new AppError(400, "Cannot join your own plan");
+  if (plan.userId === requesterId)
+    throw new AppError(400, "Cannot join your own plan");
 
   const existingRequest = await prisma.travelPlanJoinRequest.findFirst({
-    where: { planId, requesterId }
+    where: { planId, requesterId },
   });
 
   if (existingRequest) throw new AppError(400, "Request already exists");
 
   return prisma.travelPlanJoinRequest.create({
-    data: { planId, requesterId }
+    data: { planId, requesterId },
   });
 };
 
 // Accept a join request
 export const acceptJoinRequest = async (requestId: string) => {
   const request = await prisma.travelPlanJoinRequest.findUnique({
-    where: { id: requestId }
+    where: { id: requestId },
   });
 
   if (!request) throw new AppError(404, "Join request not found");
 
   const participant = await prisma.travelPlanParticipant.create({
-    data: { planId: request.planId, userId: request.requesterId }
+    data: { planId: request.planId, userId: request.requesterId },
   });
 
   await prisma.travelPlanJoinRequest.update({
     where: { id: requestId },
-    data: { status: JoinStatus.ACCEPTED }
+    data: { status: JoinStatus.ACCEPTED },
   });
 
   return {
@@ -44,25 +51,29 @@ export const acceptJoinRequest = async (requestId: string) => {
     joinRequestId: request.id,
     planId: participant.planId,
     userId: participant.userId,
-    status: JoinStatus.ACCEPTED
+    status: JoinStatus.ACCEPTED,
   };
 };
 
 // Reject a join request
 export const rejectJoinRequest = async (requestId: string) => {
-  const request = await prisma.travelPlanJoinRequest.findUnique({ where: { id: requestId } });
+  const request = await prisma.travelPlanJoinRequest.findUnique({
+    where: { id: requestId },
+  });
 
   if (!request) throw new AppError(404, "Join request not found");
 
   return prisma.travelPlanJoinRequest.update({
     where: { id: requestId },
-    data: { status: JoinStatus.REJECTED }
+    data: { status: JoinStatus.REJECTED },
   });
 };
 
 // Cancel your own join request
 export const cancelJoinRequest = async (requestId: string, userId: string) => {
-  const request = await prisma.travelPlanJoinRequest.findUnique({ where: { id: requestId } });
+  const request = await prisma.travelPlanJoinRequest.findUnique({
+    where: { id: requestId },
+  });
 
   if (!request) throw new AppError(404, "Join request not found");
 
@@ -70,7 +81,7 @@ export const cancelJoinRequest = async (requestId: string, userId: string) => {
 
   return prisma.travelPlanJoinRequest.update({
     where: { id: requestId },
-    data: { status: JoinStatus.CANCELLED }
+    data: { status: JoinStatus.CANCELLED },
   });
 };
 
@@ -78,7 +89,7 @@ export const cancelJoinRequest = async (requestId: string, userId: string) => {
 export const getPlanJoinRequests = async (planId: string) => {
   return prisma.travelPlanJoinRequest.findMany({
     where: { planId },
-    include: { requester: true }
+    include: { requester: true },
   });
 };
 
@@ -86,7 +97,7 @@ export const getPlanJoinRequests = async (planId: string) => {
 export const getPlanParticipants = async (planId: string) => {
   return prisma.travelPlanParticipant.findMany({
     where: { planId },
-    include: { user: true }
+    include: { user: true },
   });
 };
 
@@ -96,7 +107,7 @@ export const getJoinRequestsForMyPlans = async (userId: string) => {
     where: {
       plan: {
         userId: userId,
-      }
+      },
     },
     include: {
       requester: {
@@ -114,13 +125,13 @@ export const getJoinRequestsForMyPlans = async (userId: string) => {
           destination: true,
           startDate: true,
           endDate: true,
-        }
+        },
       },
     },
   });
 
-  return requests
-}
+  return requests;
+};
 
 const getMySentRequests = async (userId: string) => {
   const result = prisma.travelPlanJoinRequest.findMany({
@@ -128,22 +139,24 @@ const getMySentRequests = async (userId: string) => {
     include: {
       plan: {
         include: {
-          user: true
-        }
-      }
-    }
+          user: true,
+        },
+      },
+    },
   });
 
   return result || [];
-}
-
+};
 
 // Complete joint request
-export const completeJoinRequest = async (joinRequestId: string, status: string, userId: string) => {
-
+export const completeJoinRequest = async (
+  joinRequestId: string,
+  status: string,
+  userId: string
+) => {
   const joinRequest = await prisma.travelPlanJoinRequest.findUnique({
     where: { id: joinRequestId },
-    include: { plan: true, requester: true }
+    include: { plan: true, requester: true },
   });
 
   if (!joinRequest) throw new AppError(404, "Join Request not found");
@@ -166,12 +179,11 @@ export const completeJoinRequest = async (joinRequestId: string, status: string,
 
   const updated = await prisma.travelPlanJoinRequest.update({
     where: { id: joinRequestId },
-    data: { status: "COMPLETED" }
+    data: { status: "COMPLETED" },
   });
 
   return updated;
 };
-
 
 export const TravelPlanRequestServices = {
   getJoinRequestsForMyPlans,
@@ -182,5 +194,6 @@ export const TravelPlanRequestServices = {
   cancelJoinRequest,
   rejectJoinRequest,
   acceptJoinRequest,
-  sendJoinRequest
-}
+  sendJoinRequest,
+  getAllJoinRequest,
+};

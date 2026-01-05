@@ -6,6 +6,12 @@ import { ReviewControllers } from "./review.controllers.js";
 const reviewRouter = Router();
 
 reviewRouter.get(
+  "/",
+  checkAuth(UserRole.ADMIN),
+  ReviewControllers.getAllReviews
+);
+
+reviewRouter.get(
   "/reviewable-plans",
   checkAuth(UserRole.ADMIN, UserRole.USER),
   ReviewControllers.getReviewablePlans

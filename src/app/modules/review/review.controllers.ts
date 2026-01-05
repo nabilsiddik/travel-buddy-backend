@@ -6,6 +6,18 @@ import AppError from "../../errorHelpers/appError.js";
 import { ReviewServices } from "./review.services.js";
 import { sendResponse } from "../../utils/userResponse.js";
 
+// Get all reviews
+export const getAllReviews = catchAsync(async (req: Request, res: Response) => {
+  const data = await ReviewServices.getAllReviews();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "All reviews retrived.",
+    data,
+  });
+});
+
 // Create review
 export const createPlanReview = catchAsync(
   async (req: Request & { user?: JWTPayload }, res: Response) => {
@@ -100,4 +112,5 @@ export const ReviewControllers = {
   getReviewablePlans,
   updateReview,
   deleteReview,
+  getAllReviews,
 };

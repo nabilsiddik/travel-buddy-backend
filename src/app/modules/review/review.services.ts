@@ -4,6 +4,15 @@ import AppError from "../../errorHelpers/appError.js";
 import { ParticipantStatus } from "../../../../generated/prisma/enums.js";
 import type { JWTPayload } from "../../interfaces/index.js";
 
+// Get all reviews
+export const getAllReviews = async () => {
+  const reviews = await prisma.review.findMany({
+    where: { isDeleted: false },
+  });
+
+  return reviews || [];
+};
+
 // Create a review (after travel ends)
 export const createReview = async (
   reviewerId: string,
@@ -118,4 +127,5 @@ export const ReviewServices = {
   getReviewablePlans,
   updateReview,
   deleteReview,
+  getAllReviews,
 };
