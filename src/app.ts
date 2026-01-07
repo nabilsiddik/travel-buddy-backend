@@ -10,6 +10,15 @@ import { SubscriptionControllers } from './app/modules/subscription/subscription
 
 export const app = express()
 
+app.get('/health', (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: Date.now()
+  })
+})
+
+
 app.post('/webhook', bodyParser.raw({ type: 'application/json' }), SubscriptionControllers.stripeWebhook);
 
 app.set('trust proxy', 1)
@@ -24,7 +33,7 @@ app.use('/api/v1', router)
 
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({
-        message: `Server is running on port ${envVars.PORT}`
+        message: `Server is running...`
     })
 })
 
