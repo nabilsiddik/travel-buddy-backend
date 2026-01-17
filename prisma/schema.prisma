@@ -60,20 +60,29 @@ enum PlanType {
 
 // Models
 model User {
-  id               String     @id @default(uuid())
-  name             String
-  email            String     @unique
-  password         String
-  role             UserRole   @default(USER)
-  bio              String?
-  profileImage     String?
-  currentLocation  String?
-  gender           Gender
-  interests        String[]
-  visitedCountries String[]
-  verifiedBadge    Boolean    @default(false)
-  status           UserStatus @default(ACTIVE)
-  isDeleted        Boolean    @default(false)
+  id                 String     @id @default(uuid())
+  firstName          String
+  lastName           String
+  email              String     @unique
+  password           String
+  role               UserRole   @default(USER)
+  bio                String?
+  profileImage       String?
+  coverImage         String?
+  currentLocation    String?
+  gender             Gender?
+  birthDate DateTime
+  profileDescription String?
+  isIdentityVerified Boolean @default(false)
+  isPhoneVerified Boolean @default(false)
+  isEmailVerified Boolean @default(false)
+  interests          String[]
+  languages          String[]
+  travelPhotos       String[]
+  visitedCountries   String[]
+  verifiedBadge      Boolean    @default(false)
+  status             UserStatus @default(ACTIVE)
+  isDeleted          Boolean    @default(false)
 
   // Relations
   travelPlans     TravelPlan[]            @relation("UserTravelPlans")
@@ -90,17 +99,28 @@ model User {
   @@map("users")
 }
 
+enum TravelPlanVisibility {
+  PUBLIC
+  PRIVET
+}
+
 model TravelPlan {
   id              String     @id @default(uuid())
   userId          String
-  destination     String
-  travelPlanImage String?
+  title     String
+  planImages String[]
+  destination String
   startDate       DateTime
   endDate         DateTime
-  budgetRange     String?
+  minMates Int
+  maxMates Int
+  includes String[]
+  videoUrl String?
+  budgetFrom Int
+  budgetTo Int
   travelType      TravelType
   description     String?
-  visibility      Boolean    @default(true)
+  visibility      TravelPlanVisibility    @default(PUBLIC)
   isDeleted       Boolean    @default(false)
 
   // Relations

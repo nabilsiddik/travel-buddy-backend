@@ -22,12 +22,19 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
   }
 
   const {
+    title,
     destination,
     startDate,
     endDate,
-    budgetRange,
+    budgetFrom,
+    budgetTo,
     travelType,
     description,
+    videoUrl,
+    visibility,
+    includes,
+    minMates,
+    maxMates
   } = req.body;
 
   try {
@@ -35,13 +42,20 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
       const createdPlan = await prisma.travelPlan.create({
         data: {
           userId,
+          title,
           destination,
-          travelPlanImage: uploadedResult?.secure_url || "",
+          minMates,
+          maxMates,
+          planImages: [uploadedResult?.secure_url || ''],
+          includes,
           startDate: new Date(startDate),
           endDate: new Date(endDate),
-          budgetRange: budgetRange ?? undefined,
+          budgetFrom,
+          budgetTo,
           travelType: travelType,
           description: description ?? undefined,
+          videoUrl: videoUrl ?? undefined,
+          visibility: visibility ?? 'PUBLIC'
         },
       });
 

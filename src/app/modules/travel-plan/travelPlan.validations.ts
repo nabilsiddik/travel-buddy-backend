@@ -8,7 +8,7 @@ const createTravelPlanSchema = z.object({
   budgetRange: z.string().optional(),
   travelType: z.nativeEnum(TravelType),
   description: z.string().optional(),
-  visibility: z.boolean().optional(),
+  visibility: z.string().default('PUBLIC'),
 });
 
 const updateTravelPlanSchema = z.object({

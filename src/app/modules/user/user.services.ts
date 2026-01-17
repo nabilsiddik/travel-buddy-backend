@@ -11,17 +11,16 @@ import { userSearchableFields } from "./user.constants.js";
 import type { JWTPayload } from "../../interfaces/index.js";
 import { UserRole, UserStatus } from "../../../../generated/prisma/enums.js";
 import { parseBoolean } from "../../utils/parseQueryToBoolian.js";
+import { INVALID } from "zod/v3";
 
 // Create user
 const createUser = async (req: Request) => {
   const {
-    name,
+    firstName,
+    lastName,
     email,
     password,
-    bio,
-    currentLocation,
-    visitedCountries,
-    gender,
+    birthDate,
   } = req.body;
 
   let uploadedResult;
@@ -45,16 +44,29 @@ const createUser = async (req: Request) => {
     Number(envVars.SALT_ROUND)
   );
 
+  console.log({
+    firstName,
+    lastName,
+    email,
+    birthDate: new Date(birthDate),
+    password: hashedPassword,
+    profileImage: uploadedResult?.secure_url || "",
+  }, 'data reg');
+
+  if(!birthDate || isNaN(Date.parse(birthDate))){
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid birth date')
+  }
+
+  const parsedBirthDate = new Date(birthDate)
+  
   const createdUser = await prisma.user.create({
     data: {
-      name,
+      firstName,
+      lastName,
       email,
+      birthDate: parsedBirthDate,
       password: hashedPassword,
       profileImage: uploadedResult?.secure_url || "",
-      bio: bio || "",
-      currentLocation: currentLocation || "",
-      gender: gender || "",
-      visitedCountries: visitedCountries || [],
     },
   });
 
@@ -98,8 +110,8 @@ const getAllUsers = async (params: any, options: any) => {
   const whereConditions: UserWhereInput =
     andConditions.length > 0
       ? {
-          AND: andConditions,
-        }
+        AND: andConditions,
+      }
       : {};
 
   const total = await prisma.user.count({
@@ -143,7 +155,8 @@ const getUserById = async (id: string) => {
           reviewer: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               profileImage: true,
               verifiedBadge: true,
             },
@@ -156,7 +169,8 @@ const getUserById = async (id: string) => {
           targetUser: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               profileImage: true,
               verifiedBadge: true,
             },
@@ -211,7 +225,8 @@ const getTopRatedUsers = async () => {
     },
     select: {
       id: true,
-      name: true,
+      firstName: true,
+      lastName: true,
       email: true,
       profileImage: true,
     },
@@ -244,7 +259,7 @@ export const getUserReviewsWithAvgRating = async (userId: string) => {
     select: {
       id: true,
       reviewer: {
-        select: { id: true, name: true, profileImage: true },
+        select: { id: true, firstName: true, lastName: true, profileImage: true },
       },
       rating: true,
       comment: true,
@@ -286,7 +301,8 @@ const getMyProfile = async (user: JWTPayload) => {
           reviewer: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               profileImage: true,
               verifiedBadge: true,
             },
@@ -306,7 +322,8 @@ const getMyProfile = async (user: JWTPayload) => {
           targetUser: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               profileImage: true,
               verifiedBadge: true,
             },
@@ -351,7 +368,7 @@ const getMyProfile = async (user: JWTPayload) => {
 
 // Update user
 const updateUser = async (userId: string, req: Request) => {
-  const { name, bio, currentLocation, visitedCountries, interests } = req.body;
+  const { firstName, lastName, bio, currentLocation, visitedCountries, interests } = req.body;
 
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
@@ -379,7 +396,8 @@ const updateUser = async (userId: string, req: Request) => {
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      name,
+      firstName,
+      lastName,
       bio,
       currentLocation,
       interests: interestsArray,
@@ -479,7 +497,8 @@ export const getMatchedTravelers = async (userId: string) => {
     },
     select: {
       id: true,
-      name: true,
+      firstName: true,
+      lastName: true,
       bio: true,
       profileImage: true,
       currentLocation: true,

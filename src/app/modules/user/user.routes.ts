@@ -36,7 +36,7 @@ userRouter.get(
   UserControllers.getMatchedTravelers
 );
 
-// Ceate patient route
+// Ceate user route
 userRouter.post(
   "/create-user",
   fileUploader.upload.single("file"),

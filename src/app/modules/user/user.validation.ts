@@ -7,37 +7,22 @@ export const Gender = z.enum(["MALE", "FEMALE", "OTHERS"]);
 
 // patient creation input zod schema
 export const createUserSchema = z.object({
-    name: z
-        .string()
-        .min(2, "Name must be at least 2 characters"),
+    firstName: z
+        .string('First Name is Required'),
+
+    lastName: z
+        .string('Last Name is Required'),
 
     email: z
-        .string()
+        .string('Email is Required')
         .email("Invalid email format"),
 
     password: z
-        .string()
+        .string('Password is required')
         .min(6, "Password must be at least 6 characters"),
 
-    bio: z.string().optional(),
-    profileImage: z.string().optional(),
-    currentLocation: z.string().optional(),
+    birthDate: z.string('Birth Date is Required')
 
-    interests: z
-        .array(z.string())
-        .optional()
-        .default([]),
-
-    visitedCountries: z
-        .array(z.string())
-        .optional()
-        .default([]),
-
-    gender: Gender,
-    role: UserRoleEnum.default("USER"),
-    subscriptionStatus: SubscriptionStatusEnum.default("NONE"),
-    verifiedBadge: z.boolean().optional().default(false),
-    status: UserStatusEnum.default("ACTIVE"),
 });
 
 
