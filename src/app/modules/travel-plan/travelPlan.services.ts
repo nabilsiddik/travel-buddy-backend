@@ -44,14 +44,14 @@ const createTravelPlan = async (req: Request & { user?: JWTPayload }) => {
           userId,
           title,
           destination,
-          minMates,
-          maxMates,
+          minMates: parseInt(minMates),
+          maxMates: parseInt(maxMates),
           planImages: [uploadedResult?.secure_url || ''],
           includes,
           startDate: new Date(startDate),
           endDate: new Date(endDate),
-          budgetFrom,
-          budgetTo,
+          budgetFrom: parseInt(budgetFrom),
+          budgetTo: parseInt(budgetTo),
           travelType: travelType,
           description: description ?? undefined,
           videoUrl: videoUrl ?? undefined,
@@ -158,7 +158,8 @@ const getAllTravelPlans = async (
       user: {
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
           email: true,
           profileImage: true,
           gender: true,
@@ -281,7 +282,8 @@ const getMyTravelPlans = async (
       user: {
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
           email: true,
           profileImage: true,
           gender: true,
@@ -338,7 +340,7 @@ const updateTravelPlan = async (req: Request & { user?: JWTPayload }) => {
     where: { id },
     data: {
       ...payload,
-      travelPlanImage: uploadedResult?.secure_url || plan?.travelPlanImage,
+      travelPlanImage: uploadedResult?.secure_url || plan?.planImages,
     },
   });
 

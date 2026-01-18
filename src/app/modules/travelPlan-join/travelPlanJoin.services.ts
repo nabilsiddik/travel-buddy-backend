@@ -113,7 +113,8 @@ export const getJoinRequestsForMyPlans = async (userId: string) => {
       requester: {
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
           email: true,
           profileImage: true,
         },
