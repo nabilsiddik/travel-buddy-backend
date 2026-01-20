@@ -84,6 +84,8 @@ model User {
   status             UserStatus @default(ACTIVE)
   isDeleted          Boolean    @default(false)
 
+  joinedTrips TripParticipant[]
+
   // Relations
   travelPlans     TravelPlan[]            @relation("UserTravelPlans")
   joinRequests    TravelPlanJoinRequest[] @relation("UserJoinRequests")
@@ -123,6 +125,8 @@ model TravelPlan {
   visibility      TravelPlanVisibility    @default(PUBLIC)
   isDeleted       Boolean    @default(false)
 
+  tripParticipants TripParticipant[]
+
   // Relations
   user         User                    @relation("UserTravelPlans", fields: [userId], references: [id])
   participants TravelPlanParticipant[] @relation("PlanParticipants")
@@ -131,6 +135,30 @@ model TravelPlan {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum TripJoinStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REMOVED
+}
+
+model TripParticipant {
+  id String @id @default(uuid())
+
+  tripId String
+  userId String
+
+  trip TravelPlan @relation(fields: [tripId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  status TripJoinStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tripId, userId])
 }
 
 enum ParticipantStatus {

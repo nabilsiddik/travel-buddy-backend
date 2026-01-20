@@ -6,6 +6,7 @@ import subscriptionRouter from "../modules/subscription/subscription.routes.js";
 import joinRequestRouter from "../modules/travelPlan-join/travelPlanJoin.routes.js";
 import reviewRouter from "../modules/review/review.routes.js";
 import participantRouter from "../modules/travelParticipant/participant.router.js";
+import tripParticipantRouter from "../modules/trip-participant/tripParticipant.routes.js";
 
 
 export const router = Router()
@@ -38,6 +39,10 @@ const moduleRoutes = [
     {
         path: '/participant',
         route: participantRouter
+    },
+    {
+        path: '/trip-participant',
+        route: tripParticipantRouter
     }
 ]
 
