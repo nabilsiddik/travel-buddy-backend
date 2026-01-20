@@ -98,6 +98,7 @@ const getAllTravelPlans = async (
   if (searchTerm) {
     andConditions.push({
       OR: [
+        { title: { contains: searchTerm, mode: "insensitive" } },
         { destination: { contains: searchTerm, mode: "insensitive" } },
         { description: { contains: searchTerm, mode: "insensitive" } },
       ],

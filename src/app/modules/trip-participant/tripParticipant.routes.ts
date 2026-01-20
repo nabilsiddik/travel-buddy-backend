@@ -36,7 +36,6 @@ tripParticipantRouter.patch(
 // Update participant request
 tripParticipantRouter.get(
   "/participants/:tripId",
-  checkAuth(UserRole.ADMIN, UserRole.USER),
   TripParticipantControllers.getParticipantsForSpecificTrip
 );
 

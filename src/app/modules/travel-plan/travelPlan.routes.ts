@@ -19,7 +19,6 @@ travelPlanRouter.post(
 
 travelPlanRouter.get(
   "/",
-  checkAuth(UserRole.USER, UserRole.ADMIN),
   TravelPlanControllers.getAllTravelPlans
 );
 
@@ -31,7 +30,6 @@ travelPlanRouter.get(
 
 travelPlanRouter.get(
   "/:id",
-  checkAuth(UserRole.USER, UserRole.ADMIN),
   TravelPlanControllers.getTravelPlanById
 );
 
