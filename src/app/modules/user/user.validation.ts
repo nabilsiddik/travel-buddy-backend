@@ -29,7 +29,8 @@ export const createUserSchema = z.object({
 
 // update user zod schema
 export const updateUserZodSchema = z.object({
-    name: z.string().min(2).optional(),
+    firstName: z.string().min(2).optional(),
+    lastName: z.string().min(2).optional(),
     bio: z.string().optional(),
     currentLocation: z.string().optional(),
     interests: z.string().optional(),
