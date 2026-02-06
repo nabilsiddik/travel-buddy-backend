@@ -85,6 +85,7 @@ model User {
   isDeleted          Boolean    @default(false)
 
   joinedTrips TripParticipant[]
+  chatMessages ChatMessage[]
 
   // Relations
   travelPlans     TravelPlan[]            @relation("UserTravelPlans")
@@ -126,6 +127,7 @@ model TravelPlan {
   isDeleted       Boolean    @default(false)
 
   tripParticipants TripParticipant[]
+  chatRooms ChatRoom[]
 
   // Relations
   user         User                    @relation("UserTravelPlans", fields: [userId], references: [id])
@@ -238,4 +240,32 @@ model Subscription {
   user                 User               @relation(fields: [userId], references: [id])
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
+}
+
+
+
+// Group chat system 
+
+model ChatRoom {
+  id        String   @id @default(uuid())
+  tripId    String   @unique
+
+  trip      TravelPlan @relation(fields: [tripId], references: [id])
+  messages  ChatMessage[]
+
+  createdAt DateTime @default(now())
+}
+
+
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  roomId   String
+  senderId String
+  content  String
+
+  room     ChatRoom @relation(fields: [roomId], references: [id])
+  sender   User     @relation(fields: [senderId], references: [id])
+
+  createdAt DateTime @default(now())
 }

@@ -12,8 +12,6 @@ const createTripParticipant = catchAsync(async (req: Request & {user?: JWTPayloa
   const participantId = req?.user?.id
   const {tripId} = req?.body
 
-  console.log(tripId);
-
   if(!participantId) throw new AppError(StatusCodes.BAD_REQUEST, 'Please provide participant id')
 
   const result = await TripParticipantServices.createTripParticipant(tripId, participantId as string);
@@ -47,8 +45,6 @@ const myParticipantRequest = catchAsync(async (req: Request & {user?: JWTPayload
 const getTripParticipantById = catchAsync(async (req: Request, res: Response) => {
   const participantReqId = req?.params?.id
 
-  console.log(participantReqId);
-
   if(!participantReqId) throw new AppError(StatusCodes.UNAUTHORIZED, 'Please provide participant request id')
 
   const result = await TripParticipantServices.getTripParticipantById(participantReqId);
@@ -65,8 +61,6 @@ const getTripParticipantById = catchAsync(async (req: Request, res: Response) =>
 const updateParticipantRequest = catchAsync(async (req: Request, res: Response) => {
   const participantReqId = req?.params?.id
   const {status} = req?.body
-
-    console.log(participantReqId, status);
 
 
   if(!participantReqId || !status) throw new AppError(StatusCodes.UNAUTHORIZED, 'Please provide participant request id or status')
@@ -85,8 +79,6 @@ const updateParticipantRequest = catchAsync(async (req: Request, res: Response) 
 // Get participant for specific trip
 const getParticipantsForSpecificTrip = catchAsync(async (req: Request, res: Response) => {
   const tripId = req?.params?.tripId
-
-    console.log(tripId);
 
 
   if(!tripId) throw new AppError(StatusCodes.UNAUTHORIZED, 'Please provide trip id')

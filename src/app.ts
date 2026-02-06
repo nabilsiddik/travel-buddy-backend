@@ -7,8 +7,15 @@ import { notFound } from './app/middlewares/notFound.js'
 import globalErrorHandler from './app/middlewares/globalErrorHandler.js'
 import bodyParser from 'body-parser';
 import { SubscriptionControllers } from './app/modules/subscription/subscription.controllers.js'
+import { Server } from 'socket.io';
+import { createServer } from 'node:http'
+import { initSocket } from './app/socket/socket.config.js'
 
 export const app = express()
+export const server = createServer(app);
+
+// Initialize socket.io
+initSocket(server)
 
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({

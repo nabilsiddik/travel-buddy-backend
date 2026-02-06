@@ -5,6 +5,24 @@ import AppError from "../../errorHelpers/appError.js";
 // Trip Participant join request
 const createTripParticipant = async (tripId: string, participantId: string) => {
 
+    const trip = await prisma.travelPlan.findFirst({
+        where: {
+            id: tripId,
+            isDeleted: false
+        },
+        include: {
+            tripParticipants: true
+        }
+    })
+
+    if(!trip){
+        throw new AppError(StatusCodes.NOT_FOUND, 'Trip not found.')
+    }
+
+    if(trip?.userId === participantId){
+        throw new AppError(StatusCodes.BAD_REQUEST, 'You Cannot Join Your Own Trip.')
+    }
+
     const existingParticipant = await prisma.tripParticipant.findFirst({
         where: {
             tripId,
@@ -14,6 +32,10 @@ const createTripParticipant = async (tripId: string, participantId: string) => {
 
     if(existingParticipant){
         throw new AppError(StatusCodes.CONFLICT, 'You already participated to this trip.')
+    }
+
+    if(trip?.tripParticipants?.length > trip?.maxMates){
+        throw new AppError(StatusCodes.NOT_ACCEPTABLE, 'No More Guest Allowed.')
     }
 
     const result = await prisma.tripParticipant.create({
@@ -29,8 +51,6 @@ const createTripParticipant = async (tripId: string, participantId: string) => {
 
 // Get all my Participant join request
 const myParticipantRequest = async (userId: string) => {
-
-    console.log(userId, 'user');
 
     const result = await prisma.tripParticipant.findMany({
         where: {

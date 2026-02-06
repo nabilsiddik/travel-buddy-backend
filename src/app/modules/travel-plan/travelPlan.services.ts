@@ -337,13 +337,6 @@ const updateTravelPlan = async (req: Request & { user?: JWTPayload }) => {
     );
   }
 
-  console.log({
-      ...payload,
-      budgetFrom: parseInt(payload?.budgetFrom),
-      budgetTo: parseInt(payload?.budgetTo),
-      planImages: uploadedResult?.secure_url ? [uploadedResult?.secure_url] : plan?.planImages,
-    });
-
   const updated = await prisma.travelPlan.update({
     where: { id },
     data: {

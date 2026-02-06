@@ -44,14 +44,6 @@ const createUser = async (req: Request) => {
     Number(envVars.SALT_ROUND)
   );
 
-  console.log({
-    firstName,
-    lastName,
-    email,
-    birthDate: new Date(birthDate),
-    password: hashedPassword,
-    profileImage: uploadedResult?.secure_url || "",
-  }, 'data reg');
 
   if(!birthDate || isNaN(Date.parse(birthDate))){
     throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid birth date')
