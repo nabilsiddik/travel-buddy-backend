@@ -57,6 +57,28 @@ const getTripParticipantById = catchAsync(async (req: Request, res: Response) =>
   });
 });
 
+
+// Get user participation for a trip
+const getUserParticipationForTrip = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
+  const participantId = req?.user?.id
+  const tripId = req?.params?.tripId
+
+  console.log(tripId);
+
+  if(!tripId) throw new AppError(StatusCodes.BAD_REQUEST, 'Trip id not provided.')
+
+  if(!participantId) throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized.')
+
+  const result = await TripParticipantServices.getUserParticipationForTrip(tripId, participantId as string);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Participation Retrived.",
+    data: result,
+  });
+});
+
 // Update participant request
 const updateParticipantRequest = catchAsync(async (req: Request, res: Response) => {
   const participantReqId = req?.params?.id
@@ -98,5 +120,6 @@ export const TripParticipantControllers = {
     myParticipantRequest,
     getTripParticipantById,
     updateParticipantRequest,
-    getParticipantsForSpecificTrip
+    getParticipantsForSpecificTrip,
+    getUserParticipationForTrip
 }

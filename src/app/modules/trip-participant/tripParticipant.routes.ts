@@ -26,6 +26,13 @@ tripParticipantRouter.get(
   TripParticipantControllers.getTripParticipantById
 );
 
+// Get user participation
+tripParticipantRouter.get(
+  "/participation-status/:tripId",
+  checkAuth(UserRole.ADMIN, UserRole.USER),
+  TripParticipantControllers.getUserParticipationForTrip
+);
+
 // Update participant request
 tripParticipantRouter.patch(
   "/:id",

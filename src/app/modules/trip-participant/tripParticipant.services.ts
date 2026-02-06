@@ -80,6 +80,19 @@ const getTripParticipantById = async (participantReqId: string) => {
     return result;
 };
 
+// Get user participant status
+const getUserParticipationForTrip = async (tripId: string, participantId: string) => {
+
+    const userParticipation = await prisma.tripParticipant.findFirst({
+        where: {
+            tripId,
+            userId: participantId
+        }
+    })
+
+    return userParticipation
+};
+
 
 // Update participant request
 const updateParticipantRequest = async (participantReqId: string, status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'REMOVED') => {
@@ -121,5 +134,6 @@ export const TripParticipantServices = {
     myParticipantRequest,
     getTripParticipantById,
     updateParticipantRequest,
-    getParticipantsForSpecificTrip
+    getParticipantsForSpecificTrip,
+    getUserParticipationForTrip
 }
