@@ -5,7 +5,7 @@ let io: Server
 export const initSocket = (server: any) => {
     io = new Server(server, {
         cors: {
-            origin: 'http://localhost:3000',
+            origin: ['http://localhost:3000', 'https://travel-buddy-frontend-six.vercel.app'],
             credentials: true,
             methods: ['GET', 'POST'],
         },
