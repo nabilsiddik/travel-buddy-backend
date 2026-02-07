@@ -26,3 +26,8 @@ export const getChatRoom = catchAsync(async (req: Request & { user?: JWTPayload 
         data: result,
     });
 });
+
+
+export const ChatRoomControllers = {
+    getChatRoom,
+}

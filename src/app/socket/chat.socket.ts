@@ -4,7 +4,7 @@ import { connect } from "http2";
 
 export const registerChatHandlers = (io: Server, socket: Socket) => {
     // join room 
-    socket.on('join-room', async({tripId, userId}) => {
+    socket.on('join-room', async ({ tripId, userId }) => {
         socket.join(tripId)
 
         socket.to(tripId).emit('user-joined', {
@@ -13,12 +13,19 @@ export const registerChatHandlers = (io: Server, socket: Socket) => {
     })
 
     // send message 
-    socket.on('send-message', async(tripId, senderId, content) => {
+    socket.on('send-message', async ({ tripId, senderId, content }) => {
+
+        const room = await prisma.chatRoom.findUnique({
+            where: { tripId }
+        });
+
+        if (!room) return console.log("Room not found");
+
         const message = await prisma.chatMessage.create({
             data: {
                 content,
                 senderId,
-                roomId: tripId
+                roomId: room?.id
             },
             include: {
                 sender: true
@@ -29,11 +36,11 @@ export const registerChatHandlers = (io: Server, socket: Socket) => {
     })
 
     // Typing message
-    socket.on('typing', ({tripId, userName}) => {
+    socket.on('typing', ({ tripId, userName }) => {
         socket.to(tripId).emit('user-typing', userName)
     })
 
-    socket.on('stop-typing', ({tripId, userName}) => {
+    socket.on('stop-typing', ({ tripId, userName }) => {
         socket.to(tripId).emit('user-stop-typing', userName)
     })
 }

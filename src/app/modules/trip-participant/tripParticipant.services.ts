@@ -49,6 +49,32 @@ const createTripParticipant = async (tripId: string, participantId: string) => {
 };
 
 
+// Get all approved participation of an user for join room conversation
+const getAllParticipationsOfAnUser = async (userId: string) => {
+
+    const result = await prisma.tripParticipant.findMany({
+        where: {
+            userId: userId,
+            status: 'APPROVED'
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    profileImage: true,
+                }
+            },
+            trip: true
+        },
+    })
+
+    return result;
+};
+
+
 // Get all my Participant join request
 const myParticipantRequest = async (userId: string) => {
 
@@ -135,5 +161,6 @@ export const TripParticipantServices = {
     getTripParticipantById,
     updateParticipantRequest,
     getParticipantsForSpecificTrip,
-    getUserParticipationForTrip
+    getUserParticipationForTrip,
+    getAllParticipationsOfAnUser
 }

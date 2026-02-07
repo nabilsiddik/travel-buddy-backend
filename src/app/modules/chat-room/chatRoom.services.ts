@@ -25,6 +25,11 @@ export const canAccessChatRoom = async (tripId: string, userId: string) => {
 // Get chat room
 export const getChatRoom = async (tripId: string, userId: string) => {
 
+  console.log({
+    tripId,
+    userId
+  });
+
   await canAccessChatRoom(tripId, userId)
 
   let room = await prisma.chatRoom.findUnique({

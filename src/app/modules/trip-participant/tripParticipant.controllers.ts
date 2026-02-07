@@ -41,6 +41,24 @@ const myParticipantRequest = catchAsync(async (req: Request & {user?: JWTPayload
 });
 
 
+// Get all approved participation of an user for join room conversation
+const getAllParticipationsOfAnUser = catchAsync(async (req: Request & {user?: JWTPayload}, res: Response) => {
+  const userId = req?.user?.id
+
+  if(!userId) throw new AppError(StatusCodes.UNAUTHORIZED, 'You are unauthorized')
+
+  const result = await TripParticipantServices.getAllParticipationsOfAnUser(userId);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Retrived all participation of an user.",
+    data: result,
+  });
+});
+
+
+
 // Get trip participant by id
 const getTripParticipantById = catchAsync(async (req: Request, res: Response) => {
   const participantReqId = req?.params?.id
@@ -121,5 +139,6 @@ export const TripParticipantControllers = {
     getTripParticipantById,
     updateParticipantRequest,
     getParticipantsForSpecificTrip,
-    getUserParticipationForTrip
+    getUserParticipationForTrip,
+    getAllParticipationsOfAnUser
 }

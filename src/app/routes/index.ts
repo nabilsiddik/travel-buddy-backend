@@ -7,6 +7,8 @@ import joinRequestRouter from "../modules/travelPlan-join/travelPlanJoin.routes.
 import reviewRouter from "../modules/review/review.routes.js";
 import participantRouter from "../modules/travelParticipant/participant.router.js";
 import tripParticipantRouter from "../modules/trip-participant/tripParticipant.routes.js";
+import chatRoomRouter from "../modules/chat-room/chatRoom.routes.js";
+import chatMessageRouter from "../modules/chat-message/chatMessage.routes.js";
 
 
 export const router = Router()
@@ -43,6 +45,14 @@ const moduleRoutes = [
     {
         path: '/trip-participant',
         route: tripParticipantRouter
+    },
+    {
+        path: '/chat-room',
+        route: chatRoomRouter
+    },
+    {
+        path: '/chat-message',
+        route: chatMessageRouter
     }
 ]
 

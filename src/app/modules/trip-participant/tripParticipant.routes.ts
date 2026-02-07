@@ -12,11 +12,11 @@ tripParticipantRouter.post(
   TripParticipantControllers.createTripParticipant
 );
 
-// Get all my Participant join request
+// Get all approved participation of an user for join room conversation
 tripParticipantRouter.get(
-  "/",
-  checkAuth(UserRole.ADMIN, UserRole.USER),
-  TripParticipantControllers.myParticipantRequest
+  "/joined",
+  checkAuth(UserRole.USER),
+  TripParticipantControllers.getAllParticipationsOfAnUser
 );
 
 // Get trip participant by id
